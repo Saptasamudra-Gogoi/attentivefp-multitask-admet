@@ -1,0 +1,63 @@
+{
+  "all_predictors": {
+    "task_binary": {
+      "r": 0.4445,
+      "p": 0.03823
+    },
+    "routing_only": {
+      "r": 0.0503,
+      "p": 0.824045
+    },
+    "task_x_routing": {
+      "r": 0.5086,
+      "p": 0.01564
+    },
+    "label_std": {
+      "r": 0.3438,
+      "p": 0.117207
+    },
+    "label_std_regr_only": {
+      "r": 0.4162,
+      "p": 0.054018
+    },
+    "std_x_routing": {
+      "r": 0.2527,
+      "p": 0.256564
+    },
+    "regr_std_x_routing": {
+      "r": 0.4914,
+      "p": 0.020214
+    },
+    "gcn_baseline": {
+      "r": -0.1293,
+      "p": 0.566299
+    },
+    "gcn_x_routing": {
+      "r": -0.0243,
+      "p": 0.914493
+    },
+    "n_active_experts": {
+      "r": -0.4086,
+      "p": 0.059031
+    },
+    "n_experts_regr": {
+      "r": -0.0803,
+      "p": 0.722286
+    },
+    "n_experts_x_routing": {
+      "r": -0.1973,
+      "p": 0.378839
+    },
+    "n_experts_x_std": {
+      "r": -0.096,
+      "p": 0.670793
+    },
+    "regr_n_experts_x_std": {
+      "r": 0.3896,
+      "p": 0.073084
+    }
+  },
+  "best_predictor": "task_x_routing",
+  "best_r": 0.5086,
+  "best_p": 0.01564
+}

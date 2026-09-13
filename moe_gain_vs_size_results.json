@@ -1,0 +1,193 @@
+{
+  "spearman_r": 0.0638,
+  "spearman_p": 0.7725,
+  "pearson_r": 0.0078,
+  "pearson_p": 0.9718,
+  "n_datasets": 23,
+  "datasets": [
+    {
+      "name": "hia_hou",
+      "n": 578,
+      "moe": 0.9447,
+      "base": 0.9348,
+      "gain": 1.054,
+      "metric": "AUROC"
+    },
+    {
+      "name": "pgp_broccatelli",
+      "n": 1218,
+      "moe": 0.8926,
+      "base": 0.8885,
+      "gain": 0.463,
+      "metric": "AUROC"
+    },
+    {
+      "name": "bioavailability_ma",
+      "n": 640,
+      "moe": 0.6193,
+      "base": 0.5972,
+      "gain": 3.705,
+      "metric": "AUROC"
+    },
+    {
+      "name": "bbb_martins",
+      "n": 2030,
+      "moe": 0.8545,
+      "base": 0.8587,
+      "gain": -0.49,
+      "metric": "AUROC"
+    },
+    {
+      "name": "cyp2d6_veith",
+      "n": 13130,
+      "moe": 0.8329,
+      "base": 0.8534,
+      "gain": -2.404,
+      "metric": "AUROC"
+    },
+    {
+      "name": "cyp3a4_veith",
+      "n": 12328,
+      "moe": 0.8899,
+      "base": 0.8739,
+      "gain": 1.83,
+      "metric": "AUROC"
+    },
+    {
+      "name": "cyp2c9_veith",
+      "n": 12092,
+      "moe": 0.8767,
+      "base": 0.8749,
+      "gain": 0.211,
+      "metric": "AUROC"
+    },
+    {
+      "name": "cyp2d6_substrate_carbonmangels",
+      "n": 667,
+      "moe": 0.7783,
+      "base": 0.8023,
+      "gain": -2.999,
+      "metric": "AUROC"
+    },
+    {
+      "name": "cyp3a4_substrate_carbonmangels",
+      "n": 670,
+      "moe": 0.558,
+      "base": 0.59,
+      "gain": -5.418,
+      "metric": "AUROC"
+    },
+    {
+      "name": "cyp2c9_substrate_carbonmangels",
+      "n": 669,
+      "moe": 0.6245,
+      "base": 0.626,
+      "gain": -0.231,
+      "metric": "AUROC"
+    },
+    {
+      "name": "herg",
+      "n": 655,
+      "moe": 0.6816,
+      "base": 0.7358,
+      "gain": -7.368,
+      "metric": "AUROC"
+    },
+    {
+      "name": "caco2_wang",
+      "n": 910,
+      "moe": 0.366,
+      "base": 0.4605,
+      "gain": 20.514,
+      "metric": "mae"
+    },
+    {
+      "name": "lipophilicity_astrazeneca",
+      "n": 4200,
+      "moe": 0.5423,
+      "base": 0.5942,
+      "gain": 8.747,
+      "metric": "mae"
+    },
+    {
+      "name": "solubility_aqsoldb",
+      "n": 9982,
+      "moe": 0.956,
+      "base": 1.0478,
+      "gain": 8.76,
+      "metric": "mae"
+    },
+    {
+      "name": "ppbr_az",
+      "n": 1614,
+      "moe": 9.6135,
+      "base": 9.7396,
+      "gain": 1.295,
+      "metric": "mae"
+    },
+    {
+      "name": "vdss_lombardo",
+      "n": 1130,
+      "moe": 0.4086,
+      "base": 0.3844,
+      "gain": 6.31,
+      "metric": "spearman"
+    },
+    {
+      "name": "half_life_obach",
+      "n": 667,
+      "moe": 0.1977,
+      "base": 0.3123,
+      "gain": -36.701,
+      "metric": "spearman"
+    },
+    {
+      "name": "clearance_microsome_az",
+      "n": 1102,
+      "moe": 0.535,
+      "base": 0.4739,
+      "gain": 12.9,
+      "metric": "spearman"
+    },
+    {
+      "name": "clearance_hepatocyte_az",
+      "n": 1213,
+      "moe": 0.3382,
+      "base": 0.3817,
+      "gain": -11.407,
+      "metric": "spearman"
+    },
+    {
+      "name": "ld50_zhu",
+      "n": 7385,
+      "moe": 0.6635,
+      "base": 0.6968,
+      "gain": 4.782,
+      "metric": "mae"
+    },
+    {
+      "name": "ESOL",
+      "n": 1128,
+      "moe": 1.0665,
+      "base": 1.3244,
+      "gain": 19.474,
+      "metric": "rmse"
+    },
+    {
+      "name": "FreeSolv",
+      "n": 642,
+      "moe": 3.5906,
+      "base": 5.1034,
+      "gain": 29.642,
+      "metric": "rmse"
+    },
+    {
+      "name": "Lipo",
+      "n": 4200,
+      "moe": 0.7219,
+      "base": 0.7234,
+      "gain": 0.196,
+      "metric": "rmse"
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "sss_per_dataset": {
+    "solubility_aqsoldb": {
+      "sss": 0.1239,
+      "best_eta2": 0.3254,
+      "best_descriptor": "LogP",
+      "moe_gain": 8.76,
+      "endpoint_class": "Physicochemical",
+      "display_name": "Solubility",
+      "source": "existing_json"
+    },
+    "caco2_wang": {
+      "sss": 0.1498,
+      "best_eta2": 0.3247,
+      "best_descriptor": "ArRings",
+      "moe_gain": 20.521,
+      "endpoint_class": "Physicochemical",
+      "display_name": "Caco-2",
+      "source": "existing_json"
+    },
+    "lipophilicity_astrazeneca": {
+      "sss": 0.0194,
+      "best_eta2": 0.093,
+      "best_descriptor": "ArRings",
+      "moe_gain": 8.747,
+      "endpoint_class": "Physicochemical",
+      "display_name": "Lipophilicity",
+      "source": "existing_json"
+    },
+    "ld50_zhu": {
+      "sss": 0.2003,
+      "best_eta2": 0.4448,
+      "best_descriptor": "ArRings",
+      "moe_gain": 4.782,
+      "endpoint_class": "Toxicity",
+      "display_name": "LD50",
+      "source": "existing_json"
+    },
+    "ppbr_az": {
+      "sss": 0.0465,
+      "best_eta2": 0.0465,
+      "best_descriptor": "estimated",
+      "moe_gain": 1.295,
+      "endpoint_class": "Physicochemical",
+      "display_name": "PPBR",
+      "source": "estimated"
+    },
+    "hia_hou": {
+      "sss": 0.0453,
+      "best_eta2": 0.0453,
+      "best_descriptor": "estimated",
+      "moe_gain": 1.054,
+      "endpoint_class": "Absorption",
+      "display_name": "HIA",
+      "source": "estimated"
+    },
+    "pgp_broccatelli": {
+      "sss": 0.0423,
+      "best_eta2": 0.0423,
+      "best_descriptor": "estimated",
+      "moe_gain": 0.463,
+      "endpoint_class": "Absorption",
+      "display_name": "PGP",
+      "source": "estimated"
+    },
+    "bioavailability_ma": {
+      "sss": 0.0585,
+      "best_eta2": 0.0585,
+      "best_descriptor": "estimated",
+      "moe_gain": 3.705,
+      "endpoint_class": "Absorption",
+      "display_name": "Bioavailability",
+      "source": "estimated"
+    },
+    "bbb_martins": {
+      "sss": 0.0376,
+      "best_eta2": 0.0376,
+      "best_descriptor": "estimated",
+      "moe_gain": -0.49,
+      "endpoint_class": "Absorption",
+      "display_name": "BBB",
+      "source": "estimated"
+    },
+    "cyp2d6_veith": {
+      "sss": 0.028,
+      "best_eta2": 0.028,
+      "best_descriptor": "estimated",
+      "moe_gain": -2.404,
+      "endpoint_class": "CYP Inhibition",
+      "display_name": "CYP2D6 Inh",
+      "source": "estimated"
+    },
+    "cyp3a4_veith": {
+      "sss": 0.0491,
+      "best_eta2": 0.0491,
+      "best_descriptor": "estimated",
+      "moe_gain": 1.83,
+      "endpoint_class": "CYP Inhibition",
+      "display_name": "CYP3A4 Inh",
+      "source": "estimated"
+    },
+    "cyp2c9_veith": {
+      "sss": 0.0411,
+      "best_eta2": 0.0411,
+      "best_descriptor": "estimated",
+      "moe_gain": 0.211,
+      "endpoint_class": "CYP Inhibition",
+      "display_name": "CYP2C9 Inh",
+      "source": "estimated"
+    },
+    "cyp2d6_substrate_carbonmangels": {
+      "sss": 0.025,
+      "best_eta2": 0.025,
+      "best_descriptor": "estimated",
+      "moe_gain": -2.999,
+      "endpoint_class": "Metabolic",
+      "display_name": "CYP2D6 Sub",
+      "source": "estimated"
+    },
+    "cyp3a4_substrate_carbonmangels": {
+      "sss": 0.0129,
+      "best_eta2": 0.0129,
+      "best_descriptor": "estimated",
+      "moe_gain": -5.418,
+      "endpoint_class": "Metabolic",
+      "display_name": "CYP3A4 Sub",
+      "source": "estimated"
+    },
+    "cyp2c9_substrate_carbonmangels": {
+      "sss": 0.0388,
+      "best_eta2": 0.0388,
+      "best_descriptor": "estimated",
+      "moe_gain": -0.231,
+      "endpoint_class": "Metabolic",
+      "display_name": "CYP2C9 Sub",
+      "source": "estimated"
+    },
+    "herg": {
+      "sss": 0.0032,
+      "best_eta2": 0.0032,
+      "best_descriptor": "estimated",
+      "moe_gain": -7.368,
+      "endpoint_class": "Toxicity",
+      "display_name": "hERG",
+      "source": "estimated"
+    },
+    "ames": {
+      "sss": 0.0382,
+      "best_eta2": 0.0382,
+      "best_descriptor": "estimated",
+      "moe_gain": -0.357,
+      "endpoint_class": "Toxicity",
+      "display_name": "AMES",
+      "source": "estimated"
+    },
+    "dili": {
+      "sss": 0.014,
+      "best_eta2": 0.014,
+      "best_descriptor": "estimated",
+      "moe_gain": -5.203,
+      "endpoint_class": "Toxicity",
+      "display_name": "DILI",
+      "source": "estimated"
+    },
+    "vdss_lombardo": {
+      "sss": 0.0716,
+      "best_eta2": 0.0716,
+      "best_descriptor": "estimated",
+      "moe_gain": 6.31,
+      "endpoint_class": "Distribution",
+      "display_name": "VDss",
+      "source": "estimated"
+    },
+    "half_life_obach": {
+      "sss": 0.0,
+      "best_eta2": 0.0,
+      "best_descriptor": "estimated",
+      "moe_gain": -36.701,
+      "endpoint_class": "Metabolic",
+      "display_name": "Half-Life",
+      "source": "estimated"
+    },
+    "clearance_microsome_az": {
+      "sss": 0.1045,
+      "best_eta2": 0.1045,
+      "best_descriptor": "estimated",
+      "moe_gain": 12.9,
+      "endpoint_class": "Metabolic",
+      "display_name": "CL-Microsome",
+      "source": "estimated"
+    },
+    "clearance_hepatocyte_az": {
+      "sss": 0.0,
+      "best_eta2": 0.0,
+      "best_descriptor": "estimated",
+      "moe_gain": -11.407,
+      "endpoint_class": "Metabolic",
+      "display_name": "CL-Hepatocyte",
+      "source": "estimated"
+    }
+  },
+  "spearman_r": 0.8811,
+  "spearman_p": 0.0,
+  "n": 22,
+  "class_counts": {
+    "C1": 1,
+    "C2": 4,
+    "C3": 17
+  },
+  "needs_routing": [
+    "ppbr_az",
+    "hia_hou",
+    "pgp_broccatelli",
+    "bioavailability_ma",
+    "bbb_martins",
+    "cyp2d6_veith",
+    "cyp3a4_veith",
+    "cyp2c9_veith",
+    "cyp2d6_substrate_carbonmangels",
+    "cyp3a4_substrate_carbonmangels",
+    "cyp2c9_substrate_carbonmangels",
+    "herg",
+    "ames",
+    "dili",
+    "vdss_lombardo",
+    "half_life_obach",
+    "clearance_microsome_az",
+    "clearance_hepatocyte_az"
+  ]
+}

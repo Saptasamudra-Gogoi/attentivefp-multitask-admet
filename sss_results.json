@@ -1,0 +1,211 @@
+{
+  "sss_per_dataset": {
+    "solubility_aqsoldb": {
+      "sss": 0.325,
+      "eta2": 0.325,
+      "moe_gain": 8.76,
+      "endpoint_class": "Physicochemical",
+      "display_name": "Solubility",
+      "method": "eta2 only",
+      "estimated": false
+    },
+    "caco2_wang": {
+      "sss": 0.325,
+      "eta2": 0.325,
+      "moe_gain": 20.521,
+      "endpoint_class": "Physicochemical",
+      "display_name": "Caco-2",
+      "method": "eta2 only",
+      "estimated": false
+    },
+    "lipophilicity_astrazeneca": {
+      "sss": 0.093,
+      "eta2": 0.093,
+      "moe_gain": 8.747,
+      "endpoint_class": "Physicochemical",
+      "display_name": "Lipophilicity",
+      "method": "eta2 only",
+      "estimated": false
+    },
+    "ld50_zhu": {
+      "sss": 0.445,
+      "eta2": 0.445,
+      "moe_gain": 4.782,
+      "endpoint_class": "Toxicity",
+      "display_name": "LD50",
+      "method": "eta2 only",
+      "estimated": false
+    },
+    "hia_hou": {
+      "sss": 0.0553,
+      "eta2": 0.0553,
+      "moe_gain": 1.054,
+      "endpoint_class": "Absorption",
+      "display_name": "HIA",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "pgp_broccatelli": {
+      "sss": 0.0523,
+      "eta2": 0.0523,
+      "moe_gain": 0.463,
+      "endpoint_class": "Absorption",
+      "display_name": "PGP",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "bioavailability_ma": {
+      "sss": 0.0685,
+      "eta2": 0.0685,
+      "moe_gain": 3.705,
+      "endpoint_class": "Absorption",
+      "display_name": "Bioavailability",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "bbb_martins": {
+      "sss": 0.0476,
+      "eta2": 0.0476,
+      "moe_gain": -0.49,
+      "endpoint_class": "Absorption",
+      "display_name": "BBB",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "cyp2d6_veith": {
+      "sss": 0.038,
+      "eta2": 0.038,
+      "moe_gain": -2.404,
+      "endpoint_class": "CYP Inhibition",
+      "display_name": "CYP2D6 Inh",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "cyp3a4_veith": {
+      "sss": 0.0592,
+      "eta2": 0.0592,
+      "moe_gain": 1.83,
+      "endpoint_class": "CYP Inhibition",
+      "display_name": "CYP3A4 Inh",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "cyp2c9_veith": {
+      "sss": 0.0511,
+      "eta2": 0.0511,
+      "moe_gain": 0.211,
+      "endpoint_class": "CYP Inhibition",
+      "display_name": "CYP2C9 Inh",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "cyp2d6_substrate_carbonmangels": {
+      "sss": 0.035,
+      "eta2": 0.035,
+      "moe_gain": -2.999,
+      "endpoint_class": "Metabolic",
+      "display_name": "CYP2D6 Sub",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "cyp3a4_substrate_carbonmangels": {
+      "sss": 0.0229,
+      "eta2": 0.0229,
+      "moe_gain": -5.418,
+      "endpoint_class": "Metabolic",
+      "display_name": "CYP3A4 Sub",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "cyp2c9_substrate_carbonmangels": {
+      "sss": 0.0488,
+      "eta2": 0.0488,
+      "moe_gain": -0.231,
+      "endpoint_class": "Metabolic",
+      "display_name": "CYP2C9 Sub",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "herg": {
+      "sss": 0.0132,
+      "eta2": 0.0132,
+      "moe_gain": -7.368,
+      "endpoint_class": "Toxicity",
+      "display_name": "hERG",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "ames": {
+      "sss": 0.0482,
+      "eta2": 0.0482,
+      "moe_gain": -0.357,
+      "endpoint_class": "Toxicity",
+      "display_name": "AMES",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "dili": {
+      "sss": 0.024,
+      "eta2": 0.024,
+      "moe_gain": -5.203,
+      "endpoint_class": "Toxicity",
+      "display_name": "DILI",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "ppbr_az": {
+      "sss": 0.0,
+      "eta2": 0.0,
+      "moe_gain": 1.295,
+      "endpoint_class": "Physicochemical",
+      "display_name": "PPBR",
+      "method": "eta2 only",
+      "estimated": false
+    },
+    "vdss_lombardo": {
+      "sss": 0.0815,
+      "eta2": 0.0815,
+      "moe_gain": 6.31,
+      "endpoint_class": "Distribution",
+      "display_name": "VDss",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "half_life_obach": {
+      "sss": 0.331,
+      "eta2": 0.331,
+      "moe_gain": -36.701,
+      "endpoint_class": "Metabolic",
+      "display_name": "Half-Life",
+      "method": "eta2 only",
+      "estimated": false
+    },
+    "clearance_microsome_az": {
+      "sss": 0.1145,
+      "eta2": 0.1145,
+      "moe_gain": 12.9,
+      "endpoint_class": "Metabolic",
+      "display_name": "CL-Microsome",
+      "method": "gain% estimate",
+      "estimated": true
+    },
+    "clearance_hepatocyte_az": {
+      "sss": 0.0,
+      "eta2": 0.0,
+      "moe_gain": -11.407,
+      "endpoint_class": "Metabolic",
+      "display_name": "CL-Hepatocyte",
+      "method": "gain% estimate",
+      "estimated": true
+    }
+  },
+  "spearman_r": 0.6571,
+  "spearman_p": 0.0009,
+  "class_counts": {
+    "Class 1": 4,
+    "Class 2": 1,
+    "Class 3": 17
+  },
+  "routing_entropy_available": false,
+  "note": "* = SSS estimated from gain% where specialization analysis not yet run. Run full specialization analysis on remaining 17 datasets to get exact SSS values."
+}

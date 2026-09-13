@@ -1,0 +1,114 @@
+[
+  {
+    "dataset": "caco2_wang",
+    "n_molecules": 910,
+    "n_clusters": 4,
+    "test_score": 0.3748,
+    "metric": "mae",
+    "kmeans_eta2": {
+      "MW": 0.07989934449553816,
+      "LogP": 0.19275669677519527,
+      "TPSA": 0.12860396539039945,
+      "ArRings": 0.5049660234143512
+    },
+    "time_min": 0.2
+  },
+  {
+    "dataset": "solubility_aqsoldb",
+    "n_molecules": 9980,
+    "n_clusters": 8,
+    "test_score": 0.9947,
+    "metric": "mae",
+    "kmeans_eta2": {
+      "MW": 0.16955023482792578,
+      "LogP": 0.3368075820576402,
+      "TPSA": 0.15720393204259822,
+      "ArRings": 0.4946710096524902
+    },
+    "time_min": 1.6
+  },
+  {
+    "dataset": "lipophilicity_astrazeneca",
+    "n_molecules": 4200,
+    "n_clusters": 4,
+    "test_score": 0.5395,
+    "metric": "mae",
+    "kmeans_eta2": {
+      "MW": 0.060206887791366744,
+      "LogP": 0.048459890746511206,
+      "TPSA": 0.10516529777868414,
+      "ArRings": 0.10398242305777688
+    },
+    "time_min": 0.9
+  },
+  {
+    "dataset": "ld50_zhu",
+    "n_molecules": 7385,
+    "n_clusters": 16,
+    "test_score": 0.6995,
+    "metric": "mae",
+    "kmeans_eta2": {
+      "MW": 0.23481743059098079,
+      "LogP": 0.20453846069971424,
+      "TPSA": 0.1069275461436682,
+      "ArRings": 0.6309254164011324
+    },
+    "time_min": 1.0
+  },
+  {
+    "dataset": "bbb_martins",
+    "n_molecules": 2030,
+    "n_clusters": 16,
+    "test_score": 0.8607,
+    "metric": "auroc",
+    "kmeans_eta2": {
+      "MW": 0.25747651109734976,
+      "LogP": 0.25090349262835276,
+      "TPSA": 0.44638764453179985,
+      "ArRings": 0.43070987727626925
+    },
+    "time_min": 0.3
+  },
+  {
+    "dataset": "herg",
+    "n_molecules": 655,
+    "n_clusters": 8,
+    "test_score": 0.6965,
+    "metric": "auroc",
+    "kmeans_eta2": {
+      "MW": 0.14307855532216335,
+      "LogP": 0.16379527853956408,
+      "TPSA": 0.3399071574945068,
+      "ArRings": 0.5040073926653811
+    },
+    "time_min": 0.1
+  },
+  {
+    "dataset": "ames",
+    "n_molecules": 7274,
+    "n_clusters": 16,
+    "test_score": 0.8333,
+    "metric": "auroc",
+    "kmeans_eta2": {
+      "MW": 0.16696788843076377,
+      "LogP": 0.2881403137767657,
+      "TPSA": 0.1676672803210968,
+      "ArRings": 0.6820427305395939
+    },
+    "time_min": 1.4
+  },
+  {
+    "dataset": "dili",
+    "n_molecules": 475,
+    "n_clusters": 16,
+    "test_score": 0.9487,
+    "metric": "auroc",
+    "kmeans_eta2": {
+      "MW": 0.16765790744210737,
+      "LogP": 0.2599466593176997,
+      "TPSA": 0.23089128422295274,
+      "ArRings": 0.46936669058954983
+    },
+    "time_min": 0.1
+  }
+]

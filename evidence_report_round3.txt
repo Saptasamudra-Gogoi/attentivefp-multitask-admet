@@ -1,0 +1,1178 @@
+
+======================================================================
+2.1 (final) - full content of pharma_moe_gcn.py
+======================================================================
+[2026-06-19 12:18:32] D:\molprop_project\pharma_moe_gcn.py
+
+"""
+pharma_moe_gcn.py
+==================
+Pharmacophore-Guided MoE-GCN
+
+NEW ALGORITHM: Dual routing mechanism where expert assignment
+is guided by pharmacophore feature vectors in addition to
+learned graph embeddings.
+
+Standard MoE:    graph_embedding → gate → routing weights
+Pharma-MoE:      graph_embedding + pharmacophore_vector → dual_gate → routing weights
+
+Pharmacophore features (7 dimensions):
+  HBD, HBA, ArRings, HydrophobicCenters, PositiveCharge,
+  NegativeCharge, RotBonds
+
+Hypothesis: pharmacophore-guided routing produces stronger
+expert specialization (higher eta²) and better performance
+on physicochemical ADMET endpoints.
+
+Run: python pharma_moe_gcn.py
+Run specific datasets: python pharma_moe_gcn.py --datasets solubility_aqsoldb caco2_wang
+"""
+
+import json
+import copy
+import argparse
+import numpy as np
+from pathlib import Path
+from collections import defaultdict
+import warnings
+warnings.filterwarnings("ignore")
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch_geometric.data import DataLoader, Data
+from torch_geometric.nn import GCNConv, global_mean_pool
+from rdkit import Chem
+from rdkit.Chem import Descriptors, rdMolDescriptors
+from scipy.stats import f_oneway, spearmanr
+from sklearn.metrics import roc_auc_score
+
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Device: {DEVICE}")
+
+# ══════════════════════════════════════════════════════════════════════════
+# PHARMACOPHORE FEATURE EXTRACTOR
+# ══════════════════════════════════════════════════════════════════════════
+
+PHARMA_DIM = 7  # dimension of pharmacophore vector
+
+def extract_pharmacophore(smiles):
+    """
+    Extract 7-dimensional pharmacophore feature vector from SMILES.
+
+    Features:
+    0: HBD  — hydrogen bond donors
+    1: HBA  — hydrogen bond acceptors
+    2: ArRings — aromatic ring count
+    3: HydrophobicCenters — hydrophobic atom count (C,S not adjacent to polar)
+    4: PositiveCharge — positively ionizable centers
+    5: NegativeCharge — negatively ionizable centers
+    6: RotBonds — rotatable bonds (molecular flexibility)
+
+    These 7 features define the classical pharmacophore space used in
+    structure-based drug design for 50+ years.
+    """
+    try:
+        mol = Chem.MolFromSmiles(str(smiles))
+        if mol is None:
+            return np.zeros(PHARMA_DIM, dtype=np.float32)
+
+        hbd      = float(rdMolDescriptors.CalcNumHBD(mol))
+        hba      = float(rdMolDescriptors.CalcNumHBA(mol))
+        ar_rings = float(rdMolDescriptors.CalcNumAromaticRings(mol))
+        rot      = float(rdMolDescriptors.CalcNumRotatableBonds(mol))
+
+        # Hydrophobic centers: carbon/sulfur atoms not bonded to N/O/F/Cl
+        hydrophobic = 0
+        for atom in mol.GetAtoms():
+            if atom.GetAtomicNum() in (6, 16):
+                neighbors = [n.GetAtomicNum()
+                            for n in atom.GetNeighbors()]
+                if not any(n in (7, 8, 9, 17, 35)
+                          for n in neighbors):
+                    hydrophobic += 1
+
+        # Positive ionizable: basic N atoms
+        pos_charge = sum(
+            1 for atom in mol.GetAtoms()
+            if atom.GetAtomicNum() == 7
+            and atom.GetTotalValence() < 4
+        )
+
+        # Negative ionizable: acidic O/S atoms
+        neg_charge = sum(
+            1 for atom in mol.GetAtoms()
+            if atom.GetAtomicNum() in (8, 16)
+            and any(bond.GetBondTypeAsDouble() == 2.0
+                   for bond in atom.GetBonds())
+        )
+
+        features = np.array([
+            hbd, hba, ar_rings, float(hydrophobic),
+            float(pos_charge), float(neg_charge), rot
+        ], dtype=np.float32)
+
+        return features
+
+    except Exception:
+        return np.zeros(PHARMA_DIM, dtype=np.float32)
+
+
+def build_pharma_stats(smiles_list):
+    """Compute mean/std of pharmacophore features for normalization."""
+    all_feats = np.array([
+        extract_pharmacophore(s) for s in smiles_list
+    ])
+    mean = all_feats.mean(axis=0)
+    std  = all_feats.std(axis=0) + 1e-6
+    return mean, std
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# NEW ALGORITHM — Pharmacophore-Guided MoE Layer
+# ══════════════════════════════════════════════════════════════════════════
+
+class PharmaGuidedMoELayer(nn.Module):
+    """
+    THE NEW ALGORITHM.
+
+    Dual routing mechanism:
+    1. Graph gate:   g1 = Linear(graph_embedding) → [B, num_experts]
+    2. Pharma gate:  g2 = Linear(pharma_features) → [B, num_experts]
+    3. Combined:     logits = alpha * g1 + (1-alpha) * g2
+    4. Top-k routing on combined logits
+
+    alpha is a learnable parameter initialized to 0.7
+    (graph routing dominates initially, pharma provides guidance)
+
+    Expert networks are identical to standard MoE.
+    The ONLY change is the routing mechanism.
+    """
+
+    def __init__(self, in_dim, out_dim, num_experts, top_k,
+                 pharma_dim=PHARMA_DIM):
+        super().__init__()
+        self.num_experts = num_experts
+        self.top_k       = top_k
+
+        # Expert networks (same as standard MoE)
+        self.experts = nn.ModuleList([
+            nn.Sequential(nn.Linear(in_dim, out_dim), nn.ReLU())
+            for _ in range(num_experts)
+        ])
+
+        # DUAL GATE — the new algorithm
+        self.graph_gate  = nn.Linear(in_dim, num_experts)
+        self.pharma_gate = nn.Linear(pharma_dim, num_experts)
+
+        # Learnable mixing weight — how much to trust pharmacophore
+        self.alpha = nn.Parameter(torch.tensor(0.7))
+
+        # Pharmacophore encoder — project to hidden space
+        self.pharma_encoder = nn.Sequential(
+            nn.Linear(pharma_dim, 32),
+            nn.ReLU(),
+            nn.Linear(32, num_experts),
+        )
+
+    def forward(self, x, pharma_vec, return_routing=False):
+        """
+        Args:
+            x:         [B, in_dim] — molecular graph embeddings
+            pharma_vec:[B, pharma_dim] — pharmacophore feature vectors
+            return_routing: if True, return routing weights for analysis
+
+        Returns:
+            out:         [B, out_dim]
+            balance_loss: scalar
+            routing_weights: [B, num_experts] (if return_routing)
+        """
+        B = x.size(0)
+
+        # Dual routing
+        alpha = torch.sigmoid(self.alpha)  # keep in [0,1]
+        g1 = self.graph_gate(x)                        # [B, num_experts]
+        g2 = self.pharma_encoder(pharma_vec)            # [B, num_experts]
+        gate_logits = alpha * g1 + (1.0 - alpha) * g2  # combined
+
+        # Top-k selection
+        topk_vals, topk_idx = torch.topk(
+            gate_logits, self.top_k, dim=-1)
+        weights = torch.zeros_like(gate_logits).scatter_(
+            1, topk_idx, F.softmax(topk_vals, dim=-1))
+
+        # Load balancing loss
+        load = weights.mean(0)
+        balance_loss = self.num_experts * (load * load).sum()
+
+        # Expert computation
+        expert_out = torch.stack(
+            [e(x) for e in self.experts], dim=1)  # [B, E, out_dim]
+        out = (weights.unsqueeze(-1) * expert_out).sum(dim=1)
+
+        if return_routing:
+            dominant = weights.argmax(dim=-1)
+            return out, balance_loss, weights, dominant
+
+        return out, balance_loss
+
+    def get_alpha(self):
+        return float(torch.sigmoid(self.alpha).item())
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# Pharma-MoE-GCN Model
+# ══════════════════════════════════════════════════════════════════════════
+
+class PharmaMoEGCN(nn.Module):
+    """
+    MoE-GCN with pharmacophore-guided routing.
+    Architecture identical to MoEGCN except MoELayer
+    is replaced with PharmaGuidedMoELayer.
+    """
+
+    def __init__(self, in_dim, hidden, num_layers, dropout,
+                 num_experts, top_k, pharma_dim=PHARMA_DIM):
+        super().__init__()
+        self.convs   = nn.ModuleList()
+        self.bns     = nn.ModuleList()
+        self.dropout = dropout
+
+        for i in range(num_layers):
+            self.convs.append(
+                GCNConv(in_dim if i == 0 else hidden, hidden))
+            self.bns.append(nn.BatchNorm1d(hidden))
+
+        # NEW: pharmacophore-guided MoE layer
+        self.moe  = PharmaGuidedMoELayer(
+            hidden, hidden, num_experts, top_k, pharma_dim)
+        self.head = nn.Linear(hidden, 1)
+
+    def encode(self, data):
+        x, edge_index, batch = data.x, data.edge_index, data.batch
+        for conv, bn in zip(self.convs, self.bns):
+            x = conv(x, edge_index)
+            if x.size(0) > 1:
+                x = bn(x)
+            x = F.relu(x)
+            x = F.dropout(x, p=self.dropout, training=self.training)
+        return global_mean_pool(x, batch)
+
+    def forward(self, data, pharma_vec):
+        mol_repr = self.encode(data)
+        x, bal   = self.moe(mol_repr, pharma_vec)
+        return self.head(x).squeeze(-1), bal
+
+    def forward_with_routing(self, data, pharma_vec):
+        mol_repr = self.encode(data)
+        x, bal, weights, dominant = self.moe(
+            mol_repr, pharma_vec, return_routing=True)
+        pred = self.head(x).squeeze(-1)
+        return pred, weights, dominant
+
+    def get_alpha(self):
+        return self.moe.get_alpha()
+
+
+# Standard MoE-GCN for comparison (unchanged)
+class MoELayer(nn.Module):
+    def __init__(self, in_dim, out_dim, num_experts, top_k):
+        super().__init__()
+        self.num_experts = num_experts
+        self.top_k       = top_k
+        self.experts     = nn.ModuleList([
+            nn.Sequential(nn.Linear(in_dim, out_dim), nn.ReLU())
+            for _ in range(num_experts)
+        ])
+        self.gate = nn.Linear(in_dim, num_experts)
+
+    def forward(self, x, return_routing=False):
+        gate_logits = self.gate(x)
+        topk_vals, topk_idx = torch.topk(
+            gate_logits, self.top_k, dim=-1)
+        weights = torch.zeros_like(gate_logits).scatter_(
+            1, topk_idx, F.softmax(topk_vals, dim=-1))
+        load = weights.mean(0)
+        balance_loss = self.num_experts * (load * load).sum()
+        expert_out   = torch.stack(
+            [e(x) for e in self.experts], dim=1)
+        out = (weights.unsqueeze(-1) * expert_out).sum(dim=1)
+        if return_routing:
+            return out, balance_loss, weights, weights.argmax(dim=-1)
+        return out, balance_loss
+
+
+class MoEGCN(nn.Module):
+    def __init__(self, in_dim, hidden, num_layers,
+                 dropout, num_experts, top_k):
+        super().__init__()
+        self.convs   = nn.ModuleList()
+        self.bns     = nn.ModuleList()
+        self.dropout = dropout
+        for i in range(num_layers):
+            self.convs.append(
+                GCNConv(in_dim if i == 0 else hidden, hidden))
+            self.bns.append(nn.BatchNorm1d(hidden))
+        self.moe  = MoELayer(hidden, hidden, num_experts, top_k)
+        self.head = nn.Linear(hidden, 1)
+
+    def encode(self, data):
+        x, edge_index, batch = data.x, data.edge_index, data.batch
+        for conv, bn in zip(self.convs, self.bns):
+            x = conv(x, edge_index)
+            if x.size(0) > 1:
+                x = bn(x)
+            x = F.relu(x)
+            x = F.dropout(x, p=self.dropout, training=self.training)
+        return global_mean_pool(x, batch)
+
+    def forward(self, data):
+        mol_repr = self.encode(data)
+        x, bal   = self.moe(mol_repr)
+        return self.head(x).squeeze(-1), bal
+
+    def forward_with_routing(self, data):
+        mol_repr = self.encode(data)
+        x, bal, weights, dominant = self.moe(
+            mol_repr, return_routing=True)
+        return self.head(x).squeeze(-1), weights, dominant
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# FEATURIZATION
+# ══════════════════════════════════════════════════════════════════════════
+
+def mol_to_graph(smiles):
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            return None
+        atom_features = []
+        for atom in mol.GetAtoms():
+            feat = [
+                atom.GetAtomicNum(), int(atom.GetChiralTag()),
+                atom.GetDegree(), atom.GetFormalCharge(),
+                atom.GetTotalNumHs(), atom.GetNumRadicalElectrons(),
+                int(atom.GetHybridization()),
+                int(atom.GetIsAromatic()), int(atom.IsInRing()),
+            ]
+            atom_features.append(feat)
+        x = torch.tensor(atom_features, dtype=torch.float)
+        edge_index, edge_attr = [], []
+        for bond in mol.GetBonds():
+            i, j = bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()
+            bf = [int(bond.GetBondTypeAsDouble()),
+                  int(bond.GetStereo()),
+                  int(bond.GetIsConjugated())]
+            edge_index += [[i,j],[j,i]]
+            edge_attr  += [bf, bf]
+        if not edge_index:
+            edge_index = torch.zeros((2,0), dtype=torch.long)
+            edge_attr  = torch.zeros((0,3), dtype=torch.float)
+        else:
+            edge_index = torch.tensor(
+                edge_index, dtype=torch.long).t().contiguous()
+            edge_attr  = torch.tensor(edge_attr, dtype=torch.float)
+        return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
+    except:
+        return None
+
+
+def build_dataset(smiles_list, labels, pharma_mean, pharma_std):
+    data_list, valid_smiles, valid_pharma = [], [], []
+    for smi, lab in zip(smiles_list, labels):
+        g = mol_to_graph(smi)
+        if g is None:
+            continue
+        g.y      = torch.tensor([float(lab)], dtype=torch.float)
+        g.smiles = smi
+        data_list.append(g)
+        valid_smiles.append(smi)
+        # Normalize pharmacophore features
+        pf = (extract_pharmacophore(smi) - pharma_mean) / pharma_std
+        valid_pharma.append(pf)
+    return data_list, valid_smiles, np.array(valid_pharma)
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# TDC LOADING
+# ══════════════════════════════════════════════════════════════════════════
+
+def load_tdc(tdc_name):
+    for cls_name in ['ADME', 'Tox', 'ADMET']:
+        try:
+            mod = __import__('tdc.single_pred', fromlist=[cls_name])
+            Cls = getattr(mod, cls_name)
+            data  = Cls(name=tdc_name)
+            split = data.get_split(method="scaffold", seed=42)
+            return split
+        except:
+            continue
+    return None
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# TRAINING
+# ══════════════════════════════════════════════════════════════════════════
+
+def make_pharma_batch(pharma_arr, indices, device):
+    """Get pharmacophore tensor for a batch of indices."""
+    return torch.tensor(
+        pharma_arr[indices], dtype=torch.float).to(device)
+
+
+class PharmaLoader:
+    """Wraps DataLoader to also yield pharmacophore vectors."""
+    def __init__(self, data_list, pharma_arr, batch_size,
+                 shuffle=True, drop_last=False):
+        self.data_list  = data_list
+        self.pharma_arr = pharma_arr
+        self.batch_size = batch_size
+        self.shuffle    = shuffle
+        self.drop_last  = drop_last
+
+    def __iter__(self):
+        indices = np.arange(len(self.data_list))
+        if self.shuffle:
+            np.random.shuffle(indices)
+
+        for start in range(0, len(indices), self.batch_size):
+            batch_idx = indices[start:start + self.batch_size]
+            if self.drop_last and len(batch_idx) < self.batch_size:
+                continue
+            batch_data  = [self.data_list[i] for i in batch_idx]
+            batch_pharma = torch.tensor(
+                self.pharma_arr[batch_idx], dtype=torch.float
+            ).to(DEVICE)
+
+            from torch_geometric.data import Batch
+            batch = Batch.from_data_list(batch_data).to(DEVICE)
+            yield batch, batch_pharma
+
+
+def train_epoch_pharma(model, loader, optimizer):
+    model.train()
+    for batch, pharma in loader:
+        optimizer.zero_grad()
+        out, bal = model(batch, pharma)
+        y = batch.y.squeeze()
+        if y.dim() == 0:
+            y = y.unsqueeze(0)
+        if out.dim() == 0:
+            out = out.unsqueeze(0)
+        loss = F.mse_loss(out, y) + 0.01 * bal
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        optimizer.step()
+
+
+def train_epoch_standard(model, loader, optimizer):
+    model.train()
+    from torch_geometric.data import DataLoader as GeoLoader
+    for batch in loader:
+        batch = batch.to(DEVICE)
+        optimizer.zero_grad()
+        out, bal = model(batch)
+        y = batch.y.squeeze()
+        if y.dim() == 0:
+            y = y.unsqueeze(0)
+        if out.dim() == 0:
+            out = out.unsqueeze(0)
+        loss = F.mse_loss(out, y) + 0.01 * bal
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        optimizer.step()
+
+
+@torch.no_grad()
+def evaluate_pharma(model, data_list, pharma_arr, metric):
+    model.eval()
+    loader = PharmaLoader(
+        data_list, pharma_arr, batch_size=256, shuffle=False)
+    preds, truths = [], []
+    for batch, pharma in loader:
+        out, _ = model(batch, pharma)
+        if out.dim() == 0:
+            out = out.unsqueeze(0)
+        preds.extend(out.cpu().numpy().tolist())
+        truths.extend(batch.y.cpu().numpy().flatten().tolist())
+    return _compute_metric(np.array(preds), np.array(truths), metric)
+
+
+@torch.no_grad()
+def evaluate_standard(model, data_list, metric):
+    from torch_geometric.data import DataLoader as GeoLoader
+    model.eval()
+    loader = GeoLoader(data_list, batch_size=256)
+    preds, truths = [], []
+    for batch in loader:
+        batch = batch.to(DEVICE)
+        out, _ = model(batch)
+        if out.dim() == 0:
+            out = out.unsqueeze(0)
+        preds.extend(out.cpu().numpy().tolist())
+        truths.extend(batch.y.cpu().numpy().flatten().tolist())
+    return _compute_metric(np.array(preds), np.array(truths), metric)
+
+
+def _compute_metric(preds, truths, metric):
+    if metric == "mae":
+        return float(np.mean(np.abs(preds - truths)))
+    elif metric == "spearman":
+        r, _ = spearmanr(preds, truths)
+        return float(r)
+    elif metric == "auroc":
+        from scipy.special import expit
+        try:
+            return float(roc_auc_score(truths, expit(preds)))
+        except:
+            return 0.5
+    return 0.0
+
+
+def higher_is_better(metric):
+    return metric in ("spearman", "auroc")
+
+
+def train_pharma_model(params, train_data, train_pharma,
+                       val_data, val_pharma, seed):
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    metric = params["metric"]
+
+    model = PharmaMoEGCN(
+        in_dim=9,
+        hidden=params["hidden"],
+        num_layers=params["num_layers"],
+        dropout=params["dropout"],
+        num_experts=params["num_experts"],
+        top_k=params["top_k"],
+    ).to(DEVICE)
+
+    optimizer = torch.optim.Adam(
+        model.parameters(),
+        lr=params["lr"],
+        weight_decay=params["weight_decay"])
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, patience=5, factor=0.5,
+        mode="min" if not higher_is_better(metric) else "max")
+
+    best_val   = float("inf") if not higher_is_better(metric) \
+                 else -float("inf")
+    best_state = None
+    patience   = 0
+
+    drop_last = len(train_data) % 64 == 1
+    for epoch in range(150):
+        loader = PharmaLoader(
+            train_data, train_pharma,
+            batch_size=64, shuffle=True, drop_last=drop_last)
+        train_epoch_pharma(model, loader, optimizer)
+
+        val_score = evaluate_pharma(
+            model, val_data, val_pharma, metric)
+        scheduler.step(val_score)
+
+        improved = (val_score < best_val
+                    if not higher_is_better(metric)
+                    else val_score > best_val)
+        if improved:
+            best_val   = val_score
+            best_state = copy.deepcopy(model.state_dict())
+            patience   = 0
+        else:
+            patience += 1
+            if patience >= 20:
+                break
+
+    model.load_state_dict(best_state)
+    return model, best_val
+
+
+def train_standard_model(params, train_data, val_data, seed):
+    from torch_geometric.data import DataLoader as GeoLoader
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    metric = params["metric"]
+
+    model = MoEGCN(
+        in_dim=9,
+        hidden=params["hidden"],
+        num_layers=params["num_layers"],
+        dropout=params["dropout"],
+        num_experts=params["num_experts"],
+        top_k=params["top_k"],
+    ).to(DEVICE)
+
+    optimizer = torch.optim.Adam(
+        model.parameters(),
+        lr=params["lr"],
+        weight_decay=params["weight_decay"])
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, patience=5, factor=0.5,
+        mode="min" if not higher_is_better(metric) else "max")
+
+    best_val   = float("inf") if not higher_is_better(metric) \
+                 else -float("inf")
+    best_state = None
+    patience   = 0
+
+    drop_last = len(train_data) % 64 == 1
+    for epoch in range(150):
+        loader = GeoLoader(
+            train_data, batch_size=64,
+            shuffle=True, drop_last=drop_last)
+        train_epoch_standard(model, loader, optimizer)
+
+        val_score = evaluate_standard(model, val_data, metric)
+        scheduler.step(val_score)
+
+        improved = (val_score < best_val
+                    if not higher_is_better(metric)
+                    else val_score > best_val)
+        if improved:
+            best_val   = val_score
+            best_state = copy.deepcopy(model.state_dict())
+            patience   = 0
+        else:
+            patience += 1
+            if patience >= 20:
+                break
+
+    model.load_state_dict(best_state)
+    return model, best_val
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# SPECIALIZATION ANALYSIS
+# ══════════════════════════════════════════════════════════════════════════
+
+DESCRIPTOR_FNS = {
+    "MW":        Descriptors.ExactMolWt,
+    "LogP":      Descriptors.MolLogP,
+    "HBA":       rdMolDescriptors.CalcNumHBA,
+    "HBD":       rdMolDescriptors.CalcNumHBD,
+    "TPSA":      Descriptors.TPSA,
+    "ArRings":   rdMolDescriptors.CalcNumAromaticRings,
+}
+
+
+def compute_eta_squared(groups):
+    all_v  = np.concatenate(groups)
+    grand  = np.mean(all_v)
+    ssb    = sum(len(g) * (np.mean(g) - grand)**2 for g in groups)
+    sst    = np.sum((all_v - grand)**2)
+    return float(ssb / sst) if sst > 0 else 0.0
+
+
+def compute_specialization(dominant, smiles_list):
+    """Mean eta-squared across descriptors — measures routing quality."""
+    expert_ids = np.unique(dominant)
+    if len(expert_ids) < 2:
+        return 0.0, len(expert_ids)
+
+    eta2_vals = []
+    for desc_name, fn in DESCRIPTOR_FNS.items():
+        vals, valid = [], []
+        for i, smi in enumerate(smiles_list[:len(dominant)]):
+            try:
+                mol = Chem.MolFromSmiles(str(smi))
+                if mol:
+                    vals.append(float(fn(mol)))
+                    valid.append(i)
+                else:
+                    vals.append(np.nan)
+            except:
+                vals.append(np.nan)
+
+        vals = np.array(vals)
+        not_nan = ~np.isnan(vals)
+        dom_valid = dominant[:len(vals)][not_nan]
+        vals_valid = vals[not_nan]
+
+        groups = [
+            vals_valid[dom_valid == e]
+            for e in expert_ids
+            if (dom_valid == e).sum() >= 3
+        ]
+        if len(groups) >= 2:
+            try:
+                eta2_vals.append(compute_eta_squared(groups))
+            except:
+                pass
+
+    return (float(np.mean(eta2_vals)) if eta2_vals else 0.0,
+            len(expert_ids))
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# DATASET CONFIG
+# ══════════════════════════════════════════════════════════════════════════
+
+BEST_PARAMS = {
+    "solubility_aqsoldb": {
+        "hidden":256,"num_layers":4,"dropout":0.153,"num_experts":8,
+        "top_k":3,"lr":0.000896,"weight_decay":1.99e-05,
+        "tdc_name":"Solubility_AqSolDB","task":"regression","metric":"mae"
+    },
+    "caco2_wang": {
+        "hidden":256,"num_layers":3,"dropout":0.031,"num_experts":16,
+        "top_k":4,"lr":0.000599,"weight_decay":2.01e-05,
+        "tdc_name":"Caco2_Wang","task":"regression","metric":"mae"
+    },
+    "lipophilicity_astrazeneca": {
+        "hidden":256,"num_layers":4,"dropout":0.038,"num_experts":4,
+        "top_k":1,"lr":0.000972,"weight_decay":7.03e-05,
+        "tdc_name":"Lipophilicity_AstraZeneca","task":"regression","metric":"mae"
+    },
+    "ld50_zhu": {
+        "hidden":256,"num_layers":4,"dropout":0.099,"num_experts":16,
+        "top_k":2,"lr":0.000470,"weight_decay":4.92e-05,
+        "tdc_name":"LD50_Zhu","task":"regression","metric":"mae"
+    },
+    "vdss_lombardo": {
+        "hidden":256,"num_layers":3,"dropout":0.222,"num_experts":8,
+        "top_k":2,"lr":0.000905,"weight_decay":2.82e-05,
+        "tdc_name":"VDss_Lombardo","task":"regression","metric":"spearman"
+    },
+    "half_life_obach": {
+        "hidden":256,"num_layers":3,"dropout":0.220,"num_experts":16,
+        "top_k":4,"lr":0.000539,"weight_decay":1.83e-05,
+        "tdc_name":"Half_Life_Obach","task":"regression","metric":"spearman"
+    },
+    "clearance_microsome_az": {
+        "hidden":256,"num_layers":3,"dropout":0.003,"num_experts":16,
+        "top_k":2,"lr":0.000195,"weight_decay":2.91e-05,
+        "tdc_name":"Clearance_Microsome_AZ","task":"regression","metric":"spearman"
+    },
+    "clearance_hepatocyte_az": {
+        "hidden":256,"num_layers":3,"dropout":0.221,"num_experts":16,
+        "top_k":2,"lr":0.000973,"weight_decay":1.05e-06,
+        "tdc_name":"Clearance_Hepatocyte_AZ","task":"regression","metric":"spearman"
+    },
+    "ppbr_az": {
+        "hidden":256,"num_layers":3,"dropout":0.002,"num_experts":16,
+        "top_k":2,"lr":0.000200,"weight_decay":2.89e-05,
+        "tdc_name":"PPBR_AZ","task":"regression","metric":"mae"
+    },
+    "hia_hou": {
+        "hidden":256,"num_layers":3,"dropout":0.002,"num_experts":16,
+        "top_k":4,"lr":0.000914,"weight_decay":2.15e-05,
+        "tdc_name":"HIA_Hou","task":"classification","metric":"auroc"
+    },
+    "bbb_martins": {
+        "hidden":256,"num_layers":4,"dropout":0.202,"num_experts":16,
+        "top_k":4,"lr":0.000527,"weight_decay":1.27e-05,
+        "tdc_name":"BBB_Martins","task":"classification","metric":"auroc"
+    },
+    "herg": {
+        "hidden":256,"num_layers":2,"dropout":0.222,"num_experts":8,
+        "top_k":4,"lr":0.000156,"weight_decay":2.01e-05,
+        "tdc_name":"hERG","task":"classification","metric":"auroc"
+    },
+    "ames": {
+        "hidden":256,"num_layers":4,"dropout":0.191,"num_experts":16,
+        "top_k":2,"lr":0.000316,"weight_decay":3.76e-05,
+        "tdc_name":"AMES","task":"classification","metric":"auroc"
+    },
+    "dili": {
+        "hidden":128,"num_layers":2,"dropout":0.031,"num_experts":16,
+        "top_k":3,"lr":0.000835,"weight_decay":1.01e-05,
+        "tdc_name":"DILI","task":"classification","metric":"auroc"
+    },
+}
+
+DISPLAY = {
+    "solubility_aqsoldb":"Solubility","caco2_wang":"Caco-2",
+    "lipophilicity_astrazeneca":"Lipophilicity","ppbr_az":"PPBR",
+    "ld50_zhu":"LD50","vdss_lombardo":"VDss",
+    "half_life_obach":"Half-Life","clearance_microsome_az":"CL-Microsome",
+    "clearance_hepatocyte_az":"CL-Hepatocyte","hia_hou":"HIA",
+    "bbb_martins":"BBB","herg":"hERG","ames":"AMES","dili":"DILI",
+}
+
+SEEDS = [0, 1, 2, 3, 4]
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# MAIN
+# ══════════════════════════════════════════════════════════════════════════
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--datasets", nargs="+",
+                        default=["solubility_aqsoldb", "caco2_wang",
+                                 "lipophilicity_astrazeneca", "ld50_zhu"],
+                        help="Datasets to run")
+    parser.add_argument("--seeds", nargs="+", type=int,
+                        default=[0, 1, 2])
+    args = parser.parse_args()
+
+    Path("models").mkdir(exist_ok=True)
+    results = {}
+
+    print("=" * 70)
+    print("  Pharmacophore-Guided MoE-GCN vs Standard MoE-GCN")
+    print("  NEW ALGORITHM: Dual routing with pharmacophore guidance")
+    print("=" * 70)
+
+    for dataset in args.datasets:
+        if dataset not in BEST_PARAMS:
+            print(f"\nSkipping {dataset} — no params")
+            continue
+
+        params   = BEST_PARAMS[dataset]
+        tdc_name = params["tdc_name"]
+        metric   = params["metric"]
+        display  = DISPLAY.get(dataset, dataset)
+
+        print(f"\n{'─'*70}")
+        print(f"  [{display}] — {tdc_name}")
+
+        # Load data
+        split = load_tdc(tdc_name)
+        if split is None:
+            print(f"  TDC load failed")
+            continue
+
+        # Build pharmacophore stats from training data
+        all_train_smi = list(split["train"]["Drug"])
+        pharma_mean, pharma_std = build_pharma_stats(all_train_smi)
+        print(f"  Pharmacophore mean: "
+              f"{pharma_mean.round(2)}")
+
+        # Build datasets
+        train_data, train_smi, train_pharma = build_dataset(
+            split["train"]["Drug"], split["train"]["Y"],
+            pharma_mean, pharma_std)
+        val_data, val_smi, val_pharma = build_dataset(
+            split["valid"]["Drug"], split["valid"]["Y"],
+            pharma_mean, pharma_std)
+        test_data, test_smi, test_pharma = build_dataset(
+            split["test"]["Drug"], split["test"]["Y"],
+            pharma_mean, pharma_std)
+
+        all_data   = train_data + val_data + test_data
+        all_smi    = train_smi + val_smi + test_smi
+        all_pharma = np.vstack([train_pharma, val_pharma, test_pharma])
+
+        print(f"  n={len(all_data)} molecules, "
+              f"pharma_dim={PHARMA_DIM}")
+
+        pharma_scores, standard_scores = [], []
+        pharma_spec,   standard_spec   = [], []
+        alpha_vals = []
+
+        for seed in args.seeds:
+            print(f"\n  Seed {seed}:")
+
+            # ── Train Pharma-MoE-GCN ──────────────────────────────
+            print(f"    Pharma-MoE training...", end="", flush=True)
+            pharma_model, _ = train_pharma_model(
+                params, train_data, train_pharma,
+                val_data, val_pharma, seed)
+
+            test_score_pharma = evaluate_pharma(
+                pharma_model, test_data, test_pharma, metric)
+            pharma_scores.append(test_score_pharma)
+
+            # Extract routing + specialization
+            pharma_model.eval()
+            loader = PharmaLoader(
+                all_data, all_pharma, 256, shuffle=False)
+            all_dom = []
+            with torch.no_grad():
+                for batch, pharma in loader:
+                    _, _, dom = pharma_model.forward_with_routing(
+                        batch, pharma)
+                    all_dom.extend(dom.cpu().numpy().tolist())
+            dom_arr = np.array(all_dom)
+            spec_p, n_exp_p = compute_specialization(dom_arr, all_smi)
+            pharma_spec.append(spec_p)
+            alpha_vals.append(pharma_model.get_alpha())
+
+            print(f" {metric}={test_score_pharma:.4f} "
+                  f"eta²={spec_p:.4f} "
+                  f"n_exp={len(np.unique(dom_arr))} "
+                  f"α={pharma_model.get_alpha():.3f}")
+
+            # ── Train Standard MoE-GCN ────────────────────────────
+            print(f"    Standard-MoE training...", end="", flush=True)
+            std_model, _ = train_standard_model(
+                params, train_data, val_data, seed)
+
+            from torch_geometric.data import DataLoader as GeoLoader
+            test_score_std = evaluate_standard(
+                std_model, test_data, metric)
+            standard_scores.append(test_score_std)
+
+            std_model.eval()
+            geo_loader = GeoLoader(all_data, batch_size=256)
+            all_dom_std = []
+            with torch.no_grad():
+                for batch in geo_loader:
+                    batch = batch.to(DEVICE)
+                    _, _, dom = std_model.forward_with_routing(batch)
+                    all_dom_std.extend(dom.cpu().numpy().tolist())
+            dom_std = np.array(all_dom_std)
+            spec_s, n_exp_s = compute_specialization(dom_std, all_smi)
+            standard_spec.append(spec_s)
+
+            print(f" {metric}={test_score_std:.4f} "
+                  f"eta²={spec_s:.4f} "
+                  f"n_exp={len(np.unique(dom_std))}")
+
+        # Aggregate
+        mean_pharma  = float(np.mean(pharma_scores))
+        mean_std     = float(np.mean(standard_scores))
+        mean_spec_p  = float(np.mean(pharma_spec))
+        mean_spec_s  = float(np.mean(standard_spec))
+        mean_alpha   = float(np.mean(alpha_vals))
+
+        if higher_is_better(metric):
+            gain = (mean_pharma - mean_std) / abs(mean_std) * 100
+        else:
+            gain = (mean_std - mean_pharma) / abs(mean_std) * 100
+
+        spec_improvement = ((mean_spec_p - mean_spec_s)
+                           / (mean_spec_s + 1e-6) * 100)
+
+        print(f"\n  ── RESULT [{display}] ──")
+        print(f"  Pharma-MoE:   {metric}={mean_pharma:.4f}  "
+              f"eta²={mean_spec_p:.4f}  mean_alpha={mean_alpha:.3f}")
+        print(f"  Standard-MoE: {metric}={mean_std:.4f}  "
+              f"eta²={mean_spec_s:.4f}")
+        print(f"  Performance gain: {gain:+.1f}%")
+        print(f"  Specialization improvement: {spec_improvement:+.1f}%")
+
+        if gain > 0 and spec_improvement > 0:
+            print(f"  ✓ Pharma routing WINS on both performance AND specialization")
+        elif spec_improvement > 0:
+            print(f"  ~ Pharma routing improves specialization "
+                  f"(performance tradeoff)")
+        else:
+            print(f"  ✗ No clear advantage")
+
+        results[dataset] = {
+            "display":              display,
+            "metric":               metric,
+            "pharma_score":         round(mean_pharma, 4),
+            "standard_score":       round(mean_std, 4),
+            "performance_gain_pct": round(gain, 2),
+            "pharma_eta2":          round(mean_spec_p, 4),
+            "standard_eta2":        round(mean_spec_s, 4),
+            "specialization_improvement_pct": round(spec_improvement, 2),
+            "mean_alpha":           round(mean_alpha, 3),
+        }
+
+    # ── Save and summary ──────────────────────────────────────────────
+    with open("pharma_moe_results.json", "w") as f:
+        json.dump(results, f, indent=2)
+    print(f"\n  [SAVED] pharma_moe_results.json")
+
+    print(f"\n{'='*70}")
+    print("  SUMMARY")
+    print(f"{'='*70}")
+    print(f"\n  {'Dataset':<20} {'Perf Gain':>10} "
+          f"{'Spec Improv':>12} {'Alpha':>8}")
+    print("  " + "-"*55)
+    for d, v in results.items():
+        print(f"  {v['display']:<20} {v['performance_gain_pct']:>+10.1f}% "
+              f"{v['specialization_improvement_pct']:>+11.1f}% "
+              f"{v['mean_alpha']:>8.3f}")
+
+    gains = [v["performance_gain_pct"] for v in results.values()]
+    specs = [v["specialization_improvement_pct"]
+             for v in results.values()]
+    print(f"\n  Mean performance gain:        {np.mean(gains):+.1f}%")
+    print(f"  Mean specialization improvement: {np.mean(specs):+.1f}%")
+    print(f"\n  KEY QUESTION:")
+    print(f"  Does pharmacophore guidance improve BOTH performance")
+    print(f"  AND specialization vs standard MoE?")
+    wins = sum(1 for v in results.values()
+               if v["performance_gain_pct"] > 0
+               and v["specialization_improvement_pct"] > 0)
+    print(f"  Both improved: {wins}/{len(results)} datasets")
+    print(f"{'='*70}")
+
+
+if __name__ == "__main__":
+    main()
+
+
+======================================================================
+2.2 (final) - caco2_wang inside results_moegcn_tdc_v2.json
+======================================================================
+{
+  "mean": 0.3660479032076322,
+  "std": 0.016179515450839847,
+  "seeds": [
+    0.37904402187892366,
+    0.3699133736746652,
+    0.34738823083730846,
+    0.3472588429084191,
+    0.38663504673884463
+  ],
+  "metric": "mae",
+  "best_params": {
+    "hidden": 256,
+    "num_layers": 3,
+    "dropout": 0.031332699329974706,
+    "num_experts": 16,
+    "top_k": 4,
+    "lr": 0.0005993929127297709,
+    "weight_decay": 2.0065771485986682e-05
+  },
+  "time_min": 8.7,
+  "model": "MoE-GCN",
+  "n_seeds": 5
+}
+
+======================================================================
+2.7-part-2 - AttentiveFP: local run vs final_results_table.csv
+======================================================================
+{
+  "Tox21": {
+    "mean": 0.7458148484192356,
+    "std": 0.004923370460832828,
+    "metric": "roc_auc",
+    "seeds": [
+      0.7485143671103766,
+      0.7500233094875242,
+      0.7389068686598064
+    ]
+  },
+  "SIDER": {
+    "mean": 0.5936831829171223,
+    "std": 0.0061590423460228284,
+    "metric": "roc_auc",
+    "seeds": [
+      0.5942313384719943,
+      0.6009374082715946,
+      0.5858808020077779
+    ]
+  },
+  "ClinTox": {
+    "mean": 0.729382037715371,
+    "std": 0.1006155296821113,
+    "metric": "roc_auc",
+    "seeds": [
+      0.7989320795290944,
+      0.5871020356094983,
+      0.8021119980075204
+    ]
+  },
+  "HIV": {
+    "mean": 0.7152259670247512,
+    "std": 0.00738229226227957,
+    "metric": "roc_auc",
+    "seeds": [
+      0.7249306457324992,
+      0.713707059379058,
+      0.7070401959626963
+    ]
+  },
+  "BBBP": {
+    "mean": 0.908,
+    "std": 0.05,
+    "metric": "roc_auc",
+    "seeds": [],
+    "source": "Xiong et al. 2020"
+  },
+  "BACE": {
+    "mean": 0.852,
+    "std": 0.053,
+    "metric": "roc_auc",
+    "seeds": [],
+    "source": "Xiong et al. 2020"
+  },
+  "ToxCast": {
+    "mean": 0.6745527844456163,
+    "std": 0.0029390841396452917,
+    "metric": "roc_auc",
+    "seeds": [
+      0.6752131491990182,
+      0.6788820147355653,
+      0.6706142311810809,
+      0.6720337471704425,
+      0.6760207799419743
+    ],
+    "best_params": {
+      "hidden": 256,
+      "num_layers": 4,
+      "num_timesteps": 3,
+      "dropout": 0.06240745617697461,
+      "lr": 0.00016998978382700775,
+      "weight_decay": 1.306673923805328e-06
+    },
+    "time_min": 152.5
+  },
+  "ESOL": {
+    "mean": 1.060617208480835,
+    "std": 0.02947296435033515,
+    "metric": "rmse",
+    "seeds": [
+      1.0930546522140503,
+      1.0395444631576538,
+      1.014238953590393,
+      1.0845704078674316,
+      1.071677565574646
+    ],
+    "best_params": {
+      "hidden": 256,
+      "num_layers": 3,
+      "num_timesteps": 2,
+      "dropout": 0.23842590659490284,
+      "lr": 0.0005203830954744919,
+      "weight_decay": 3.972638959428938e-06
+    },
+    "time_min": 15.1
+  },
+  "FreeSolv": {
+    "mean": 2.5728790760040283,
+    "std": 0.12717881890243143,
+    "metric": "rmse",
+    "seeds": [
+      2.356806993484497,
+      2.6124613285064697,
+      2.6772103309631348,
+      2.511157751083374,
+      2.706758975982666
+    ],
+    "best_params": {
+      "hidden": 200,
+      "num_layers": 4,
+      "num_timesteps": 3,
+      "dropout": 0.22752613128184873,
+      "lr": 0.001722304357161089,
+      "weight_decay": 5.162428590216523e-05
+    },
+    "time_min": 8.6
+  },
+  "Lipo": {
+    "mean": 0.684924304485321,
+    "std": 0.014996676965790611,
+    "metric": "rmse",
+    "seeds": [
+      0.7038074731826782,
+      0.6895905137062073,
+      0.673024594783783,
+      0.6954807639122009,
+      0.6627181768417358
+    ],
+    "best_params": {
+      "hidden": 256,
+      "num_layers": 4,
+      "num_timesteps": 3,
+      "dropout": 0.2221967620657121,
+      "lr": 0.0004821942771461863,
+      "weight_decay": 3.4922396602967687e-05
+    },
+    "time_min": 94.5
+  }
+}
+
+Compare against final_results_table.csv AttentiveFP_mean/std columns:
+BBBP=0.908/0.05  BACE=0.852/0.053  Tox21=0.7458/0.0049  ToxCast=0.6746/0.0029
+SIDER=0.5937/0.0062  ClinTox=0.7294/0.1006  HIV=0.7152/0.0074
+ESOL=1.0606/0.0295  FreeSolv=2.5729/0.1272  Lipo=0.6849/0.015

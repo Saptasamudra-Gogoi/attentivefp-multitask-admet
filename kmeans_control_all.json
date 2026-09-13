@@ -1,0 +1,90 @@
+[
+  {
+    "dataset": "caco2_wang",
+    "n_molecules": 910,
+    "n_clusters": 4,
+    "kmeans_eta2": {
+      "MW": 0.10662161065606343,
+      "LogP": 0.25709659844755867,
+      "TPSA": 0.23432071594989173,
+      "ArRings": 0.38376110953535575
+    }
+  },
+  {
+    "dataset": "solubility_aqsoldb",
+    "n_molecules": 9980,
+    "n_clusters": 8,
+    "kmeans_eta2": {
+      "MW": 0.15664074332552028,
+      "LogP": 0.33064068471953456,
+      "TPSA": 0.13432533295380777,
+      "ArRings": 0.36149778648806713
+    }
+  },
+  {
+    "dataset": "lipophilicity_astrazeneca",
+    "n_molecules": 4200,
+    "n_clusters": 4,
+    "kmeans_eta2": {
+      "MW": 0.145572124772036,
+      "LogP": 0.013357892509850259,
+      "TPSA": 0.11474725886456513,
+      "ArRings": 0.16914240206057793
+    }
+  },
+  {
+    "dataset": "ld50_zhu",
+    "n_molecules": 7385,
+    "n_clusters": 16,
+    "kmeans_eta2": {
+      "MW": 0.2567444084952239,
+      "LogP": 0.24972694778036694,
+      "TPSA": 0.17714216271024855,
+      "ArRings": 0.5569260763939614
+    }
+  },
+  {
+    "dataset": "bbb_martins",
+    "n_molecules": 2030,
+    "n_clusters": 16,
+    "kmeans_eta2": {
+      "MW": 0.27814254835798935,
+      "LogP": 0.2903608961196274,
+      "TPSA": 0.5264716276082883,
+      "ArRings": 0.4511575054409711
+    }
+  },
+  {
+    "dataset": "herg",
+    "n_molecules": 655,
+    "n_clusters": 8,
+    "kmeans_eta2": {
+      "MW": 0.1660078180299783,
+      "LogP": 0.154876600910135,
+      "TPSA": 0.29795953546361975,
+      "ArRings": 0.5661637813868373
+    }
+  },
+  {
+    "dataset": "ames",
+    "n_molecules": 7278,
+    "n_clusters": 16,
+    "kmeans_eta2": {
+      "MW": 0.15616424541919663,
+      "LogP": 0.3764632682672026,
+      "TPSA": 0.27694112792539805,
+      "ArRings": 0.665999758600082
+    }
+  },
+  {
+    "dataset": "dili",
+    "n_molecules": 475,
+    "n_clusters": 16,
+    "kmeans_eta2": {
+      "MW": 0.2880225550494979,
+      "LogP": 0.2855774556744722,
+      "TPSA": 0.3771313246658616,
+      "ArRings": 0.5544152819961532
+    }
+  }
+]

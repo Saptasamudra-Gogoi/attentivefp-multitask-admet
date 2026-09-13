@@ -1,0 +1,762 @@
+
+======================================================================
+2.3 (FIXED) — every eta2-like numeric value, LogP + aromatic focus
+======================================================================
+  [2026-06-17 17:19:18] D:\molprop_project\expert_specialization_ames.json
+      stats.MW.eta2 = 0.097888
+      stats.LogP.eta2 = 0.223916
+      stats.LogP.p_anova = 0.0
+      stats.LogP.MI = 0.16348730747737444
+      stats.HBA.eta2 = 0.215212
+      stats.HBD.eta2 = 0.067718
+      stats.TPSA.eta2 = 0.239721
+      stats.RotBonds.eta2 = 0.209705
+      stats.RingCount.eta2 = 0.442928
+      stats.ArRings.eta2 = 0.564334
+      stats.ArRings.p_anova = 0.0
+      stats.ArRings.MI = 0.4311821913813926
+
+  [2026-06-17 17:18:18] D:\molprop_project\expert_specialization_bbb_martins.json
+      stats.MW.eta2 = 0.059636
+      stats.LogP.eta2 = 0.21381
+      stats.LogP.p_anova = 4.60656817139721e-100
+      stats.LogP.MI = 0.15849691805365845
+      stats.HBA.eta2 = 0.159018
+      stats.HBD.eta2 = 0.202541
+      stats.TPSA.eta2 = 0.281794
+      stats.RotBonds.eta2 = 0.152314
+      stats.RingCount.eta2 = 0.165067
+      stats.ArRings.eta2 = 0.262443
+      stats.ArRings.p_anova = 8.061591792478917e-128
+      stats.ArRings.MI = 0.17451848917383955
+
+  [2026-06-17 17:18:16] D:\molprop_project\expert_specialization_bioavailability_ma.json
+      stats.MW.eta2 = 0.078292
+      stats.LogP.eta2 = 0.10603
+      stats.LogP.p_anova = 2.204324557541382e-15
+      stats.LogP.MI = 0.09646497398794518
+      stats.HBA.eta2 = 0.110745
+      stats.HBD.eta2 = 0.151047
+      stats.TPSA.eta2 = 0.159656
+      stats.RotBonds.eta2 = 0.012152
+      stats.RingCount.eta2 = 0.185164
+      stats.ArRings.eta2 = 0.244635
+      stats.ArRings.p_anova = 1.7962733589012696e-38
+      stats.ArRings.MI = 0.16682549799563506
+
+  [2026-06-15 09:52:24] D:\molprop_project\expert_specialization_caco2_wang.json
+      stats.MW.eta2 = 0.10274121396253698
+      stats.LogP.MI = 0.11485868919911335
+      stats.LogP.F_stat = 40.183306196935895
+      stats.LogP.p_anova = 5.163291789616064e-31
+      stats.LogP.H_stat = 116.3180077511809
+      stats.LogP.p_kruskal = 3.2650241396589735e-24
+      stats.LogP.eta2 = 0.15081938054409066
+      stats.LogP.per_expert.0.mean = 2.806340154440156
+      stats.LogP.per_expert.0.std = 1.7423895310872517
+      stats.LogP.per_expert.0.n = 259
+      stats.LogP.per_expert.0.median = 2.9662000000000006
+      stats.LogP.per_expert.6.mean = 1.5794848387096794
+      stats.LogP.per_expert.6.std = 2.4349547136801872
+      stats.LogP.per_expert.6.n = 62
+      stats.LogP.per_expert.6.median = 1.8212499999999996
+      stats.LogP.per_expert.12.mean = 2.5931935622317615
+      stats.LogP.per_expert.12.std = 1.5182898281781105
+      stats.LogP.per_expert.12.n = 233
+      stats.LogP.per_expert.12.median = 2.815170000000001
+      stats.LogP.per_expert.13.mean = 0.9755910320284725
+      stats.LogP.per_expert.13.std = 2.498895461097979
+      stats.LogP.per_expert.13.n = 281
+      stats.LogP.per_expert.13.median = 1.2352000000000007
+      stats.LogP.per_expert.15.mean = 3.1372065333333343
+      stats.LogP.per_expert.15.std = 1.3927854986737858
+      stats.LogP.per_expert.15.n = 75
+      stats.LogP.per_expert.15.median = 2.9907200000000014
+      stats.LogP.n_valid = 910
+      stats.HBA.eta2 = 0.1510339958003502
+      stats.HBD.eta2 = 0.14026164746295405
+      stats.TPSA.eta2 = 0.2043163287539131
+      stats.RotBonds.eta2 = 0.12120530642125542
+      stats.Rings.eta2 = 0.07525384757858923
+      stats.ArRings.MI = 0.24041915215651474
+      stats.ArRings.F_stat = 108.78381013813316
+      stats.ArRings.p_anova = 1.0441626966014344e-75
+      stats.ArRings.H_stat = 289.0356911052653
+      stats.ArRings.p_kruskal = 2.5096513746647794e-61
+      stats.ArRings.eta2 = 0.3246950213570444
+      stats.ArRings.per_expert.0.mean = 2.382239382239382
+      stats.ArRings.per_expert.0.std = 0.8724843620381759
+      stats.ArRings.per_expert.0.n = 259
+      stats.ArRings.per_expert.0.median = 2.0
+      stats.ArRings.per_expert.6.mean = 0.7258064516129032
+      stats.ArRings.per_expert.6.std = 1.0186859790089116
+      stats.ArRings.per_expert.6.n = 62
+      stats.ArRings.per_expert.6.median = 0.0
+      stats.ArRings.per_expert.12.mean = 2.227467811158798
+      stats.ArRings.per_expert.12.std = 0.8909275824209197
+      stats.ArRings.per_expert.12.n = 233
+      stats.ArRings.per_expert.12.median = 2.0
+      stats.ArRings.per_expert.13.mean = 1.0782918149466192
+      stats.ArRings.per_expert.13.std = 1.0676037959008824
+      stats.ArRings.per_expert.13.n = 281
+      stats.ArRings.per_expert.13.median = 1.0
+      stats.ArRings.per_expert.15.mean = 2.64
+      stats.ArRings.per_expert.15.std = 0.9185495813146579
+      stats.ArRings.per_expert.15.n = 75
+      stats.ArRings.per_expert.15.median = 3.0
+      stats.ArRings.n_valid = 910
+
+  [2026-06-17 17:19:10] D:\molprop_project\expert_specialization_cyp2c9_substrate_carbonmangels.json
+      stats.MW.eta2 = 0.034698
+      stats.LogP.eta2 = 0.008546
+      stats.LogP.p_anova = 0.1265148984783145
+      stats.LogP.MI = 0.02706322185006044
+      stats.HBA.eta2 = 0.019668
+      stats.HBD.eta2 = 0.01432
+      stats.TPSA.eta2 = 0.02353
+      stats.RotBonds.eta2 = 0.021909
+      stats.RingCount.eta2 = 0.052604
+      stats.ArRings.eta2 = 0.027991
+      stats.ArRings.p_anova = 0.00028757300764767596
+      stats.ArRings.MI = 0.02300208486737458
+
+  [2026-06-17 17:19:07] D:\molprop_project\expert_specialization_cyp2c9_veith.json
+      stats.MW.eta2 = 0.072385
+      stats.LogP.eta2 = 0.198801
+      stats.LogP.p_anova = 0.0
+      stats.LogP.MI = 0.14795463880596307
+      stats.HBA.eta2 = 0.020419
+      stats.HBD.eta2 = 0.02763
+      stats.TPSA.eta2 = 0.023688
+      stats.RotBonds.eta2 = 0.052746
+      stats.RingCount.eta2 = 0.115744
+      stats.ArRings.eta2 = 0.311775
+      stats.ArRings.p_anova = 0.0
+      stats.ArRings.MI = 0.19255513153063797
+
+  [2026-06-17 17:19:08] D:\molprop_project\expert_specialization_cyp2d6_substrate_carbonmangels.json
+      stats.MW.eta2 = 0.020342
+      stats.LogP.eta2 = 0.068429
+      stats.LogP.p_anova = 3.4244304874896697e-10
+      stats.LogP.MI = 0.07730799804058411
+      stats.HBA.eta2 = 0.074616
+      stats.HBD.eta2 = 0.05173
+      stats.TPSA.eta2 = 0.171693
+      stats.RotBonds.eta2 = 0.086385
+      stats.RingCount.eta2 = 0.266418
+      stats.ArRings.eta2 = 0.162023
+      stats.ArRings.p_anova = 2.9703622339554867e-25
+      stats.ArRings.MI = 0.10317859678126431
+
+  [2026-06-17 17:18:35] D:\molprop_project\expert_specialization_cyp2d6_veith.json
+      stats.MW.eta2 = 0.015647
+      stats.LogP.eta2 = 0.155689
+      stats.LogP.p_anova = 0.0
+      stats.LogP.MI = 0.10011864857756769
+      stats.HBA.eta2 = 0.073236
+      stats.HBD.eta2 = 0.046803
+      stats.TPSA.eta2 = 0.079659
+      stats.RotBonds.eta2 = 0.077052
+      stats.RingCount.eta2 = 0.141939
+      stats.ArRings.eta2 = 0.268341
+      stats.ArRings.p_anova = 0.0
+      stats.ArRings.MI = 0.16452863931809583
+
+  [2026-06-17 17:19:09] D:\molprop_project\expert_specialization_cyp3a4_substrate_carbonmangels.json
+      stats.MW.eta2 = 0.004564
+      stats.LogP.eta2 = 0.024563
+      stats.LogP.p_anova = 0.00024997775256729285
+      stats.LogP.MI = 0.03051779134501814
+      stats.HBA.eta2 = 0.016265
+      stats.HBD.eta2 = 0.005424
+      stats.TPSA.eta2 = 0.032544
+      stats.RotBonds.eta2 = 0.032934
+      stats.RingCount.eta2 = 0.066186
+      stats.ArRings.eta2 = 0.060911
+      stats.ArRings.p_anova = 7.901524824478802e-10
+      stats.ArRings.MI = 0.0346614159826152
+
+  [2026-06-17 17:18:50] D:\molprop_project\expert_specialization_cyp3a4_veith.json
+      stats.MW.eta2 = 0.062587
+      stats.LogP.eta2 = 0.227202
+      stats.LogP.p_anova = 0.0
+      stats.LogP.MI = 0.15049138392322278
+      stats.HBA.eta2 = 0.074082
+      stats.HBD.eta2 = 0.063034
+      stats.TPSA.eta2 = 0.067351
+      stats.RotBonds.eta2 = 0.089818
+      stats.RingCount.eta2 = 0.107929
+      stats.ArRings.eta2 = 0.199363
+      stats.ArRings.p_anova = 0.0
+      stats.ArRings.MI = 0.12475709379239366
+
+  [2026-06-17 17:19:19] D:\molprop_project\expert_specialization_dili.json
+      stats.MW.eta2 = 0.040134
+      stats.LogP.eta2 = 0.045765
+      stats.LogP.p_anova = 0.002547302446057548
+      stats.LogP.MI = 0.1182684553308477
+      stats.HBA.eta2 = 0.034389
+      stats.HBD.eta2 = 0.019565
+      stats.TPSA.eta2 = 0.057189
+      stats.RotBonds.eta2 = 0.133058
+      stats.RingCount.eta2 = 0.286142
+      stats.ArRings.eta2 = 0.218835
+      stats.ArRings.p_anova = 5.365602258391297e-22
+      stats.ArRings.MI = 0.1521484747669138
+
+  [2026-06-17 17:19:21] D:\molprop_project\expert_specialization_half_life_obach.json
+      stats.MW.eta2 = 0.024491
+      stats.LogP.eta2 = 0.047886
+      stats.LogP.p_anova = 8.407471579603762e-08
+      stats.LogP.MI = 0.07997516991634938
+      stats.HBA.eta2 = 0.005338
+      stats.HBD.eta2 = 0.006032
+      stats.TPSA.eta2 = 0.002643
+      stats.RotBonds.eta2 = 0.072196
+      stats.RingCount.eta2 = 0.015281
+      stats.ArRings.eta2 = 0.035957
+      stats.ArRings.p_anova = 5.247813986789429e-06
+      stats.ArRings.MI = 0.0357455719615541
+
+  [2026-06-17 17:19:11] D:\molprop_project\expert_specialization_herg.json
+      stats.MW.eta2 = 0.035617
+      stats.LogP.eta2 = 0.073407
+      stats.LogP.p_anova = 5.772266764349952e-09
+      stats.LogP.MI = 0.10823503391520195
+      stats.HBA.eta2 = 0.077335
+      stats.HBD.eta2 = 0.091211
+      stats.TPSA.eta2 = 0.121816
+      stats.RotBonds.eta2 = 0.194482
+      stats.RingCount.eta2 = 0.354571
+      stats.ArRings.eta2 = 0.379622
+      stats.ArRings.p_anova = 5.1024282562717214e-64
+      stats.ArRings.MI = 0.24307608093977887
+
+  [2026-06-17 17:18:14] D:\molprop_project\expert_specialization_hia_hou.json
+      stats.MW.eta2 = 0.045137
+      stats.LogP.eta2 = 0.157963
+      stats.LogP.p_anova = 9.334897382245753e-18
+      stats.LogP.MI = 0.14609902036243644
+      stats.HBA.eta2 = 0.148411
+      stats.HBD.eta2 = 0.191835
+      stats.TPSA.eta2 = 0.156935
+      stats.RotBonds.eta2 = 0.165879
+      stats.RingCount.eta2 = 0.200096
+      stats.ArRings.eta2 = 0.34557
+      stats.ArRings.p_anova = 6.768783431406481e-48
+      stats.ArRings.MI = 0.23003404228619712
+
+  [2026-06-15 09:59:58] D:\molprop_project\expert_specialization_ld50_zhu.json
+      stats.MW.eta2 = 0.10968117246053515
+      stats.LogP.MI = 0.09856392760541242
+      stats.LogP.F_stat = 204.1215102306337
+      stats.LogP.p_anova = 1.2414821625182102e-241
+      stats.LogP.p_kruskal = 6.305843475520142e-233
+      stats.LogP.eta2 = 0.14236517884556013
+      stats.LogP.per_expert.0.mean = 1.0303112969588555
+      stats.LogP.per_expert.0.std = 1.725905264964874
+      stats.LogP.per_expert.0.n = 1118
+      stats.LogP.per_expert.1.mean = 2.8322100000000012
+      stats.LogP.per_expert.1.std = 1.672519846432489
+      stats.LogP.per_expert.1.n = 1829
+      stats.LogP.per_expert.2.mean = 3.030549209100759
+      stats.LogP.per_expert.2.std = 1.7599831869777447
+      stats.LogP.per_expert.2.n = 923
+      stats.LogP.per_expert.6.mean = 2.0760831662269137
+      stats.LogP.per_expert.6.std = 1.664136149879986
+      stats.LogP.per_expert.6.n = 1137
+      stats.LogP.per_expert.7.mean = 2.411937764227643
+      stats.LogP.per_expert.7.std = 1.1999838768575912
+      stats.LogP.per_expert.7.n = 492
+      stats.LogP.per_expert.8.mean = 2.9114370560747678
+      stats.LogP.per_expert.8.std = 1.5245647973939274
+      stats.LogP.per_expert.8.n = 856
+      stats.LogP.per_expert.11.mean = 3.006147631067963
+      stats.LogP.per_expert.11.std = 1.9360956033032364
+      stats.LogP.per_expert.11.n = 1030
+      stats.LogP.n = 7385
+      stats.HBA.eta2 = 0.15228950527802004
+      stats.HBD.eta2 = 0.028566756278606123
+      stats.TPSA.eta2 = 0.104514217128492
+      stats.RotBonds.eta2 = 0.16926708626492792
+      stats.Rings.eta2 = 0.2913514593660499
+      stats.ArRings.MI = 0.3153866812085039
+      stats.ArRings.F_stat = 985.1226440014498
+      stats.ArRings.p_anova = 0.0
+      stats.ArRings.p_kruskal = 0.0
+      stats.ArRings.eta2 = 0.44479293775545475
+      stats.ArRings.per_expert.0.mean = 0.09302325581395349
+      stats.ArRings.per_expert.0.std = 0.2995607717787563
+      stats.ArRings.per_expert.0.n = 1118
+      stats.ArRings.per_expert.1.mean = 1.8583925642427557
+      stats.ArRings.per_expert.1.std = 0.8990377196145369
+      stats.ArRings.per_expert.1.n = 1829
+      stats.ArRings.per_expert.2.mean = 0.6533044420368364
+      stats.ArRings.per_expert.2.std = 0.7382576053996537
+      stats.ArRings.per_expert.2.n = 923
+      stats.ArRings.per_expert.6.mean = 1.1574318381706246
+      stats.ArRings.per_expert.6.std = 0.8496570268619671
+      stats.ArRings.per_expert.6.n = 1137
+      stats.ArRings.per_expert.7.mean = 1.3495934959349594
+      stats.ArRings.per_expert.7.std = 0.6373693373177118
+      stats.ArRings.per_expert.7.n = 492
+      stats.ArRings.per_expert.8.mean = 0.677570093457944
+      stats.ArRings.per_expert.8.std = 0.6758599107201749
+      stats.ArRings.per_expert.8.n = 856
+      stats.ArRings.per_expert.11.mean = 0.3106796116504854
+      stats.ArRings.per_expert.11.std = 0.5219293225520627
+      stats.ArRings.per_expert.11.n = 1030
+      stats.ArRings.n = 7385
+
+  [2026-06-15 09:54:12] D:\molprop_project\expert_specialization_lipophilicity_astrazeneca.json
+      stats.MW.eta2 = 0.005822577957680663
+      stats.LogP.MI = 0.029952138675777513
+      stats.LogP.F_stat = 74.63569310491093
+      stats.LogP.p_anova = 5.009088270468066e-47
+      stats.LogP.H_stat = 199.89424643692703
+      stats.LogP.p_kruskal = 4.446442299531245e-43
+      stats.LogP.eta2 = 0.05065877524046224
+      stats.LogP.per_expert.0.mean = 2.504110844793714
+      stats.LogP.per_expert.0.std = 1.2922040597769393
+      stats.LogP.per_expert.0.n = 509
+      stats.LogP.per_expert.0.median = 2.5822000000000003
+      stats.LogP.per_expert.1.mean = 2.3506514285714286
+      stats.LogP.per_expert.1.std = 0.5316928975970079
+      stats.LogP.per_expert.1.n = 21
+      stats.LogP.per_expert.1.median = 2.2977800000000004
+      stats.LogP.per_expert.2.mean = 3.3970892718591483
+      stats.LogP.per_expert.2.std = 1.2743382891917046
+      stats.LogP.per_expert.2.n = 3351
+      stats.LogP.per_expert.2.median = 3.3946200000000006
+      stats.LogP.per_expert.3.mean = 3.353222915360504
+      stats.LogP.per_expert.3.std = 1.4573289306154416
+      stats.LogP.per_expert.3.n = 319
+      stats.LogP.per_expert.3.median = 3.208400000000001
+      stats.LogP.n_valid = 4200
+      stats.HBA.eta2 = 0.016402411596430015
+      stats.HBD.eta2 = 0.0008180188029011513
+      stats.TPSA.eta2 = 0.023069040576146987
+      stats.RotBonds.eta2 = 0.01916217749585009
+      stats.Rings.eta2 = 0.01687152583870064
+      stats.ArRings.MI = 0.060246846940975256
+      stats.ArRings.F_stat = 143.42735130285186
+      stats.ArRings.p_anova = 1.7806414699206748e-88
+      stats.ArRings.H_stat = 372.8382126936307
+      stats.ArRings.p_kruskal = 1.690718269479045e-80
+      stats.ArRings.eta2 = 0.0930081756569572
+      stats.ArRings.per_expert.0.mean = 1.888015717092338
+      stats.ArRings.per_expert.0.std = 1.154658196963864
+      stats.ArRings.per_expert.0.n = 509
+      stats.ArRings.per_expert.0.median = 2.0
+      stats.ArRings.per_expert.1.mean = 2.761904761904762
+      stats.ArRings.per_expert.1.std = 0.5259695722470125
+      stats.ArRings.per_expert.1.n = 21
+      stats.ArRings.per_expert.1.median = 3.0
+      stats.ArRings.per_expert.2.mean = 2.6848701880035812
+      stats.ArRings.per_expert.2.std = 0.8735687306819314
+      stats.ArRings.per_expert.2.n = 3351
+      stats.ArRings.per_expert.2.median = 3.0
+      stats.ArRings.per_expert.3.mean = 3.128526645768025
+      stats.ArRings.per_expert.3.std = 1.0678111786452913
+      stats.ArRings.per_expert.3.n = 319
+      stats.ArRings.per_expert.3.median = 3.0
+      stats.ArRings.n_valid = 4200
+
+  [2026-06-17 17:18:15] D:\molprop_project\expert_specialization_pgp_broccatelli.json
+      stats.MW.eta2 = 0.023767
+      stats.LogP.eta2 = 0.166777
+      stats.LogP.p_anova = 9.104272600747668e-48
+      stats.LogP.MI = 0.11969583610357545
+      stats.HBA.eta2 = 0.048404
+      stats.HBD.eta2 = 0.046422
+      stats.TPSA.eta2 = 0.05177
+      stats.RotBonds.eta2 = 0.102205
+      stats.RingCount.eta2 = 0.11555
+      stats.ArRings.eta2 = 0.372678
+      stats.ArRings.p_anova = 2.0294614326041457e-122
+      stats.ArRings.MI = 0.2444170769500521
+
+  [2026-06-15 09:52:03] D:\molprop_project\expert_specialization_solubility_aqsoldb.json
+      stats.MW.eta2 = 0.10079079226901122
+      stats.LogP.MI = 0.3900105673843339
+      stats.LogP.F_stat = 1202.9540698622031
+      stats.LogP.p_anova = 0.0
+      stats.LogP.H_stat = 5292.0583760738955
+      stats.LogP.p_kruskal = 0.0
+      stats.LogP.eta2 = 0.3254125964989792
+      stats.LogP.per_expert.1.mean = -0.6848344327731086
+      stats.LogP.per_expert.1.std = 4.303508263595696
+      stats.LogP.per_expert.1.n = 1904
+      stats.LogP.per_expert.1.median = 0.16099999999999984
+      stats.LogP.per_expert.3.mean = 2.73607424050633
+      stats.LogP.per_expert.3.std = 2.2367914420419592
+      stats.LogP.per_expert.3.n = 948
+      stats.LogP.per_expert.3.median = 2.51255
+      stats.LogP.per_expert.5.mean = 4.472336189921353
+      stats.LogP.per_expert.5.std = 3.154207349518443
+      stats.LogP.per_expert.5.n = 3433
+      stats.LogP.per_expert.5.median = 3.7561000000000018
+      stats.LogP.per_expert.6.mean = 0.2991881025641026
+      stats.LogP.per_expert.6.std = 0.9909013679401347
+      stats.LogP.per_expert.6.n = 195
+      stats.LogP.per_expert.6.median = 0.40969999999999995
+      stats.LogP.per_expert.7.mean = 0.8751265542857145
+      stats.LogP.per_expert.7.std = 1.6041831344521242
+      stats.LogP.per_expert.7.n = 3500
+      stats.LogP.per_expert.7.median = 1.083
+      stats.LogP.n_valid = 9980
+      stats.HBA.eta2 = 0.0493950130238591
+      stats.HBD.eta2 = 0.056888279399753446
+      stats.TPSA.eta2 = 0.08681937712266788
+      stats.RotBonds.eta2 = 0.041627904069094536
+      stats.Rings.eta2 = 0.07701544357960476
+      stats.ArRings.MI = 0.10970729168675505
+      stats.ArRings.F_stat = 284.61244520038167
+      stats.ArRings.p_anova = 4.130112832096184e-232
+      stats.ArRings.H_stat = 1291.3893002038544
+      stats.ArRings.p_kruskal = 2.4494903590992304e-278
+      stats.ArRings.eta2 = 0.10243891890060972
+      stats.ArRings.per_expert.1.mean = 0.9789915966386554
+      stats.ArRings.per_expert.1.std = 1.5866366281683246
+      stats.ArRings.per_expert.1.n = 1904
+      stats.ArRings.per_expert.1.median = 0.0
+      stats.ArRings.per_expert.3.mean = 0.9978902953586498
+      stats.ArRings.per_expert.3.std = 0.7420434357493714
+      stats.ArRings.per_expert.3.n = 948
+      stats.ArRings.per_expert.3.median = 1.0
+      stats.ArRings.per_expert.5.mean = 1.5942324497524032
+      stats.ArRings.per_expert.5.std = 1.513678366450235
+      stats.ArRings.per_expert.5.n = 3433
+      stats.ArRings.per_expert.5.median = 2.0
+      stats.ArRings.per_expert.6.mean = 0.041025641025641026
+      stats.ArRings.per_expert.6.std = 0.1983495344186022
+      stats.ArRings.per_expert.6.n = 195
+      stats.ArRings.per_expert.6.median = 0.0
+      stats.ArRings.per_expert.7.mean = 0.6717142857142857
+      stats.ArRings.per_expert.7.std = 0.742928513055061
+      stats.ArRings.per_expert.7.n = 3500
+      stats.ArRings.per_expert.7.median = 1.0
+      stats.ArRings.n_valid = 9980
+
+  [2026-06-15 10:06:25] D:\molprop_project\expert_specialization_SUMMARY.json
+      cross_dataset_eta2.MW[0] = 0.10079079226901122
+      cross_dataset_eta2.MW[1] = 0.10274121396253698
+      cross_dataset_eta2.MW[2] = 0.005822577957680663
+      cross_dataset_eta2.MW[3] = 0.10968117246053515
+      cross_dataset_eta2.LogP[0] = 0.3254125964989792
+      cross_dataset_eta2.LogP[1] = 0.15081938054409066
+      cross_dataset_eta2.LogP[2] = 0.05065877524046224
+      cross_dataset_eta2.LogP[3] = 0.14236517884556013
+      cross_dataset_eta2.HBA[0] = 0.0493950130238591
+      cross_dataset_eta2.HBA[1] = 0.1510339958003502
+      cross_dataset_eta2.HBA[2] = 0.016402411596430015
+      cross_dataset_eta2.HBA[3] = 0.15228950527802004
+      cross_dataset_eta2.HBD[0] = 0.056888279399753446
+      cross_dataset_eta2.HBD[1] = 0.14026164746295405
+      cross_dataset_eta2.HBD[2] = 0.0008180188029011513
+      cross_dataset_eta2.HBD[3] = 0.028566756278606123
+      cross_dataset_eta2.TPSA[0] = 0.08681937712266788
+      cross_dataset_eta2.TPSA[1] = 0.2043163287539131
+      cross_dataset_eta2.TPSA[2] = 0.023069040576146987
+      cross_dataset_eta2.TPSA[3] = 0.104514217128492
+      cross_dataset_eta2.RotBonds[0] = 0.041627904069094536
+      cross_dataset_eta2.RotBonds[1] = 0.12120530642125542
+      cross_dataset_eta2.RotBonds[2] = 0.01916217749585009
+      cross_dataset_eta2.RotBonds[3] = 0.16926708626492792
+      cross_dataset_eta2.Rings[0] = 0.07701544357960476
+      cross_dataset_eta2.Rings[1] = 0.07525384757858923
+      cross_dataset_eta2.Rings[2] = 0.01687152583870064
+      cross_dataset_eta2.Rings[3] = 0.2913514593660499
+      cross_dataset_eta2.ArRings[0] = 0.10243891890060972
+      cross_dataset_eta2.ArRings[1] = 0.3246950213570444
+      cross_dataset_eta2.ArRings[2] = 0.0930081756569572
+      cross_dataset_eta2.ArRings[3] = 0.44479293775545475
+      per_dataset.solubility_aqsoldb.stats.MW.eta2 = 0.10079079226901122
+      per_dataset.solubility_aqsoldb.stats.LogP.eta2 = 0.3254125964989792
+      per_dataset.solubility_aqsoldb.stats.LogP.p_anova = 0.0
+      per_dataset.solubility_aqsoldb.stats.LogP.MI = 0.3900105673843339
+      per_dataset.solubility_aqsoldb.stats.HBA.eta2 = 0.0493950130238591
+      per_dataset.solubility_aqsoldb.stats.HBD.eta2 = 0.056888279399753446
+      per_dataset.solubility_aqsoldb.stats.TPSA.eta2 = 0.08681937712266788
+      per_dataset.solubility_aqsoldb.stats.RotBonds.eta2 = 0.041627904069094536
+      per_dataset.solubility_aqsoldb.stats.Rings.eta2 = 0.07701544357960476
+      per_dataset.solubility_aqsoldb.stats.ArRings.eta2 = 0.10243891890060972
+      per_dataset.solubility_aqsoldb.stats.ArRings.p_anova = 4.130112832096184e-232
+      per_dataset.solubility_aqsoldb.stats.ArRings.MI = 0.10970729168675505
+      per_dataset.caco2_wang.stats.MW.eta2 = 0.10274121396253698
+      per_dataset.caco2_wang.stats.LogP.eta2 = 0.15081938054409066
+      per_dataset.caco2_wang.stats.LogP.p_anova = 5.163291789616064e-31
+      per_dataset.caco2_wang.stats.LogP.MI = 0.11485868919911335
+      per_dataset.caco2_wang.stats.HBA.eta2 = 0.1510339958003502
+      per_dataset.caco2_wang.stats.HBD.eta2 = 0.14026164746295405
+      per_dataset.caco2_wang.stats.TPSA.eta2 = 0.2043163287539131
+      per_dataset.caco2_wang.stats.RotBonds.eta2 = 0.12120530642125542
+      per_dataset.caco2_wang.stats.Rings.eta2 = 0.07525384757858923
+      per_dataset.caco2_wang.stats.ArRings.eta2 = 0.3246950213570444
+      per_dataset.caco2_wang.stats.ArRings.p_anova = 1.0441626966014344e-75
+      per_dataset.caco2_wang.stats.ArRings.MI = 0.24041915215651474
+      per_dataset.lipophilicity_astrazeneca.stats.MW.eta2 = 0.005822577957680663
+      per_dataset.lipophilicity_astrazeneca.stats.LogP.eta2 = 0.05065877524046224
+      per_dataset.lipophilicity_astrazeneca.stats.LogP.p_anova = 5.009088270468066e-47
+      per_dataset.lipophilicity_astrazeneca.stats.LogP.MI = 0.029952138675777513
+      per_dataset.lipophilicity_astrazeneca.stats.HBA.eta2 = 0.016402411596430015
+      per_dataset.lipophilicity_astrazeneca.stats.HBD.eta2 = 0.0008180188029011513
+      per_dataset.lipophilicity_astrazeneca.stats.TPSA.eta2 = 0.023069040576146987
+      per_dataset.lipophilicity_astrazeneca.stats.RotBonds.eta2 = 0.01916217749585009
+      per_dataset.lipophilicity_astrazeneca.stats.Rings.eta2 = 0.01687152583870064
+      per_dataset.lipophilicity_astrazeneca.stats.ArRings.eta2 = 0.0930081756569572
+      per_dataset.lipophilicity_astrazeneca.stats.ArRings.p_anova = 1.7806414699206748e-88
+      per_dataset.lipophilicity_astrazeneca.stats.ArRings.MI = 0.060246846940975256
+      per_dataset.ld50_zhu.stats.MW.eta2 = 0.10968117246053515
+      per_dataset.ld50_zhu.stats.LogP.eta2 = 0.14236517884556013
+      per_dataset.ld50_zhu.stats.LogP.p_anova = 1.2414821625182102e-241
+      per_dataset.ld50_zhu.stats.LogP.MI = 0.09856392760541242
+      per_dataset.ld50_zhu.stats.HBA.eta2 = 0.15228950527802004
+      per_dataset.ld50_zhu.stats.HBD.eta2 = 0.028566756278606123
+      per_dataset.ld50_zhu.stats.TPSA.eta2 = 0.104514217128492
+      per_dataset.ld50_zhu.stats.RotBonds.eta2 = 0.16926708626492792
+      per_dataset.ld50_zhu.stats.Rings.eta2 = 0.2913514593660499
+      per_dataset.ld50_zhu.stats.ArRings.eta2 = 0.44479293775545475
+      per_dataset.ld50_zhu.stats.ArRings.p_anova = 0.0
+      per_dataset.ld50_zhu.stats.ArRings.MI = 0.3153866812085039
+
+  [2026-06-17 17:19:20] D:\molprop_project\expert_specialization_vdss_lombardo.json
+      stats.MW.eta2 = 0.013672
+      stats.LogP.eta2 = 0.071863
+      stats.LogP.p_anova = 4.234628110467613e-18
+      stats.LogP.MI = 0.0689414423630893
+      stats.HBA.eta2 = 0.026612
+      stats.HBD.eta2 = 0.050954
+      stats.TPSA.eta2 = 0.046438
+      stats.RotBonds.eta2 = 0.041429
+      stats.RingCount.eta2 = 0.046953
+      stats.ArRings.eta2 = 0.320025
+      stats.ArRings.p_anova = 7.498893918021013e-94
+      stats.ArRings.MI = 0.2753645050726862
+
+  [2026-06-15 22:17:38] D:\molprop_project\expanded_descriptor_results.json
+      [0].descriptors.LogP.moe = 0.066
+      [0].descriptors.LogP.gcn = 0.1639
+      [0].descriptors.LogP.delta = -0.0979
+      [0].descriptors.ArRings.moe = 0.0748
+      [0].descriptors.ArRings.gcn = 0.4988
+      [0].descriptors.ArRings.delta = -0.424
+      [1].descriptors.LogP.moe = 0.1892
+      [1].descriptors.LogP.gcn = 0.1924
+      [1].descriptors.LogP.delta = -0.0033
+      [1].descriptors.ArRings.moe = 0.1888
+      [1].descriptors.ArRings.gcn = 0.4037
+      [1].descriptors.ArRings.delta = -0.215
+      [2].descriptors.LogP.moe = 0.1369
+      [2].descriptors.LogP.gcn = 0.1134
+      [2].descriptors.LogP.delta = 0.0235
+      [2].descriptors.ArRings.moe = 0.2146
+      [2].descriptors.ArRings.gcn = 0.3821
+      [2].descriptors.ArRings.delta = -0.1675
+      [3].descriptors.LogP.moe = 0.1271
+      [3].descriptors.LogP.gcn = 0.0873
+      [3].descriptors.LogP.delta = 0.0398
+      [3].descriptors.ArRings.moe = 0.4804
+      [3].descriptors.ArRings.gcn = 0.4795
+      [3].descriptors.ArRings.delta = 0.001
+      [4].descriptors.LogP.moe = 0.0932
+      [4].descriptors.LogP.gcn = 0.0684
+      [4].descriptors.LogP.delta = 0.0248
+      [4].descriptors.ArRings.moe = 0.3193
+      [4].descriptors.ArRings.gcn = 0.1852
+      [4].descriptors.ArRings.delta = 0.1341
+
+
+======================================================================
+2.5 (FIXED) — expanded_descriptor_results.json structure + coverage
+======================================================================
+  Top-level type: list
+  List of 5 items
+  First item: {
+  "dataset": "Caco-2",
+  "tdc_name": "caco2_wang",
+  "n_molecules": 910,
+  "n_active_experts": 3,
+  "n_experts": 4,
+  "descriptors": {
+    "LogP": {
+      "moe": 0.066,
+      "gcn": 0.1639,
+      "delta": -0.0979,
+      "win": "GCN"
+    },
+    "MW": {
+      "moe": 0.1245,
+      "gcn": 0.1056,
+      "delta": 0.0189,
+      "win": "MoE \u2713"
+    },
+    "TPSA": {
+      "moe": 0.0875,
+      "gcn": 0.1103,
+      "delta": -0.0228,
+      "win": "GCN"
+    },
+    "HBD": {
+      "moe": 0.0318,
+      "gcn": 0.0732,
+      "delta": -0.0415,
+      "win": "GCN"
+    },
+    "HBA": {
+      "moe": 0.1076,
+      "gcn": 0.0787,
+      "delta": 0.029,
+      "win": "MoE \u2713"
+    },
+    "RotBonds": {
+      "moe": 0.0238,
+      "gcn": 0.1151,
+      "delta": -0.0913,
+      "win": "GCN"
+    },
+    "ArRings": {
+      "moe": 0.0748,
+      "gcn": 0.4988,
+      "delta": -0.424,
+      "win": "GCN"
+    },
+    "RingCount": {
+      "moe": 0.205,
+      "gcn": 0.0882,
+      "delta": 0.1168,
+      "win": "MoE \u2713"
+
+
+======================================================================
+2.2 (continued) — plain GCN (non-MoE) Caco-2 value + literal 0.461 search
+======================================================================
+  results_gcn_tdc.json -> caco2_wang entry:
+  {
+  "mean": 0.4605162388239152,
+  "std": 0.0777815086832664,
+  "seeds": [
+    0.4399562956212641,
+    0.5643799226362627,
+    0.37721249821421865
+  ],
+  "metric": "mae",
+  "best_params": {
+    "hidden": 128,
+    "num_layers": 4,
+    "dropout": 0.008503263215011408,
+    "lr": 0.0007030318770528235,
+    "weight_decay": 6.243118839088453e-05
+  },
+  "time_min": 8.3,
+  "model": "plain_GCN"
+}
+
+  Searching ALL json/txt/csv/md files under project root for literal '0.461' or '0.46' substring...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,0,47,50,22,22,4,4,1,1,40,-18,0.46808511,-1.6363636,0.18181819,88...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....945702,39.361153,179.71288,220.4613,23.654478,0.23015898,15.8797...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,0,39,41,18,18,3,3,1,1,33,-15,0.46153846,-1.6666666,0.16666667,65...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...311,0.0067824074,0.0066777589,0.46591187,43255,104.97761,203.2735...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...085,0.0087356446,0.0074674138,0.46688637,15074,92.767738,165.6456...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...9167347,0.63020831,0.53892666,0.46625,0.33476174,0.20454545,0.087...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...99053997,0.80273682,0.4575077,0.46230179,0.21276596,0.065972224,0...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...374,0.0067499997,0.0074147955,0.46669298,33886,95.021629,178.3266...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...66,1.16,0.86284721,0.74401611,0.46375,0.44230178,0.22619048,0.070...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...843,0.0074798386,0.0078982459,0.46257952,28035,94.294739,176.2568...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,16,3,2,0.66666669,1.5,30,-14,0.46875,-1.8666667,0.13333334,634.6...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...0.638439,8.3917713,0.76264268,0.46834582,0.31895894,0.18839015,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...2228571,0.89930558,0.92113882,0.465,0.44658706,0.22826087,0.07168...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...341,0.0064583332,0.0067664706,0.4625285,41355,103.40071,198.22119...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...50455,234.21622,161,2709,149,50.466694,5.7783947,2.3533034,899,42...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,22,4,3,0.75,1.3333334,41,-19,0.46666667,-1.8095238,0.14285715,77...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...14286,-1.6521739,0.17391305,400.46436,0,0,0,0,0,0,0,400.46436,25....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,8.017704,5.5288925,0.7369805,0.4634569,0.31176686,0.20824143,0.1...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....0177777,1.0347222,0.60816324,0.46354166,0.32048374,0.174375,0.16...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...0236281,0.77522677,0.65810031,0.46249998,0.34221199,0.23170732,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...242,0.0078389831,0.0062220367,0.46325588,28206,89.931572,166.6091...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....6118689,7.4570761,0.76873618,0.46326506,0.31978363,0.19380778,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,16,3,2,0.66666669,1.5,30,-14,0.46875,-1.8666667,0.13333334,650.3...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...4.640656,10.028415,0.75554585,0.46076933,0.31314611,0.1966065,0.1...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...75837,0.075936645,5.1485152,440.46301,36.829334,19.732571,16.1113...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....8316667,1.0244445,0.65886623,0.46963578,0.28722599,0.19031635,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...3229,0.009041924,0.0071871392,0.46358687,22468,90.223511,165.5437...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...3,1.6277778,0.9975,0.75587302,0.46442744,0.41395816,0.24125771,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...11.69401,7.9884048,0.72494668,0.46211693,0.30589399,0.19803616,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...0,0,0,0,0,222,533.02368,264,430.46155,68,27.21619,1.8139535,2.009...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...0890703,0.79255241,0.66994208,0.46719134,0.31394756,0.24390244,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....9208288,6.8706007,0.75902498,0.46776974,0.32519898,0.20421413,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...3541666,0.87755102,0.73090279,0.46438807,0.23938271,0.1694725,0.1...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....0373602,5.6604695,0.73306102,0.4665316,0.30844846,0.2040897,0.13...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...0.139088,6.6858516,0.71889639,0.46203467,0.29832467,0.19616422,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,0,39,41,18,18,3,3,1,1,33,-15,0.46153846,-1.6666666,0.16666667,74...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...333333,2.0625,1.76,0.65972221,0.46938774,0.44444445,0.23834719,0....
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...,0,39,41,18,18,3,3,1,1,33,-15,0.46153846,-1.6666666,0.16666667,67...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ....0177777,1.0347222,0.60816324,0.46354166,0.32048374,0.174375,0.16...
+  [2026-05-21 19:54:35] D:\molprop_project\data\BACE\bace\raw\bace.csv
+      ...0440363,0.74918509,0.69085413,0.46156636,0.33823282,0.17777778,0....
+
+======================================================================
+2.1 (continued) — hyperparameter defaults in MoE-GCN scripts
+======================================================================
+
+  --- D:\molprop_project\moegcn_regr.py [2026-05-25 09:12:43] ---
+      L46: def __init__(self, in_dim, out_dim, num_experts, top_k):
+      L48: self.num_experts = num_experts
+      L49: self.top_k = top_k
+      L52: for _ in range(num_experts)
+      L54: self.gate = nn.Linear(in_dim, num_experts)
+      L58: topk_vals, topk_idx = torch.topk(gate_logits, self.top_k, dim=-1)
+      L62: balance_loss = self.num_experts * (load * load).sum()
+      L70: def __init__(self, in_dim, hidden, num_layers, dropout, num_experts, top_k, num_tasks):
+      L77: self.convs.append(GCNConv(in_dim if i == 0 else hidden, hidden))
+      L78: self.bns.append(nn.BatchNorm1d(hidden))
+      L80: self.moe = MoELayer(hidden, hidden, num_experts, top_k)
+      L81: self.head = nn.Linear(hidden, num_tasks)
+      L167: hidden      = trial.suggest_categorical("hidden", [128, 256])
+      L170: num_experts = trial.suggest_categorical("num_experts", [4, 8, 16])
+      L171: top_k       = trial.suggest_int("top_k", 1, min(4, num_experts))
+      L175: model = MoEGCN(in_dim, hidden, num_layers, dropout, num_experts, top_k, 1).to(DEVICE)
+      L238: best_params["hidden"],
+      L241: best_params["num_experts"],
+      L242: best_params["top_k"],
+
+  --- D:\molprop_project\pharma_moe_gcn.py [2026-06-19 12:18:32] ---

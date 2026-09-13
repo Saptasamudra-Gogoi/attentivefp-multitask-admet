@@ -29,7 +29,7 @@ significant between-expert variation (p<0.001, ANOVA and Kruskal-Wallis).
 The strongest and most consistent effects were observed for
 ArRings (η²=0.093–0.445 across datasets)
 and LogP (η²=0.051–0.325),
-indicating that expert routing spontaneously partitions chemical space along
+indicating that expert routing recovers, rather than creates, physicochemical organization of along
 lipophilicity and aromaticity axes — the same physicochemical dimensions
 emphasized in Lipinski's Rule of 5 — without any explicit chemical supervision.
 This replication across datasets measuring distinct ADMET endpoints confirms

@@ -1,0 +1,205 @@
+
+======================================================================
+2.1 — Scripts that could have produced Table 1's MoE-GCN column
+======================================================================
+  [2026-05-25 21:03:23] D:\molprop_project\moegcn_classif.py
+  [2026-05-25 09:12:43] D:\molprop_project\moegcn_regr.py
+  [2026-06-19 12:18:32] D:\molprop_project\pharma_moe_gcn.py
+  [2026-06-08 20:39:00] D:\molprop_project\run_moegcn_tdc_benchmark.py
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\moegcn_classif.py
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\moegcn_regr.py
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\run_moegcn_tdc_benchmark.py
+
+  --> Open each of these and check num_experts/top_k/hidden defaults
+      against ablation_optuna_results.json's ESOL.moe.best_params
+      (hidden=256, num_layers=3, num_experts=4, top_k=3).
+      If defaults differ, that confirms independent HPO runs.
+
+======================================================================
+2.2 — Every Caco-2 MAE-like value found in JSON results
+======================================================================
+  [2026-06-15 09:52:24] D:\molprop_project\expert_specialization_caco2_wang.json
+      stats.ArRings.eta2 = 0.3246950213570444
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\expert_specialization_caco2_wang.json
+      stats.ArRings.eta2 = 0.3246950213570444
+
+  [2026-06-14 23:02:05] D:\molprop_project\entropy_results\caco2_wang_entropy_summary.json
+      seed_corr_mean = 0.4435688651290328
+      seed_corr_values[0] = 0.36016450876904693
+      seed_corr_values[1] = 0.642059749070838
+      seed_corr_values[2] = 0.41309247269678495
+      seed_corr_values[6] = 0.36466169321248754
+      seed_corr_values[7] = 0.34221122226242684
+      seed_corr_values[9] = 0.4076404567508096
+      test_scores[0] = 0.3601128007029439
+      test_scores[1] = 0.3862907729306064
+      test_scores[2] = 0.344058442901779
+      test_scores[3] = 0.3412403955564394
+      test_scores[4] = 0.36303184844635344
+      test_mean = 0.3589468521076244
+
+
+======================================================================
+2.3 — LogP / aromatic-ring eta2 values across all descriptor files
+======================================================================
+  [2026-06-15 22:17:38] D:\molprop_project\expanded_descriptor_results.json
+
+  [2026-06-17 17:19:18] D:\molprop_project\expert_specialization_ames.json
+
+  [2026-06-17 17:18:18] D:\molprop_project\expert_specialization_bbb_martins.json
+
+  [2026-06-17 17:18:16] D:\molprop_project\expert_specialization_bioavailability_ma.json
+
+  [2026-06-15 09:52:24] D:\molprop_project\expert_specialization_caco2_wang.json
+
+  [2026-06-17 17:19:10] D:\molprop_project\expert_specialization_cyp2c9_substrate_carbonmangels.json
+
+  [2026-06-17 17:19:07] D:\molprop_project\expert_specialization_cyp2c9_veith.json
+
+  [2026-06-17 17:19:08] D:\molprop_project\expert_specialization_cyp2d6_substrate_carbonmangels.json
+
+  [2026-06-17 17:18:35] D:\molprop_project\expert_specialization_cyp2d6_veith.json
+
+  [2026-06-17 17:19:09] D:\molprop_project\expert_specialization_cyp3a4_substrate_carbonmangels.json
+
+  [2026-06-17 17:18:50] D:\molprop_project\expert_specialization_cyp3a4_veith.json
+
+  [2026-06-17 17:19:19] D:\molprop_project\expert_specialization_dili.json
+
+  [2026-06-17 17:19:21] D:\molprop_project\expert_specialization_half_life_obach.json
+
+  [2026-06-17 17:19:11] D:\molprop_project\expert_specialization_herg.json
+
+  [2026-06-17 17:18:14] D:\molprop_project\expert_specialization_hia_hou.json
+
+  [2026-06-15 09:59:58] D:\molprop_project\expert_specialization_ld50_zhu.json
+
+  [2026-06-15 09:54:12] D:\molprop_project\expert_specialization_lipophilicity_astrazeneca.json
+
+  [2026-06-17 17:18:15] D:\molprop_project\expert_specialization_pgp_broccatelli.json
+
+  [2026-06-15 09:52:03] D:\molprop_project\expert_specialization_solubility_aqsoldb.json
+
+  [2026-06-15 10:06:25] D:\molprop_project\expert_specialization_SUMMARY.json
+
+  [2026-06-17 17:19:20] D:\molprop_project\expert_specialization_vdss_lombardo.json
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\expanded_descriptor_results.json
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\expert_specialization_caco2_wang.json
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\expert_specialization_solubility_aqsoldb.json
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\expert_specialization_SUMMARY.json
+
+
+======================================================================
+2.5 — Descriptor coverage in expanded_descriptor_results.json
+======================================================================
+  File: D:\molprop_project\attentivefp-multitask-admet\expanded_descriptor_results.json  [2026-07-22 10:34:12]
+
+======================================================================
+2.6 — TDC per-dataset result files and their dataset coverage
+======================================================================
+  [2026-06-08 19:08:48] D:\molprop_project\results_gcn_tdc.json
+      Datasets covered (22): ['cyp2c9_veith', 'hia_hou', 'pgp_broccatelli', 'bioavailability_ma', 'bbb_martins', 'cyp2d6_veith', 'cyp3a4_veith', 'cyp2d6_substrate_carbonmangels', 'cyp3a4_substrate_carbonmangels', 'cyp2c9_substrate_carbonmangels', 'herg', 'ames', 'dili', 'caco2_wang', 'lipophilicity_astrazeneca', 'solubility_aqsoldb', 'ppbr_az', 'vdss_lombardo', 'half_life_obach', 'clearance_microsome_az', 'clearance_hepatocyte_az', 'ld50_zhu']
+
+  [2026-06-09 08:58:10] D:\molprop_project\results_moegcn_tdc_v2.json
+      Datasets covered (22): ['hia_hou', 'pgp_broccatelli', 'bioavailability_ma', 'bbb_martins', 'cyp2d6_veith', 'cyp3a4_veith', 'cyp2c9_veith', 'cyp2d6_substrate_carbonmangels', 'cyp3a4_substrate_carbonmangels', 'cyp2c9_substrate_carbonmangels', 'herg', 'ames', 'dili', 'caco2_wang', 'lipophilicity_astrazeneca', 'solubility_aqsoldb', 'ppbr_az', 'vdss_lombardo', 'half_life_obach', 'clearance_microsome_az', 'clearance_hepatocyte_az', 'ld50_zhu']
+
+  [2026-05-28 22:51:31] D:\molprop_project\results_tdc.json
+      Datasets covered (22): ['hia_hou', 'pgp_broccatelli', 'bioavailability_ma', 'bbb_martins', 'cyp2d6_veith', 'cyp3a4_veith', 'cyp2c9_veith', 'cyp2d6_substrate_carbonmangels', 'cyp3a4_substrate_carbonmangels', 'cyp2c9_substrate_carbonmangels', 'herg', 'ames', 'dili', 'caco2_wang', 'lipophilicity_astrazeneca', 'solubility_aqsoldb', 'ppbr_az', 'vdss_lombardo', 'half_life_obach', 'clearance_microsome_az', 'clearance_hepatocyte_az', 'ld50_zhu']
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\results_gcn_tdc.json
+      Datasets covered (22): ['cyp2c9_veith', 'hia_hou', 'pgp_broccatelli', 'bioavailability_ma', 'bbb_martins', 'cyp2d6_veith', 'cyp3a4_veith', 'cyp2d6_substrate_carbonmangels', 'cyp3a4_substrate_carbonmangels', 'cyp2c9_substrate_carbonmangels', 'herg', 'ames', 'dili', 'caco2_wang', 'lipophilicity_astrazeneca', 'solubility_aqsoldb', 'ppbr_az', 'vdss_lombardo', 'half_life_obach', 'clearance_microsome_az', 'clearance_hepatocyte_az', 'ld50_zhu']
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\results_moegcn_tdc_v2.json
+      Datasets covered (22): ['hia_hou', 'pgp_broccatelli', 'bioavailability_ma', 'bbb_martins', 'cyp2d6_veith', 'cyp3a4_veith', 'cyp2c9_veith', 'cyp2d6_substrate_carbonmangels', 'cyp3a4_substrate_carbonmangels', 'cyp2c9_substrate_carbonmangels', 'herg', 'ames', 'dili', 'caco2_wang', 'lipophilicity_astrazeneca', 'solubility_aqsoldb', 'ppbr_az', 'vdss_lombardo', 'half_life_obach', 'clearance_microsome_az', 'clearance_hepatocyte_az', 'ld50_zhu']
+
+  [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\results_tdc.json
+      Datasets covered (22): ['hia_hou', 'pgp_broccatelli', 'bioavailability_ma', 'bbb_martins', 'cyp2d6_veith', 'cyp3a4_veith', 'cyp2c9_veith', 'cyp2d6_substrate_carbonmangels', 'cyp3a4_substrate_carbonmangels', 'cyp2c9_substrate_carbonmangels', 'herg', 'ames', 'dili', 'caco2_wang', 'lipophilicity_astrazeneca', 'solubility_aqsoldb', 'ppbr_az', 'vdss_lombardo', 'half_life_obach', 'clearance_microsome_az', 'clearance_hepatocyte_az', 'ld50_zhu']
+
+
+======================================================================
+2.7 — AttentiveFP / GROVER results: any run log, or hardcoded?
+======================================================================
+  AttentiveFP-related files:
+    [2026-05-22 11:03:04] D:\molprop_project\attentivefp_baseline.py
+    [2026-05-27 22:46:35] D:\molprop_project\attentivefp_remaining.py
+    [2026-05-22 12:40:54] D:\molprop_project\moe_attentivefp.py
+    [2026-05-28 03:17:43] D:\molprop_project\results_attentivefp.json
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\attentivefp_baseline.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\attentivefp_remaining.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\moe_attentivefp.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\results_attentivefp.json
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\results\attentivefp_20260522_1333.json
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\results\moe_attentivefp_20260522_1511.json
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\scripts\attentivefp_moe.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\scripts\attentivefp_moe_k2.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\scripts\attentivefp_moe_k8.py
+    [2026-05-22 12:14:06] D:\molprop_project\results\attentivefp_20260522_1333.json
+    [2026-05-22 16:11:08] D:\molprop_project\results\moe_attentivefp_20260522_1511.json
+    [2026-03-29 20:03:56] D:\molprop_project\scripts\attentivefp_moe.py
+    [2026-03-29 20:03:56] D:\molprop_project\scripts\attentivefp_moe_k2.py
+    [2026-03-29 20:03:56] D:\molprop_project\scripts\attentivefp_moe_k8.py
+
+  GROVER-related files:
+    [2026-05-27 16:40:03] D:\molprop_project\grover_results.json
+    [2026-05-27 14:43:12] D:\molprop_project\prepare_grover_data.py
+    [2026-05-27 14:43:12] D:\molprop_project\run_grover.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\grover_results.json
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\prepare_grover_data.py
+    [2026-07-22 10:34:12] D:\molprop_project\attentivefp-multitask-admet\run_grover.py
+    [2026-05-27 14:55:40] D:\molprop_project\grover\run_grover.py
+    [2026-05-27 11:06:46] D:\molprop_project\grover\grover\data\groverdataset.py
+    [2026-05-27 11:06:46] D:\molprop_project\grover\task\grovertrainer.py
+
+  Contents of D:\molprop_project\attentivefp-multitask-admet\grover_results.json:
+  {
+  "BBBP": {
+    "mean": NaN,
+    "std": 0.0,
+    "metric": "roc_auc",
+    "model": "GROVER_base"
+  },
+  "BACE": {
+    "mean": NaN,
+    "std": 0.0,
+    "metric": "roc_auc",
+    "model": "GROVER_base"
+  },
+  "Tox21": {
+    "mean": 0.632629,
+    "std": 0.0,
+    "metric": "roc_auc",
+    "model": "GROVER_base"
+  },
+  "SIDER": {
+    "mean": 0.543949,
+    "std": 0.0,
+    "metric": "roc_auc",
+    "model": "GROVER_base"
+  },
+  "ESOL": {
+    "mean": 2.112066,
+    "std": 0.0,
+    "metric": "rmse",
+    "model": "GROVER_base"
+  },
+  "FreeSolv": {
+    "mean": 4.722061,
+    "std": 0.0,
+    "metric": "rmse",
+    "model": "GROVER_base"
+  },
+  "Lipo": {
+    "mean": 0.938298,
+    "std": 0.0,
+    "metric": "rmse",
+    "model": "GROVER_base"
+  }
+}
+
+
+DONE. Review each section above before drafting anything to Prof. Li.

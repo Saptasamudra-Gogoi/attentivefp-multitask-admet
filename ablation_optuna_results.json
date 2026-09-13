@@ -60,6 +60,25 @@
       },
       "best_val": 1.1221,
       "n_params": 2303745
+    },
+    "plain_gcn": {
+      "label": "Plain GCN (no routing, no MoE)",
+      "mean": 1.1108,
+      "std": 0.0417,
+      "seeds": [
+        1.095,
+        1.0694,
+        1.1679
+      ],
+      "best_params": {
+        "hidden": 256,
+        "num_layers": 3,
+        "dropout": 0.098814075191016,
+        "lr": 0.0004920215431646424,
+        "wd": 1.0786259230156507e-06
+      },
+      "best_val": 1.1733,
+      "n_params": 201729
     }
   },
   "FreeSolv": {
@@ -123,6 +142,25 @@
       },
       "best_val": 3.8565,
       "n_params": 2303745
+    },
+    "plain_gcn": {
+      "label": "Plain GCN (no routing, no MoE)",
+      "mean": 3.0482,
+      "std": 0.0491,
+      "seeds": [
+        3.0489,
+        2.9877,
+        3.1081
+      ],
+      "best_params": {
+        "hidden": 256,
+        "num_layers": 2,
+        "dropout": 0.010354089831086743,
+        "lr": 0.0006158530070603035,
+        "wd": 3.0422411528931607e-06
+      },
+      "best_val": 3.8497,
+      "n_params": 135425
     }
   },
   "Lipo": {
@@ -186,6 +224,25 @@
       },
       "best_val": 0.8214,
       "n_params": 2303745
+    },
+    "plain_gcn": {
+      "label": "Plain GCN (no routing, no MoE)",
+      "mean": 0.7499,
+      "std": 0.0075,
+      "seeds": [
+        0.7507,
+        0.7403,
+        0.7587
+      ],
+      "best_params": {
+        "hidden": 256,
+        "num_layers": 4,
+        "dropout": 0.23547207089584393,
+        "lr": 0.0004504961281697853,
+        "wd": 1.0625600049713473e-06
+      },
+      "best_val": 0.8164,
+      "n_params": 268033
     }
   }
 }

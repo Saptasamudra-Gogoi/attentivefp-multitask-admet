@@ -1,0 +1,7 @@
+lines = open('ablation_routing.py', encoding='utf-8').readlines()
+print("===== LINES 1-45 (imports/config) =====")
+print(''.join(lines[0:45]))
+print("===== LINES 152-335 (scaffold_split, load_tdc_dataset, evaluate, train_and_eval, DATASETS) =====")
+print(''.join(lines[151:335]))
+print("===== LINES 334-420 (main loop) =====")
+print(''.join(lines[333:420]))

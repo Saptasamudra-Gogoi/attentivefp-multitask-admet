@@ -22,9 +22,56 @@ Thumbs.db
 # Project inspection
 project_tree.txt
 project_files.txt
+project_detailed.txt
+project_timeline.txt
+project_scan_results.csv
+project_scan_results.json
+inspect_output.txt
 
 # TensorBoard
 **/events.out.tfevents.*
 
-# Models
+# Models / checkpoints (large binaries, not needed for reproducibility --
+# scripts regenerate them; keep only small result JSONs/NPYs)
 *.ckpt
+*.pt
+checkpoints/
+models/
+baselines/chemprop/
+baselines/gin_gcn_gat/baselines/saved_models/
+temp/chemprop_models/
+
+# Raw / downloaded datasets (regenerable via scripts, huge, and often
+# redistributable-license-restricted -- do not archive with the paper)
+data/
+grover_data/
+tdc_data/
+temp/chemprop_data/
+
+# Embedded repos accidentally nested (not submodules, do not track contents)
+attentivefp-multitask-admet/
+grover/
+
+# Archives / large bundled files
+*.zip
+*.tar.gz
+molprop_v2.tar.gz
+attentivefp-moe-admet-v2.zip
+code_project.zip
+tdc_data/admet_group.zip
+
+# Browser-saved page dumps (accidental save-as into project folder)
+
+# Stray / junk files found during cleanup
+FILE
+python
+rubbish.py
+runner 2.py
+"生气.txt"
+"'"
+
+# Manuscript backup files created during revision (kept locally, not archived)
+*.before_*.bak
+Learning*Claude* 
+*.txt 
+"??.txt" 

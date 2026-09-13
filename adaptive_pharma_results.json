@@ -1,0 +1,41 @@
+{
+  "clearance_microsome_az": {
+    "display": "CL-Microsome",
+    "metric": "spearman",
+    "adaptive_score": 0.4987,
+    "standard_score": 0.5453,
+    "perf_gain_pct": -8.54,
+    "adaptive_eta2": 0.0,
+    "standard_eta2": 0.0024,
+    "spec_impr_pct": -99.96,
+    "mean_alpha": 0.617,
+    "alpha_base": 0.032,
+    "alpha_scale": 1.016
+  },
+  "ppbr_az": {
+    "display": "PPBR",
+    "metric": "mae",
+    "adaptive_score": 9.5861,
+    "standard_score": 9.3836,
+    "perf_gain_pct": -2.16,
+    "adaptive_eta2": 0.0,
+    "standard_eta2": 0.0,
+    "spec_impr_pct": 0.0,
+    "mean_alpha": 0.521,
+    "alpha_base": 0.045,
+    "alpha_scale": 1.014
+  },
+  "hia_hou": {
+    "display": "HIA",
+    "metric": "auroc",
+    "adaptive_score": 0.9451,
+    "standard_score": 0.9473,
+    "perf_gain_pct": -0.23,
+    "adaptive_eta2": 0.256,
+    "standard_eta2": 0.249,
+    "spec_impr_pct": 2.81,
+    "mean_alpha": 0.705,
+    "alpha_base": -0.015,
+    "alpha_scale": 0.981
+  }
+}
