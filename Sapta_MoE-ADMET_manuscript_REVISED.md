@@ -175,7 +175,7 @@ MoleculeNet [3] supplied seven classification datasets (BBBP, BACE, Tox21, ToxCa
 
 ## Declarations
 
-**Availability of data and materials.** All datasets are open-access and publicly available: MoleculeNet (https://moleculenet.org) [3] and the Therapeutics Data Commons ADMET benchmark group (https://tdcommons.ai) [2]. Code, hyperparameter Optuna search logs, dataset split files, routing-analysis scripts, and plotting scripts for every table and figure in this manuscript are available at https://github.com/Saptasamudra-Gogoi/attentivefp-multitask-admet (archived at Zenodo, DOI: 10.5281/zenodo.22162186) under an MIT licence; this repository reproduces every result reported here.
+**Availability of data and materials.** All datasets are open-access and publicly available: MoleculeNet (https://moleculenet.org) [3] and the Therapeutics Data Commons ADMET benchmark group (https://tdcommons.ai) [2]. Code, hyperparameter Optuna search logs, dataset split files, routing-analysis scripts, and plotting scripts for every table and figure in this manuscript are available at https://github.com/Saptasamudra-Gogoi/attentivefp-multitask-admet (archived at Zenodo, DOI: 10.5281/zenodo.22746214) under an MIT licence; this repository reproduces every result reported here.
 
 **Competing interests.** The authors declare no competing interests.
 
