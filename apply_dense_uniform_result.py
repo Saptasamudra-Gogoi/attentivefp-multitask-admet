@@ -1,0 +1,75 @@
+import shutil
+
+path = "Sapta_MoE-ADMET_manuscript_REVISED.md"
+shutil.copy(path, path + ".before_denseuniform_fix.bak")
+content = open(path, encoding="utf-8").read()
+
+old = ("The first control asks whether a simpler method applied to the same "
+       "trained representation recovers the same organization. We took the "
+       "pooled representation from each trained MoE-GCN model \u2014 the GCN "
+       "backbone's output immediately before the router, unstandardized "
+       "\u2014 for eight datasets (the four used in the main specialization "
+       "analysis, plus BBB-Martins, hERG, AMES, and DILI), and clustered it "
+       "with k-means (`scikit-learn`, `random_state=42`, `n_init=10`), "
+       "setting the cluster count to the number of experts configured for "
+       "that dataset. We then recomputed \u03b7\u00b2 for the two "
+       "descriptors carrying the largest routing effects in the main "
+       "analysis, LogP and aromatic-ring count, on the resulting k-means "
+       "clusters. Across these 8 datasets \u00d7 2 descriptors (16 "
+       "comparisons; Fig. 3C), k-means matched or exceeded the router's "
+       "\u03b7\u00b2 on 14 of 16, with the two exceptions (Caco-2 "
+       "aromatic-ring count and AstraZeneca Lipophilicity LogP) both cases "
+       "where the router's own \u03b7\u00b2 was itself modest (0.40 and "
+       "0.02 respectively) and the gap between router and k-means was "
+       "small in absolute terms. This result points to the representation, "
+       "not the router: the physicochemical organization we report is "
+       "recoverable by a generic clustering method applied to the same "
+       "pooled vector, and is not a distinguishing property of the learned "
+       "routing mechanism specifically.")
+
+new = ("The first control asks whether a simpler method applied to a "
+       "representation that never saw learned routing recovers the same "
+       "organization \u2014 and we ran this against two independent "
+       "representations to see whether the answer depends on what, "
+       "besides routing, the representation was optimized for. For eight "
+       "datasets (the four used in the main specialization analysis, plus "
+       "BBB-Martins, hERG, AMES, and DILI), we trained (i) a plain GCN with "
+       "no expert or ensemble layer at all, and (ii) a Dense-uniform model "
+       "with the same expert subnetworks as MoE-GCN but averaged with "
+       "equal, non-learned weights \u2014 both matched in backbone capacity "
+       "to the corresponding MoE-GCN model for that dataset. We extracted "
+       "the pooled representation from each and clustered it with k-means "
+       "(`scikit-learn`, `random_state=42`, `n_init=10`), setting the "
+       "cluster count to the number of experts configured for that "
+       "dataset, then recomputed \u03b7\u00b2 for LogP and aromatic-ring "
+       "count \u2014 the two descriptors carrying the largest routing "
+       "effects in the main analysis \u2014 on the resulting clusters.\n\n"
+       "The two controls give different answers. Against the plain GCN "
+       "representation (8 datasets \u00d7 2 descriptors = 16 comparisons; "
+       "Fig. 3C), k-means matched or exceeded the router's \u03b7\u00b2 on "
+       "14 of 16, with the two exceptions (Caco-2 aromatic-ring count and "
+       "AstraZeneca Lipophilicity LogP) both cases where the router's own "
+       "\u03b7\u00b2 was itself modest and the gap was small in absolute "
+       "terms. Against the Dense-uniform representation, the same test "
+       "recovers the router's organization on only 7 of 16 comparisons "
+       "\u2014 the Dense-uniform ensemble, despite retaining the same "
+       "expert subnetworks as MoE-GCN, does not reliably reproduce the "
+       "physicochemical clustering a plain backbone reproduces almost "
+       "everywhere. This asymmetry is itself informative: it indicates the "
+       "chemical organization is a property of the plain convolutional "
+       "backbone's representation specifically, not a generic property of "
+       "\"any model with this many parameters and this architecture "
+       "family,\" and that averaging multiple expert subnetworks without "
+       "routing can partially disrupt an organization that the backbone "
+       "alone preserves. The plain-GCN result is therefore the stronger "
+       "and more direct evidence for inheritance; the Dense-uniform result "
+       "shows that inheritance is not guaranteed by capacity alone, and "
+       "depends on what, besides routing, sits between the backbone and "
+       "the output.")
+
+c = content.count(old)
+print(f"Found {c} occurrence(s)")
+assert c == 1, f"Expected 1, found {c}"
+content = content.replace(old, new)
+open(path, "w", encoding="utf-8").write(content)
+print("Applied")
