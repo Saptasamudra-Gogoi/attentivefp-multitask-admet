@@ -1,55 +1,82 @@
-# MoE-ADMET
+# Sparse Mixture-of-Experts Routing for Molecular Property Prediction
 
 Code and results for **"Sparse mixture-of-experts routing recovers, rather than creates, physicochemical organization of chemical space for molecular property prediction."**
 
-An architecture-agnostic sparse top-K mixture-of-experts (MoE) plug-in for graph neural network ADMET property prediction, benchmarked across 10 MoleculeNet datasets and the 22-dataset TDC ADMET suite.
+## Summary
 
-## Key findings
+We integrate a sparse top-K mixture-of-experts (MoE) plug-in into graph neural network backbones and evaluate it across 10 MoleculeNet datasets and the 22-dataset TDC ADMET benchmark under matched scaffold splits. Three findings:
 
-- **Predictive accuracy:** the MoE plug-in improves regression accuracy over a plain GCN backbone on 10/12 datasets (Wilcoxon *P* = 0.017, dataset-level), but a **parameter-matched dense ablation shows no significant advantage over routing** — comparable capacity without a router matches it.
-- **Interpretability:** expert assignment aligns with physicochemical descriptors (aromatic-ring count, LogP) never shown to the router, replicating across 3 of 4 datasets. However, **k-means clustering of the same representation recovers this organization at least as strongly** (15/16 comparisons) — the chemical structure lives in the backbone's representation, not uniquely in the routing mechanism.
-- Both null-control results are reported directly rather than omitted; see the manuscript's Discussion for the full reframing.
+1. **Modest, real performance gain on regression, no gain on classification.** MoE-GCN beats plain GCN on 10 of 12 regression datasets (pooled exact sign test, *P* = 0.019), with corrected per-dataset gains of 4.7% (ESOL), 1.7% (FreeSolv, not significant at the per-dataset level), and 3.1% (Lipophilicity) once GCN is given the same hyperparameter search and seed count as MoE-GCN. Classification shows no consistent benefit.
+
+2. **The gain is not uniquely attributable to routing.** A parameter-matched ablation against Dense-uniform, Dense-wide, and a Plain-GCN backbone (all four sharing identical architecture, training protocol, and hyperparameters) shows no configuration significantly outperforms the others — Plain-GCN, with no expert or ensemble machinery at all, wins outright on 2 of 5 datasets.
+
+3. **Expert routing recovers, rather than creates, chemical structure.** Expert assignment aligns with physicochemical descriptors (aromatic ring count, LogP) not explicitly given to the router, replicating across 3 of 4 datasets. Two controls, however, show this organization is not unique to the router: k-means clustering of the same trained representation matches or exceeds the router's effect size on 14 of 16 comparisons, and specialization strength does not predict the size of MoE's performance gain across all 22 TDC datasets (Spearman ρ = 0.019, *P* = 0.934).
+
+## Manuscript
+
+The full manuscript is [`Sapta_MoE-ADMET_manuscript_REVISED.md`](Sapta_MoE-ADMET_manuscript_REVISED.md), including all tables, statistical methods, and supplementary material (S1–S3).
 
 ## Repository structure
 
-```
-├── results_moegcn_regr.json          # MoE-GCN, per-dataset HPO-tuned, MoleculeNet regression
-├── results_moegcn_tdc_v2.json        # MoE-GCN, per-dataset HPO-tuned, TDC (tuned; use this, not results_tdc.json)
-├── results_gcn_tdc.json              # Plain GCN baseline, TDC
-├── ablation_routing_results.json     # Parameter-matched ablation (MoE-GCN / Dense-uniform / Dense-wide)
-├── ablation_optuna_results.json      # Fixed-architecture ablation, HPO reference
-├── expert_specialization_*.json      # Per-dataset η²/MI physicochemical specialization analysis
-├── expert_specialization_SUMMARY.json # Consolidated η²/MI/p-values, all 4 datasets, all 8 descriptors
-├── build_tdc_table_corrected.py      # Rebuilds the 22-dataset TDC table from the correct tuned source
-├── reconcile_table1_table6.py        # Diagnostic: reconciles Table 1 vs Table 6 MoE-GCN provenance
-├── dump_config.py                    # Diagnostic: dumps result-file config/metadata for provenance checks
-├── verify_dmpnn_implementation.py    # Checks whether the DMPNN backbone implements reverse-bond exclusion
-├── quantify_chemical_diversity.py    # Bemis–Murcko scaffold ratio + ECFP4 diversity, all 4 spec. datasets
-├── fix_table7_seed_matching.py       # Recomputes matched-seed (n=3) MoE-GCN vs GCN comparison
-├── grover/                           # GROVER submodule (see note below)
-└── attentivefp-multitask-admet/      # Corrected results subfolder (canonical for a few duplicated files)
-```
+| Path | Contents |
+|---|---|
+| `retrain_and_extract.py` | Trains MoE-GCN across all 22 TDC datasets (Optuna HPO, 5 seeds), extracts routing assignments |
+| `run_gcn_matched.py` | Matched-protocol GCN baseline (same HPO budget, same seeds as MoE-GCN) — corrects the original single-run comparison |
+| `ablation_routing.py` / `ablation_routing_add_plain.py` | Parameter-matched ablation: MoE-GCN vs Dense-uniform vs Dense-wide vs Plain-GCN, fixed hyperparameters, 5 seeds |
+| `kmeans_control.py` / `plain_gcn_kmeans_control.py` | Circularity controls: k-means on the trained MoE representation, and on an independently-trained Plain-GCN representation |
+| `random_partition_null.py` | Random-partition null test for expert specialization η², all 22 datasets × 5 seeds |
+| `lambda_sweep.py` | Load-balancing coefficient sweep (λ ∈ {0, 0.001, 0.01, 0.1, 1.0}) testing whether specialization survives varying regularization strength |
+| `endpoint_correlation_vs_eta2.py` | Tests whether endpoint–descriptor correlation predicts suppressed specialization |
+| `p1_1_p1_2_combined.py` | Benjamini–Hochberg correction, bootstrap 95% CIs, and ω² for all Table 5 statistics |
+| `make_control_figures.py` | Generates the router-vs-k-means and specialization-vs-gain control figures |
+| `*.json` (routing/, entropy_results/, checkpoints not included — regenerate via scripts) | Raw analysis outputs backing every table and figure in the manuscript |
 
-## Reproducing the main results
+## Reproducing the results
 
 ```bash
-conda env create -f environment.yml   # or: conda activate moe_admet if already set up
-python build_tdc_table_corrected.py   # 22-dataset TDC table
-python quantify_chemical_diversity.py # chemical diversity metrics (Table S2)
+conda env create -f environment.yml  # or see requirements below
+conda activate moe_admet
+
+# Train MoE-GCN across all TDC datasets, extract routing
+python retrain_and_extract.py
+
+# Matched-protocol GCN baseline
+python run_gcn_matched.py
+
+# Parameter-matched ablation (MoE-GCN / Dense-uniform / Dense-wide / Plain-GCN)
+python ablation_routing.py
+python ablation_routing_add_plain.py
+
+# Circularity controls
+python plain_gcn_kmeans_control.py
+python random_partition_null.py
+
+# Load-balancing sweep
+python lambda_sweep.py
+
+# Statistical corrections and figures
+python p1_1_p1_2_combined.py
+python make_control_figures.py
 ```
 
-Full training/HPO scripts and Optuna search logs for every table and figure are included; see the manuscript's Methods for the exact protocol (Bemis–Murcko scaffold splits, Optuna TPE, 5 seeds MoleculeNet / 3 seeds TDC).
+Core dependencies: `torch`, `torch_geometric`, `rdkit`, `optuna`, `PyTDC`, `scikit-learn`, `scipy`, `statsmodels`, `matplotlib`.
 
-## Notes on provenance
+## Data
 
-A few result files exist in two places (project root and `attentivefp-multitask-admet/`); where they differ, **the subfolder copy is canonical** (confirmed via file timestamps — the root copy is a pre-correction leftover). `results_tdc.json` at the project root is a stale, untuned run; **use `results_moegcn_tdc_v2.json`** for anything TDC-related.
+- [MoleculeNet](https://moleculenet.org) — ESOL, FreeSolv, Lipophilicity, BBBP, BACE, Tox21, ToxCast, SIDER, ClinTox, HIV
+- [Therapeutics Data Commons (TDC) ADMET Benchmark Group](https://tdcommons.ai) — 22 datasets spanning absorption, distribution, metabolism, excretion, and toxicity
 
-GROVER baseline values in the manuscript are taken from the original published paper (Rong et al., NeurIPS 2020, GROVER-large configuration), not independently reproduced here — no complete GROVER run exists in this repository.
+Both are fetched automatically by the scripts above; no manual download required.
 
 ## Citation
 
-If you use this code, please cite the manuscript (details and DOI in the paper's Declarations section) and the archived release on Zenodo: [DOI: 10.5281/zenodo.22157849](https://doi.org/10.5281/zenodo.22157849) *(update to the latest version DOI after the current release)*.
+If you use this code or build on these findings, please cite the manuscript (citation details to be added on publication) and this repository (archived at Zenodo, DOI: `10.5281/zenodo.22162186` — see Releases for versioned snapshots).
 
 ## License
 
-MIT.
+MIT. See [LICENSE](LICENSE).
+
+## Contact
+
+Saptasamudra Gogoi, College of Life Sciences, Guizhou University.
+Correspondence: Yuquan Li (yvquan.li@gzu.edu.cn), State Key Laboratory of Green Pesticide / College of Computer Science and Technology, Guizhou University.
