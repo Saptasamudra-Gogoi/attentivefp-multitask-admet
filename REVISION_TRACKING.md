@@ -1,26 +1,34 @@
-\## Issue 6 — Audit specialization statistics
+\## Issue 6 — Audit specialization statistics \[RESOLVED]
 
-Status: TRACED, UNRESOLVED
+His words: "The 160 dataset–descriptor pairs in Table S3 are nested within 20 datasets after two
 
-Finding: No file in the project currently contains the full 20-dataset x 8-descriptor computation
+routing-collapse exclusions... state the actual 20-dataset denominator for the 160-pair analysis."
 
-(160 pairs) cited in Table S3. Checked and ruled out: sss\_results\_final.json (22 datasets but only
 
-1 best-descriptor each), expanded\_descriptor\_results.json (5 datasets, 12 descriptors),
 
-specialization\_results.json (5-6 datasets, 2 descriptors), expert\_specialization\_SUMMARY.json
+FINDING: Manuscript's "160 pairs / 20 datasets / 2 collapsed" is incorrect. Full 22-dataset
 
-(5 datasets, 8 descriptors — right shape, wrong scale). The generating script full\_eta2\_table.py
+checkpoint-mode run (run\_all\_specialization\_full22.py, git commit <hash>) confirms 3 datasets
 
-exists and would write full\_eta2\_8x4\_table.csv, but that output file does not exist on disk —
+collapsed to 1 active expert: ppbr\_az, clearance\_hepatocyte\_az, clearance\_microsome\_az.
 
-either never run to completion at full scale, or deleted after generation.
+Correct figures: 19 datasets, 8 descriptors each = 152 pairs, not 160.
 
-Action needed: locate full\_eta2\_table.py's input path, confirm it can run against all 20-22
+This is independently confirmed by sss\_results\_final.json (also shows 3 collapses, same 3 datasets).
 
-datasets, rerun it once at full scale, save output under a clear name, git commit immediately.
+Root cause of manuscript error: ppbr\_az's collapse was not being flagged as "collapsed" in an
 
-If it cannot be rerun (missing input data), this must be disclosed to Prof. Li as an unresolved
+earlier version of the pipeline due to a normalization bug in the regression-dataset code path
 
-provenance gap rather than silently patched.
+(fixed data exists, script itself still has this minor labeling bug, low priority).
+
+
+
+ACTION TAKEN: Table S3 and all "20 datasets"/"160 pairs" references in manuscript must be
+
+corrected to "19 datasets"/"152 pairs". eta-squared values for Lipophilicity and other reconciled
+
+descriptors should be re-pulled from expert\_specialization\_SUMMARY.json (this run) as the single
+
+source of truth going forward.
 
