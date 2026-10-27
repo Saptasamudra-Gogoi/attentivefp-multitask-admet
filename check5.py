@@ -1,0 +1,5 @@
+content = open('expert_specialization_stats.py', encoding='utf-8', errors='replace').read()
+print("Length:", len(content))
+print(content[:800])
+content = open('expert_specialization_stats.py', encoding='utf-8', errors='replace').read()
+print(content[800:2400])

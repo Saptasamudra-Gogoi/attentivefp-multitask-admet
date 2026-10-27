@@ -1,0 +1,11 @@
+{
+  "dataset": "clearance_microsome_az",
+  "n_molecules": 1102,
+  "n_experts_used": 1,
+  "top_k": 2,
+  "collapsed": true,
+  "stats": {},
+  "significant": [],
+  "high_effect": [],
+  "note": "Routing collapsed to 1 expert. No specialization measurable."
+}
