@@ -1,22 +1,34 @@
 # Sparse Mixture-of-Experts Routing for Molecular Property Prediction
 
-Code and results for **"Sparse mixture-of-experts routing recovers, rather than creates, physicochemical organization of chemical space for molecular property prediction."**
+Code and results for **"What does sparse expert routing contribute in molecular property prediction? Learned, frozen and fixed routers compared."**
 
 ## Summary
 
-We integrate a sparse top-K mixture-of-experts (MoE) plug-in into graph neural network backbones and evaluate it across 10 MoleculeNet datasets and the 22-dataset TDC ADMET benchmark under matched scaffold splits. Three findings:
+We add a sparse top-K mixture-of-experts (MoE) layer after GCN pooling and ask what the router actually contributes, using MoleculeNet and the 22-dataset TDC ADMET benchmark under matched scaffold splits. Controls: learned vs frozen random gate (the only K-matched contrast), fixed k-means and fixed random assignment (hard top-1, not K-matched), forced-swap expert tests, and a parameter-matched dense ablation (Dense-uniform, Dense-wide, Plain-GCN).
 
-1. **Modest, real performance gain on regression, no gain on classification.** MoE-GCN beats plain GCN on 10 of 12 regression datasets (pooled exact sign test, *P* = 0.019), with corrected per-dataset gains of 4.7% (ESOL), 1.7% (FreeSolv, not significant at the per-dataset level), and 3.1% (Lipophilicity) once GCN is given the same hyperparameter search and seed count as MoE-GCN. Classification shows no consistent benefit.
-
-2. **The gain is not uniquely attributable to routing.** A parameter-matched ablation against Dense-uniform, Dense-wide, and a Plain-GCN backbone (all four sharing identical architecture, training protocol, and hyperparameters) shows no configuration significantly outperforms the others — Plain-GCN, with no expert or ensemble machinery at all, wins outright on 2 of 5 datasets.
-
-3. **Expert routing recovers, rather than creates, chemical structure.** Expert assignment aligns with physicochemical descriptors (aromatic ring count, LogP) not explicitly given to the router, replicating across 3 of 4 datasets. Two controls, however, show this organization is not unique to the router: k-means clustering of the same trained representation matches or exceeds the router's effect size on 14 of 16 comparisons, and specialization strength does not predict the size of MoE's performance gain across all 22 TDC datasets (Spearman ρ = 0.019, *P* = 0.934).
+1. **Directional but fragile regression gain, none on classification.** MoE-GCN beats matched plain GCN on 10/12 regression datasets (exact sign test P = 0.019); 9/11 after removing duplicated Lipophilicity measurements (P = 0.033); 7/9 excluding collapsed-routing runs (P = 0.090). Matched GCN classification shows no consistent benefit (five matched datasets, sign test P = 0.81).
+2. **The gain is not attributable to routing.** In the dense ablation (n = 5 datasets), relative-RMSE differences vs Dense-uniform (-0.3%, 95% CI [-2.0, +1.5]) and Dense-wide (-0.3%, [-3.3, +2.7]) are indistinguishable from zero; Plain-GCN is competitive.
+3. **Learning the gate gives no demonstrable extra benefit.** At K = 1 the gate receives zero task gradient. At K = 2 on Tox21, aromatic-ring eta-squared is 0.372 (learned) vs 0.286 (frozen random): difference +0.086, 95% CI [-0.015, +0.186] (five seeds), i.e. inconclusive. Specialization strength does not predict gain (Spearman rho = -0.17, 95% CI [-0.60, +0.31]); endpoint-relevant specialization shows rho = 0.43 [0.21, 0.59]. Fixed routing has precedent in language models (Hash Layers; Fan et al.); the contribution here is the molecular setting and descriptor-level analysis.
 
 ## Manuscript
 
-The full manuscript is [`Sapta_MoE-ADMET_manuscript_REVISED.md`](Sapta_MoE-ADMET_manuscript_REVISED.md), including all tables, statistical methods, and supplementary material (S1–S3).
+Current draft: [`paper_v2/manuscript_v2.30_DRAFT.md`](paper_v2/manuscript_v2.30_DRAFT.md). The earlier `Sapta_MoE-ADMET_manuscript_REVISED.md` is superseded and kept for history only; its headline claims (including "recovers, rather than creates" and rho = 0.019) are **no longer supported**.
 
 ## Repository structure
+
+**`paper_v2/`** holds the scripts, saved results and figures for the current manuscript (v2.30); the table below describes the earlier pipeline it builds on.
+
+| Path (`paper_v2/`) | Contents |
+|---|---|
+| `exp1_routing_controls.py`, `analyze_exp1.py` | Learned/frozen/fixed router controls, forced-swap |
+| `exp2_topk_dynamics.py`, `exp2b_frozen_gate.py` | K-sweep gate dynamics, frozen-gate arm |
+| `exp0*_*.py` | Eta-squared across seeds, expert profiles, Tables S1-S3 |
+| `run_gcn_matched_classif.py` | Matched Optuna (30 trials) + 5 seeds GCN classification |
+| `stats_v23.py` | Sign tests, bootstrap CIs, dense-ablation statistics |
+| `make_fig*.py` | Figure scripts |
+| `results/*.json`, `figures/` | Saved outputs behind the tables and figures |
+
+**Earlier pipeline (repo root):**
 
 | Path | Contents |
 |---|---|
@@ -70,7 +82,7 @@ Both are fetched automatically by the scripts above; no manual download required
 
 ## Citation
 
-If you use this code or build on these findings, please cite the manuscript (citation details to be added on publication) and this repository (archived at Zenodo, DOI: `10.5281/zenodo.22162186` — see Releases for versioned snapshots).
+If you use this code or build on these findings, please cite the manuscript (citation details to be added on publication) and this repository (archived at Zenodo, DOI: `10.5281/zenodo.22746900` — see Releases for versioned snapshots).
 
 ## License
 
