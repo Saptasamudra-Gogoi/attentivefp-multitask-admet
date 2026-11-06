@@ -4,7 +4,8 @@ cannot disagree with them. Panels:
   A  MoleculeNet regression, GCN vs MoE-GCN (Table 1), RMSE relative to GCN
   B  EC-MPNN with and without MoE (Results text), RMSE relative to plain EC-MPNN
   C  Dense-baseline ablation (Table 3), RMSE relative to MoE-GCN
-All panels share a zero baseline. Run from paper_v2:   python make_fig4.py manuscript_v2.33_DRAFT.md
+Layout for 17 cm print width (6.7 in), no embedded title (the caption carries it).
+Run from paper_v2:   python make_fig4.py manuscript_v2.33_DRAFT.md
 Writes figures/Fig4_performance_summary.png and .pdf
 """
 import os
@@ -63,40 +64,43 @@ for l in block("**Table 3 |", "**Table 4 |"):
             C[c[0]] = [ms(x) for x in c[1:]]
 assert len(C) == 5 and all(all(v) for v in C.values()), f"Table 3 parse failed: {list(C)}"
 
-fig, ax = plt.subplots(1, 3, figsize=(14, 4.8), gridspec_kw={"width_ratios": [1, 1, 1.5]})
+plt.rcParams.update({"font.size": 7, "axes.titlesize": 8, "axes.labelsize": 7,
+                     "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 6.5,
+                     "axes.linewidth": 0.6})
+fig = plt.figure(figsize=(6.7, 6.3))
+gs = fig.add_gridspec(2, 2, height_ratios=[1, 1], hspace=0.55, wspace=0.32)
+axA, axB, axC = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1]), fig.add_subplot(gs[1, :])
 col = {"gcn": "#9aa5b1", "moe": "#c0392b", "du": "#2e86ab", "dw": "#7fb069", "pl": "#e0a458"}
 w = 0.36
+LAB = dict(fontsize=5.5, rotation=90, color="white", ha="center", va="bottom")
 
 # A
-names = list(A)
-for j, n in enumerate(names):
-    (g, gs), (m, mss) = A[n]
-    ax[0].bar(j - w / 2, 1.0, w, yerr=gs / g, color=col["gcn"], capsize=3, label="GCN" if j == 0 else None)
-    ax[0].bar(j + w / 2, m / g, w, yerr=mss / g, color=col["moe"], capsize=3, label="MoE-GCN" if j == 0 else None)
-    ax[0].text(j - w / 2, 0.02, f"{g:.3f}", ha="center", va="bottom", fontsize=7, rotation=90, color="white")
-    ax[0].text(j + w / 2, 0.02, f"{m:.3f}", ha="center", va="bottom", fontsize=7, rotation=90, color="white")
-ax[0].set_xticks(np.arange(3), names)
-ax[0].set_ylim(0, 1.35)
-ax[0].set_ylabel("RMSE relative to GCN (lower is better)")
-ax[0].set_title("A  MoleculeNet regression", loc="left", fontweight="bold", pad=22)
-ax[0].text(0, 1.03, "3 of the 12 regression datasets in the pooled sign test (P = 0.019, Table 4)",
-           transform=ax[0].transAxes, fontsize=7.5, va="bottom")
-ax[0].legend(frameon=False, loc="upper right")
-ax[0].set_xlabel("Error bars: s.d. over five seeds (Table 1)", fontsize=7)
+for j, n in enumerate(A):
+    (g, gs_), (m, mss) = A[n]
+    axA.bar(j - w / 2, 1.0, w, yerr=gs_ / g, color=col["gcn"], capsize=2, label="GCN" if j == 0 else None)
+    axA.bar(j + w / 2, m / g, w, yerr=mss / g, color=col["moe"], capsize=2, label="MoE-GCN" if j == 0 else None)
+    axA.text(j - w / 2, 0.02, f"{g:.3f}", **LAB)
+    axA.text(j + w / 2, 0.02, f"{m:.3f}", **LAB)
+axA.set_xticks(np.arange(3), list(A))
+axA.set_ylim(0, 1.35)
+axA.set_ylabel("RMSE relative to GCN\n(lower is better)")
+axA.set_title("A  MoleculeNet regression", loc="left", fontweight="bold")
+axA.legend(frameon=False, loc="upper right")
+axA.set_xlabel("Error bars: s.d. over five seeds (Table 1)", fontsize=6)
 
 # B
 for j, n in enumerate(B):
     p, m = B[n]
-    ax[1].bar(j - w / 2, 1.0, w, color=col["gcn"], label="EC-MPNN" if j == 0 else None)
-    ax[1].bar(j + w / 2, m / p, w, color=col["moe"], label="EC-MPNN + MoE" if j == 0 else None)
-    ax[1].text(j - w / 2, 0.02, f"{p:.3f}", ha="center", va="bottom", fontsize=7, rotation=90, color="white")
-    ax[1].text(j + w / 2, 0.02, f"{m:.3f}", ha="center", va="bottom", fontsize=7, rotation=90, color="white")
-ax[1].set_xticks(np.arange(3), list(B))
-ax[1].set_ylim(0, 1.35)
-ax[1].set_ylabel("RMSE relative to plain EC-MPNN")
-ax[1].set_title("B  Cross-architecture transfer", loc="left", fontweight="bold", pad=22)
-ax[1].legend(frameon=False, loc="upper right")
-ax[1].set_xlabel("No s.d. reported for this comparison", fontsize=7)
+    axB.bar(j - w / 2, 1.0, w, color=col["gcn"], label="EC-MPNN" if j == 0 else None)
+    axB.bar(j + w / 2, m / p, w, color=col["moe"], label="EC-MPNN + MoE" if j == 0 else None)
+    axB.text(j - w / 2, 0.02, f"{p:.3f}", **LAB)
+    axB.text(j + w / 2, 0.02, f"{m:.3f}", **LAB)
+axB.set_xticks(np.arange(3), list(B))
+axB.set_ylim(0, 1.35)
+axB.set_ylabel("RMSE relative to plain EC-MPNN")
+axB.set_title("B  Cross-architecture transfer", loc="left", fontweight="bold")
+axB.legend(frameon=False, loc="upper right")
+axB.set_xlabel("No s.d. reported for this comparison", fontsize=6)
 
 # C
 labels = ["MoE-GCN", "Dense-uniform", "Dense-wide", "Plain-GCN"]
@@ -107,21 +111,19 @@ for j, n in enumerate(C):
     for k in range(4):
         mean, sd = C[n][k]
         hatch = "///" if (k == 3 and n in ("Caco-2", "Solubility (AqSolDB)")) else None
-        ax[2].bar(j + (k - 1.5) * w2, mean / base, w2, yerr=sd / base, color=col[ckeys[k]], capsize=2,
-                  hatch=hatch, edgecolor="white" if hatch else None, label=labels[k] if j == 0 else None)
-ax[2].axhline(1.0, color="k", lw=0.6, ls=":")
-ax[2].set_xticks(np.arange(len(C)), [n.replace(" (AqSolDB)", "") for n in C], fontsize=8)
-ax[2].set_ylabel("RMSE relative to MoE-GCN")
-ax[2].set_title("C  Dense-baseline ablation", loc="left", fontweight="bold", pad=22)
-ax[2].set_ylim(0, 1.5)
-ax[2].legend(frameon=False, ncol=2, fontsize=8, loc="upper center")
-ax[2].set_xlabel("Hatched: Plain-GCN split not confirmed to match the other arms; not interpreted", fontsize=7)
+        axC.bar(j + (k - 1.5) * w2, mean / base, w2, yerr=sd / base, color=col[ckeys[k]], capsize=1.5,
+                hatch=hatch, edgecolor="white" if hatch else None, label=labels[k] if j == 0 else None)
+axC.axhline(1.0, color="k", lw=0.6, ls=":")
+axC.set_xticks(np.arange(len(C)), [n.replace(" (AqSolDB)", "") for n in C])
+axC.set_ylabel("RMSE relative to MoE-GCN")
+axC.set_title("C  Dense-baseline ablation", loc="left", fontweight="bold")
+axC.set_ylim(0, 1.5)
+axC.legend(frameon=False, ncol=4, loc="upper center")
+axC.set_xlabel("Hatched: Plain-GCN split not confirmed to match the other arms; not interpreted", fontsize=6)
 
-for a in ax:
+for a in (axA, axB, axC):
     a.spines[["top", "right"]].set_visible(False)
-fig.suptitle("Figure 4 | Performance summary", x=0.01, ha="left", fontweight="bold")
-fig.tight_layout()
 os.makedirs("figures", exist_ok=True)
-fig.savefig("figures/Fig4_performance_summary.png", dpi=300)
-fig.savefig("figures/Fig4_performance_summary.pdf")
+fig.savefig("figures/Fig4_performance_summary.png", dpi=300, bbox_inches="tight")
+fig.savefig("figures/Fig4_performance_summary.pdf", bbox_inches="tight")
 print("wrote figures/Fig4_performance_summary.png and .pdf")
