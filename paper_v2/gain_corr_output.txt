@@ -7,16 +7,16 @@ Gains parsed from Table 2 (percent, + = MoE better):
   clearance_microsome_az             gain  +15.61   top eta2 0.012   mean eta2 0.007
   cyp2c9_substrate_carbonmangels     gain   -1.28   top eta2 0.204   mean eta2 0.099
   cyp2c9_veith                       gain   +0.00   top eta2 0.243   mean eta2 0.093
-  cyp2d6_substrate_carbonmangels     gain   -3.12   top eta2 0.178   mean eta2 0.086
+  cyp2d6_substrate_carbonmangels     gain   -3.24   top eta2 0.178   mean eta2 0.086
   cyp2d6_veith                       gain   -2.34   top eta2 0.205   mean eta2 0.079
   cyp3a4_substrate_carbonmangels     gain   -4.58   top eta2 0.228   mean eta2 0.089
   cyp3a4_veith                       gain   +1.72   top eta2 0.223   mean eta2 0.084
   dili                               gain   -4.32   top eta2 0.408   mean eta2 0.208
   half_life_obach                    gain  -41.99   top eta2 0.270   mean eta2 0.093
-  herg                               gain   -8.97   top eta2 0.270   mean eta2 0.155
+  herg                               gain   -9.10   top eta2 0.270   mean eta2 0.155
   hia_hou                            gain   +1.50   top eta2 0.325   mean eta2 0.261
   ld50_zhu                           gain   +6.31   top eta2 0.393   mean eta2 0.150
-  lipophilicity_astrazeneca          gain   +7.91   top eta2 0.071   mean eta2 0.042
+  lipophilicity_astrazeneca          gain   +8.08   top eta2 0.071   mean eta2 0.042
   pgp_broccatelli                    gain   -0.11   top eta2 0.387   mean eta2 0.204
   solubility_aqsoldb                 gain  +13.17   top eta2 0.267   mean eta2 0.123
   vdss_lombardo                      gain  +10.16   top eta2 0.177   mean eta2 0.050
