@@ -1,0 +1,106 @@
+{
+  "dataset": "ClinTox",
+  "arm": "moe",
+  "protocol": "tuned_once_split0_eval_10_randomized_scaffold",
+  "split_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "test_auc": [
+    0.7856647284260605,
+    0.8202682823295211,
+    0.8832118367385122,
+    0.8526348039215685,
+    0.8191817869234025,
+    0.8571984228473999,
+    0.8206289978678039,
+    0.868370488004113,
+    0.7909186275149453,
+    0.8665433850103016
+  ],
+  "val_auc": [
+    0.9191290318383492,
+    0.9002083403180103,
+    0.8831961216740893,
+    0.9404476418864909,
+    0.9031496541896917,
+    0.845578910912191,
+    0.8512862409921234,
+    0.8936247868712701,
+    0.8345323741007195,
+    0.8403133458218435
+  ],
+  "mean": 0.8364621359583628,
+  "std": 0.03377414391395009,
+  "best_params": {
+    "hidden": 256,
+    "num_layers": 4,
+    "dropout": 0.06370173320348284,
+    "num_experts": 16,
+    "top_k": 3,
+    "lr": 0.0002703616066662003,
+    "weight_decay": 3.823475224675187e-06
+  },
+  "tuning_val_auc": 0.900290677817245,
+  "split_md5": [
+    {
+      "train": "ac53bea4be6278f6d566ddcbe9557d7e",
+      "val": "c6264ae41dd9237a355a2409cdbbaf60",
+      "test": "ce087ef8f856f2a85771368a25337316"
+    },
+    {
+      "train": "74ff35ec5bb977a69838ea651b38cda1",
+      "val": "77af7cfc37090d352b77cd895518315e",
+      "test": "764030a89f84bddda9ea45e479f10c3d"
+    },
+    {
+      "train": "5ee99c6ed125fcf59ed757096eff76b0",
+      "val": "214cf9978f121e058a6a9755d6df9ac6",
+      "test": "61a008ccfe0e65ad088b99aff6f40812"
+    },
+    {
+      "train": "1bd28fa5e471241fca33ec5925f64ea8",
+      "val": "9f4ae78fc4c0d8dfad652eb114129297",
+      "test": "bee7dd79e715c9b1e9155088b629df7b"
+    },
+    {
+      "train": "6f38930f1d7304c4a31519a616b44ab9",
+      "val": "191f87ab63b8f7ba2e1f4d79b4ee8fff",
+      "test": "4a869202c86da0c4e70d2ec34189bd4f"
+    },
+    {
+      "train": "c560611ea72c7e71499cf39b4b91f5dc",
+      "val": "483fcb04958a8ea45a3d674184b015f4",
+      "test": "0b2391d55b8e1c075d6086ec835e8ea4"
+    },
+    {
+      "train": "ad273fad58f37861f3aad9a66e5753d9",
+      "val": "1f00fb0a46a1daf0dc0981d59b65e693",
+      "test": "165d391dbdbe71d9d11d39d11cbfacee"
+    },
+    {
+      "train": "1caf95e3d02565f6e551e35ea5af59c7",
+      "val": "d40fec2bdb6c17e4701272a9a93d66d0",
+      "test": "0ec1b4ffe700f680d1d1474115f3ff41"
+    },
+    {
+      "train": "139977816cd83eb355ae8849ae500d51",
+      "val": "688d125993985764dc6246b94a77cd46",
+      "test": "feb88bbf82753ccfbe574a4630fb1106"
+    },
+    {
+      "train": "7aa49beb638b7b539ebd53c1a481ffb5",
+      "val": "6372672cf3c8d3f2530959e5bc22af22",
+      "test": "7cce9f7e1d2cfd7f2f29820d4e3a1eb3"
+    }
+  ],
+  "time_min": 13.7
+}

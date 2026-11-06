@@ -1,0 +1,104 @@
+{
+  "dataset": "Tox21",
+  "arm": "gcn",
+  "protocol": "tuned_once_split0_eval_10_randomized_scaffold",
+  "split_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "test_auc": [
+    0.7671490379795851,
+    0.8094976930008079,
+    0.7940678908773827,
+    0.7867798989275022,
+    0.8078187075628783,
+    0.7724876899102598,
+    0.778375021754934,
+    0.7986675450548347,
+    0.7817852658257037,
+    0.8097006727793064
+  ],
+  "val_auc": [
+    0.8082283153675202,
+    0.7754392330880501,
+    0.8301282384595923,
+    0.7942206555565295,
+    0.7287208730075977,
+    0.778593794872169,
+    0.7935938697663394,
+    0.7923489041609789,
+    0.805136337442331,
+    0.7844326447808997
+  ],
+  "mean": 0.7906329423673195,
+  "std": 0.01568895326228052,
+  "best_params": {
+    "hidden": 128,
+    "num_layers": 4,
+    "dropout": 0.23253984700833435,
+    "lr": 0.0008699593128513321,
+    "weight_decay": 6.161049539380962e-05
+  },
+  "tuning_val_auc": 0.8129685304122569,
+  "split_md5": [
+    {
+      "train": "d8b92b0541f091fa82d8ffb85a74b993",
+      "val": "d0f9ca7d90b334a1ad9d9c4e5adf2d4c",
+      "test": "ffc55b306e5bd73478d58479d36f7e3d"
+    },
+    {
+      "train": "3b85a23d04860e40f6edb8fa6ef2b5f9",
+      "val": "ee75b98b887c9effdd513f2a1d3f8e28",
+      "test": "6f28310b4a831785fbdb2ccec901ecfb"
+    },
+    {
+      "train": "e4370d2dc666413fbf72441fb681e471",
+      "val": "9a4fce161823ed613f06790fad8eba06",
+      "test": "c7697ddbf2a94e587f4308fc070d55f0"
+    },
+    {
+      "train": "7f973801bcda657427037482cca4e51c",
+      "val": "c21fafcc3283de56603664d15846db55",
+      "test": "b9ec84a8ecd25bb458f5d1e305e66faa"
+    },
+    {
+      "train": "cefff42899dad3cdc3491a909e9dbb2e",
+      "val": "8c6993e05221c4af1efd00a8f1d1c7c6",
+      "test": "036e52d567a85cb430a11317245a4899"
+    },
+    {
+      "train": "b6dc8edf1935a9f7f87ffb16b3f833a3",
+      "val": "65763e6dd365d757c9040c2278de6043",
+      "test": "2a42edcc19851205dc696e360f3bd56c"
+    },
+    {
+      "train": "3904de96734b865b2f54a0110019bd3e",
+      "val": "a79063ae5b1c48c042509fd9e8528b8c",
+      "test": "0be6a6fb310062999d05f88c52acfc33"
+    },
+    {
+      "train": "cd1efbf62595a2032f32e07a2e5592ee",
+      "val": "4ecd1b4abf265fb869e79037f278f805",
+      "test": "1d0a90851ab4cff12cf51833c241aca3"
+    },
+    {
+      "train": "c8dc66df57700ec524b0dfba479a22d6",
+      "val": "f73fe277b9edcf976d17aa77a304b5cd",
+      "test": "64762a8388108ee63e0e801fff49bad8"
+    },
+    {
+      "train": "ab80779a9c33a8fb0d2daf9a4ad055ca",
+      "val": "ed900efad09c85e31884065411e594c1",
+      "test": "c2045248005157196e9e6e7ace3150e9"
+    }
+  ],
+  "time_min": 91.6
+}

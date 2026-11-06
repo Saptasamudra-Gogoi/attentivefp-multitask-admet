@@ -1,0 +1,104 @@
+{
+  "dataset": "ClinTox",
+  "arm": "gcn",
+  "protocol": "tuned_once_split0_eval_10_randomized_scaffold",
+  "split_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "test_auc": [
+    0.7927651865556584,
+    0.7331710595651665,
+    0.8172500501762121,
+    0.8337062175297469,
+    0.823511411459068,
+    0.8447383844842284,
+    0.6337953091684436,
+    0.4906509266049539,
+    0.7523453421298055,
+    0.7111564269710992
+  ],
+  "val_auc": [
+    0.9054220622389633,
+    0.8294211814244418,
+    0.8460690376270412,
+    0.885691446842526,
+    0.8977092239252077,
+    0.8085038363171356,
+    0.712032847326965,
+    0.5293664748508099,
+    0.781374900079936,
+    0.7753556431040362
+  ],
+  "mean": 0.7433090314644383,
+  "std": 0.11048014847653297,
+  "best_params": {
+    "hidden": 128,
+    "num_layers": 4,
+    "dropout": 0.27585579914022773,
+    "lr": 0.00034612764469323635,
+    "weight_decay": 3.17556819316257e-05
+  },
+  "tuning_val_auc": 0.9083827148145257,
+  "split_md5": [
+    {
+      "train": "ac53bea4be6278f6d566ddcbe9557d7e",
+      "val": "c6264ae41dd9237a355a2409cdbbaf60",
+      "test": "ce087ef8f856f2a85771368a25337316"
+    },
+    {
+      "train": "74ff35ec5bb977a69838ea651b38cda1",
+      "val": "77af7cfc37090d352b77cd895518315e",
+      "test": "764030a89f84bddda9ea45e479f10c3d"
+    },
+    {
+      "train": "5ee99c6ed125fcf59ed757096eff76b0",
+      "val": "214cf9978f121e058a6a9755d6df9ac6",
+      "test": "61a008ccfe0e65ad088b99aff6f40812"
+    },
+    {
+      "train": "1bd28fa5e471241fca33ec5925f64ea8",
+      "val": "9f4ae78fc4c0d8dfad652eb114129297",
+      "test": "bee7dd79e715c9b1e9155088b629df7b"
+    },
+    {
+      "train": "6f38930f1d7304c4a31519a616b44ab9",
+      "val": "191f87ab63b8f7ba2e1f4d79b4ee8fff",
+      "test": "4a869202c86da0c4e70d2ec34189bd4f"
+    },
+    {
+      "train": "c560611ea72c7e71499cf39b4b91f5dc",
+      "val": "483fcb04958a8ea45a3d674184b015f4",
+      "test": "0b2391d55b8e1c075d6086ec835e8ea4"
+    },
+    {
+      "train": "ad273fad58f37861f3aad9a66e5753d9",
+      "val": "1f00fb0a46a1daf0dc0981d59b65e693",
+      "test": "165d391dbdbe71d9d11d39d11cbfacee"
+    },
+    {
+      "train": "1caf95e3d02565f6e551e35ea5af59c7",
+      "val": "d40fec2bdb6c17e4701272a9a93d66d0",
+      "test": "0ec1b4ffe700f680d1d1474115f3ff41"
+    },
+    {
+      "train": "139977816cd83eb355ae8849ae500d51",
+      "val": "688d125993985764dc6246b94a77cd46",
+      "test": "feb88bbf82753ccfbe574a4630fb1106"
+    },
+    {
+      "train": "7aa49beb638b7b539ebd53c1a481ffb5",
+      "val": "6372672cf3c8d3f2530959e5bc22af22",
+      "test": "7cce9f7e1d2cfd7f2f29820d4e3a1eb3"
+    }
+  ],
+  "time_min": 15.7
+}
