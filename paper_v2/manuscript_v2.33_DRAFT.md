@@ -250,23 +250,23 @@ Source: `paper_v2/results_randsplit/*.json`, summarized by `run_classif_randspli
 | Dataset | Metric | GCN (n=3) | MoE-GCN (n=3) |
 |---|---|---|---|
 | AMES | AUROC ↑ | 0.841 ± 0.005 | 0.838 ± 0.005 |
-| BBB (Martins) | AUROC ↑ | 0.859 ± 0.002 | 0.857 ± 0.016 |
+| BBB (Martins) | AUROC ↑ | 0.859 ± 0.002 | 0.857 ± 0.015 |
 | Bioavailability (Ma) | AUROC ↑ | 0.597 ± 0.008 | 0.628 ± 0.037 |
 | Caco-2 (Wang) | MAE ↓ | 0.461 ± 0.078 | 0.365 ± 0.016 |
 | Clearance, hepatocyte (AZ) | Spearman ↑ | 0.382 ± 0.001 | 0.335 ± 0.033 |
 | Clearance, microsome (AZ) | Spearman ↑ | 0.474 ± 0.042 | 0.548 ± 0.022 |
 | CYP2C9 substrate (Carbon-Mangels) | AUROC ↑ | 0.626 ± 0.026 | 0.618 ± 0.007 |
 | CYP2C9 (Veith) | AUROC ↑ | 0.875 ± 0.002 | 0.875 ± 0.005 |
-| CYP2D6 substrate (Carbon-Mangels) | AUROC ↑ | 0.802 ± 0.010 | 0.777 ± 0.056 |
+| CYP2D6 substrate (Carbon-Mangels) | AUROC ↑ | 0.802 ± 0.010 | 0.776 ± 0.056 |
 | CYP2D6 (Veith) | AUROC ↑ | 0.853 ± 0.002 | 0.833 ± 0.010 |
 | CYP3A4 substrate (Carbon-Mangels) | AUROC ↑ | 0.590 ± 0.015 | 0.563 ± 0.024 |
 | CYP3A4 (Veith) | AUROC ↑ | 0.874 ± 0.004 | 0.889 ± 0.004 |
 | DILI | AUROC ↑ | 0.949 ± 0.007 | 0.908 ± 0.006 |
 | Half-life (Obach) | Spearman ↑ | 0.312 ± 0.024 | 0.181 ± 0.036 |
-| hERG | AUROC ↑ | 0.736 ± 0.019 | 0.670 ± 0.016 |
+| hERG | AUROC ↑ | 0.736 ± 0.019 | 0.669 ± 0.016 |
 | HIA (Hou) | AUROC ↑ | 0.935 ± 0.020 | 0.949 ± 0.014 |
 | LD50 (Zhu) | MAE ↓ | 0.697 ± 0.008 | 0.653 ± 0.030 |
-| Lipophilicity (AstraZeneca) | MAE ↓ | 0.594 ± 0.007 | 0.547 ± 0.002 |
+| Lipophilicity (AstraZeneca) | MAE ↓ | 0.594 ± 0.007 | 0.546 ± 0.002 |
 | Pgp inhibition (Broccatelli) | AUROC ↑ | 0.888 ± 0.009 | 0.887 ± 0.008 |
 | PPBR (AZ) | MAE ↓ | 9.740 ± 0.340 | 9.459 ± 0.188 |
 | Solubility (AqSolDB) | MAE ↓ | 1.048 ± 0.010 | 0.910 ± 0.017 |
