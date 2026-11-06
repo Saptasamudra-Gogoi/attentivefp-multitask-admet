@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Circle
 plt.rcParams.update({"font.family":"DejaVu Sans"})
 INK="#0b0b0b";SEC="#52514e";LINE="#c3c2b7";BL="#2a78d6";OR="#eb6834";GR="#1baf7a"
-fig,ax=plt.subplots(figsize=(10,4.6),dpi=300);ax.set_xlim(0,100);ax.set_ylim(0,50);ax.axis("off")
+fig,ax=plt.subplots(figsize=(10,5.2),dpi=300);ax.set_xlim(0,100);ax.set_ylim(0,50);ax.axis("off")
 def box(x,y,w,h,txt,fc="#f6f5f1",ec=LINE,fs=8.5,bold=False,tc=INK):
     ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle="round,pad=0.25,rounding_size=1.2",fc=fc,ec=ec,lw=1.1))
     ax.text(x+w/2,y+h/2,txt,ha="center",va="center",fontsize=fs,color=tc,fontweight="bold" if bold else "normal",linespacing=1.35)
