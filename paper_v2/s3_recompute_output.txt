@@ -37,6 +37,11 @@ Dataset classification (active experts per seed):
    mean eta2: ArRings 0.272  LogP 0.149  RingCount 0.178
    pooled Spearman rho = 0.38 (95% CI 0.15 to 0.57, dataset bootstrap, 2000)
 
+Leave-descriptor-out pooled rho (point estimates):
+  ALL (as in v2.31 main analysis): drop ArRings: 0.46   drop RingCount: 0.45   drop ArRings+RingCount: 0.49
+  PRIMARY (collapsed removed): drop ArRings: 0.41   drop RingCount: 0.41   drop ArRings+RingCount: 0.46
+  SENSITIVITY (collapsed + limited removed): drop ArRings: 0.42   drop RingCount: 0.42   drop ArRings+RingCount: 0.47
+
 Regression sign test, 11 datasets (Lipophilicity once): 9 wins, losses = half-life, hepatocyte
   excluding PPBR + microsome (both wins): 7 of 9, one-sided P = 0.090
   excluding PPBR + microsome + hepatocyte (collapse rule above): 7 of 8, one-sided P = 0.035

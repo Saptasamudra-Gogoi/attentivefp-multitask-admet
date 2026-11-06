@@ -58,6 +58,16 @@ for label, keep in SETS.items():
     print(f"   mean eta2: ArRings {means['ArRings']:.3f}  LogP {means['LogP']:.3f}  RingCount {means['RingCount']:.3f}")
     print(f"   pooled Spearman rho = {rho:.2f} (95% CI {lo:.2f} to {hi:.2f}, dataset bootstrap, 2000)\n")
 
+print("Leave-descriptor-out pooled rho (point estimates):")
+for label, keep in SETS.items():
+    s = d[d.dataset.isin(keep)]
+    out = []
+    for drop in (["ArRings"], ["RingCount"], ["ArRings", "RingCount"]):
+        t = s[~s.descriptor.isin(drop)]
+        out.append(f"drop {'+'.join(drop)}: {pooled_rho(t):.2f}")
+    print(f"  {label}: " + "   ".join(out))
+print()
+
 print("Regression sign test, 11 datasets (Lipophilicity once): 9 wins, losses = half-life, hepatocyte")
 print("  excluding PPBR + microsome (both wins): 7 of 9, one-sided P = "
       f"{binomtest(7, 9, 0.5, alternative='greater').pvalue:.3f}")
