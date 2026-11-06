@@ -205,7 +205,7 @@ ADMET, absorption, distribution, metabolism, excretion and toxicity; ANOVA, anal
 
 ## Declarations
 
-**Availability of data and materials.** All datasets are open-access and publicly available: MoleculeNet (https://moleculenet.org) [3] and the Therapeutics Data Commons ADMET benchmark group (https://tdcommons.ai) [2]. Code, hyperparameter Optuna search logs, dataset split files, routing-analysis scripts, and plotting scripts for every table and figure in this manuscript are available at https://github.com/Saptasamudra-Gogoi/attentivefp-multitask-admet (archived at Zenodo, DOI: 10.5281/zenodo.24021592) under an MIT licence; the repository contains the scripts and saved result files underlying the reported analyses.
+**Availability of data and materials.** All datasets are open-access and publicly available: MoleculeNet (https://moleculenet.org) [3] and the Therapeutics Data Commons ADMET benchmark group (https://tdcommons.ai) [2]. Code, hyperparameter Optuna search logs, dataset split files, routing-analysis scripts, and plotting scripts for every table and figure in this manuscript are available at https://github.com/Saptasamudra-Gogoi/attentivefp-multitask-admet (archived at Zenodo, DOI: 10.5281/zenodo.24022421) under an MIT licence; the repository contains the scripts and saved result files underlying the reported analyses.
 
 **Competing interests.** The author declares no competing interests.
 
