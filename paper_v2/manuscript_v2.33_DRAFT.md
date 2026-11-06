@@ -2,12 +2,11 @@
 
 **Authors**
 
-Saptasamudra Gogoi¹, Yuquan Li¹·²·*
+Saptasamudra Gogoi¹·*
 
 ¹College of Life Sciences, Guizhou University, Guiyang 550025, China
-²State Key Laboratory of Green Pesticide / College of Computer Science and Technology, Guizhou University, Guiyang 550025, China
 
-\* Correspondence: yvquan.li@gzu.edu.cn
+\* Correspondence: your.email@example.com
 
 ---
 
@@ -198,7 +197,7 @@ MoleculeNet [3] supplied five classification datasets (BBBP, BACE, Tox21, SIDER,
 
 ### Use of AI tools
 
-Anthropic's Claude (a large language model) assisted with writing and checking analysis scripts, statistical re-computation from saved result files, and editing of the manuscript text. The authors designed the study, ran all experiments, verified the reported numbers against the saved outputs, and take full responsibility for the content.
+Anthropic's Claude (a large language model) assisted with writing and checking analysis scripts, statistical re-computation from saved result files, and editing of the manuscript text. The author designed the study, ran all experiments, verified the reported numbers against the saved outputs, and takes full responsibility for the content.
 
 ## List of abbreviations
 
@@ -210,13 +209,13 @@ ADMET, absorption, distribution, metabolism, excretion and toxicity; ANOVA, anal
 
 **Competing interests.** The authors declare no competing interests.
 
-**Funding.** This research was supported by the National Natural Science Foundation of China (No. 32560689, 32125033, 62162008), the National Key R&D Program of China (2024YFD2001100, 2024YFE0214300), the Central Government Guides Local Science and Technology Development Fund Projects (Qiankehezhongyindi [2023] 001), the Program of Introducing Talents of Discipline to Universities of China (111 Program, D20023), the Natural Science Special Fund of Guizhou University (No. 202409), Guizhou Provincial Science and Technology Projects ([2024]002, CXTD[2023]027), the Guizhou Province Youth Science and Technology Talent Project ([2024]317), and the Guiyang Guian Science and Technology Talent Training Project ([2024]2-15). We thank the Public Big Data Supercomputing Center and State Key Laboratory of Green Pesticide of Guizhou University for providing high-performance computing resources.
+**Funding.** This research received no specific funding.
 
-**Authors' contributions (CRediT taxonomy).** Conceptualization, Methodology, Software, Investigation, Formal analysis, Visualization, Writing – original draft: S.G. Supervision, Writing – review & editing, Project administration: Y.L. All authors discussed the results and approved the manuscript.
+**Authors' contributions (CRediT taxonomy).** Conceptualization, Methodology, Software, Investigation, Formal analysis, Visualization, Writing – original draft, Writing – review & editing: S.G.
 
 **Use of AI tools.** See Methods, Use of AI tools.
 
-**Acknowledgements.** The authors thank the developers of RDKit, PyTorch Geometric, and the Therapeutics Data Commons for making their tools and datasets publicly available.
+**Acknowledgements.** The author thanks the developers of RDKit, PyTorch Geometric, and the Therapeutics Data Commons for making their tools and datasets publicly available.
 
 ---
 
