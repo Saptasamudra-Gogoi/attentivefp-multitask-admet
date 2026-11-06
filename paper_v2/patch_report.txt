@@ -1,0 +1,59 @@
+APPLIED:
+  ok   status block: recompute bullet
+  ok   abstract: classification wording (1)
+  ok   abstract: 21 -> 19 datasets, rho 0.38 (1)
+  ok   abstract: gain rho (1)
+  ok   ten -> eight MoleculeNet datasets (2)
+  ok   datasets paragraph: classification list (1)
+  ok   regression: sign test sentence (1)
+  ok   results: classification paragraph
+  ok   methods: split description (1)
+  ok   methods: randomized split protocol (replaces withdrawn-split bracket) (1)
+  ok   methods: classification GCN clause (1)
+  ok   methods: seed counts (1)
+  ok   table 4: classification-only P (1)
+  ok   table 4: second regression sensitivity row
+  ok   results: 17 of 21 -> 16 of 19 (1)
+  ok   results: S3 pairs (1)
+  ok   results: pooled rho 0.38 (1)
+  ok   results: within-dataset counts (1)
+  ok   results: S3 sensitivity sentence (1)
+  ok   results: gain correlation, 19 datasets (1)
+  ok   results: gain rho (1)
+  ok   results: gain rho, mean eta2 (1)
+  ok   results: with 21 datasets (1)
+  ok   discussion: 17 of 21 (1)
+  ok   methods: S3 analysis dataset set (1)
+  ok   methods: gain analysis dataset set (1)
+  ok   methods: collapse definition paragraph
+  ok   supplement: Table S3 caption
+  ok   limitations: two -> three of five (1)
+  ok   limitations: new caveats
+
+No failures.
+
+LEFTOVER MARKERS to review by hand (line number: start of line):
+  4: [stratified] > - BBBP and BACE GCN/MoE-GCN values (Table 1) and every statement derived from them, including "BACE is the c
+  68: [ToxCast, HIV] The regression trend was not mirrored in classification, where MoE-GCN showed no consistent benefit. On five M
+  92: [17 of 21] On Caco-2 permeability (*n* = 910) aromatic-ring count was the largest effect (?? = 0.32 ? 0.09), with polar s
+  96: [0\.43] We tested a second candidate mechanism: that a descriptor strongly correlated with the prediction endpoint bec
+  133: [17 of 21] Aromatic-ring count and ring count are also the descriptors most directly available to the model from its inpu
+  179: [withdrawn, stratified, ToxCast, HIV] Except for the dense-baseline ablation described below, splits followed three procedures, all based on Bemis?M
+  225: [zenodo, DOI] **Availability of data and materials.** All datasets are open-access and publicly available: MoleculeNet (http
+  241: [stratified, ToxCast, HIV] **Table 1 | The expert plug-in improves regression over a plain graph convolutional backbone but trails a stro
+  251: [ToxCast] | ToxCast | AUROC ? | ?? | 0.647 ? 0.007 | **0.675 ? 0.003** | 0.737? | ?? |
+  254: [HIV] | HIV | AUROC ? | ?? | **0.736 ? 0.007** | 0.715 ? 0.007 | ? | ?? |
+  365: [DOI] [1] DiMasi JA, Grabowski HG, Hansen RW. Innovation in the pharmaceutical industry: new estimates of R&D costs.
+  369: [DOI] [3] Wu Z, Ramsundar B, Feinberg EN, et al. MoleculeNet: a benchmark for molecular machine learning. *Chem Sci.
+  375: [DOI] [6] Yang K, Swanson K, Jin W, et al. Analyzing learned molecular representations for property prediction. *J C
+  377: [DOI] [7] Xiong Z, Wang D, Liu X, et al. Pushing the boundaries of molecular representation for drug discovery with 
+  391: [168, DOI] [14] Sun Y, Lu Y, Li YY, Jing Z, Leung CK, Hu P. MolGraph-xLSTM: a graph-based dual-level xLSTM framework for 
+  393: [DOI] [15] Soares E, Shirasuna V, Brazil EV, Priyadarsini I, Takeda S. Multi-view mixture-of-experts for predicting 
+  395: [DOI] [16] Lipinski CA, Lombardo F, Dominy BW, Feeney PJ. Experimental and computational approaches to estimate solu
+  397: [DOI] [17] Bemis GW, Murcko MA. The properties of known drugs. 1. Molecular frameworks. *J Med Chem.* 1996;39(15):28
+  399: [DOI] [18] Akiba T, Sano S, Yanase T, Ohta T, Koyama M. Optuna: a next-generation hyperparameter optimization framew
+  405: [DOI] [21] Vigan? EL, Iwan M, Colombo E, Ballabio D, Roncaglioni A. Mixture of experts for multitask learning in car
+  407: [DOI] [22] Wu J, Wang J, Wu Z, Zhang S, Deng Y, Kang Y, Cao D, Hsieh C-Y, Hou T. ALipSol: an attention-driven mixtur
+  445: [168, 0\.43] **Table S3 | Endpoint?descriptor correlation versus specialization strength, 19 TDC ADMET datasets with a non-
+
+Wrote manuscript_v2.32_DRAFT.md and table1_classification_v2.32.md
