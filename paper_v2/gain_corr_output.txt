@@ -1,0 +1,35 @@
+Gains parsed from Table 2 (percent, + = MoE better):
+  ames                               gain   -0.36   top eta2 0.574   mean eta2 0.271
+  bbb_martins                        gain   -0.23   top eta2 0.411   mean eta2 0.273
+  bioavailability_ma                 gain   +5.19   top eta2 0.094   mean eta2 0.066
+  caco2_wang                         gain  +20.82   top eta2 0.323   mean eta2 0.177
+  clearance_hepatocyte_az            gain  -12.30   top eta2 0.059   mean eta2 0.029
+  clearance_microsome_az             gain  +15.61   top eta2 0.012   mean eta2 0.007
+  cyp2c9_substrate_carbonmangels     gain   -1.28   top eta2 0.204   mean eta2 0.099
+  cyp2c9_veith                       gain   +0.00   top eta2 0.243   mean eta2 0.093
+  cyp2d6_substrate_carbonmangels     gain   -3.12   top eta2 0.178   mean eta2 0.086
+  cyp2d6_veith                       gain   -2.34   top eta2 0.205   mean eta2 0.079
+  cyp3a4_substrate_carbonmangels     gain   -4.58   top eta2 0.228   mean eta2 0.089
+  cyp3a4_veith                       gain   +1.72   top eta2 0.223   mean eta2 0.084
+  dili                               gain   -4.32   top eta2 0.408   mean eta2 0.208
+  half_life_obach                    gain  -41.99   top eta2 0.270   mean eta2 0.093
+  herg                               gain   -8.97   top eta2 0.270   mean eta2 0.155
+  hia_hou                            gain   +1.50   top eta2 0.325   mean eta2 0.261
+  ld50_zhu                           gain   +6.31   top eta2 0.393   mean eta2 0.150
+  lipophilicity_astrazeneca          gain   +7.91   top eta2 0.071   mean eta2 0.042
+  pgp_broccatelli                    gain   -0.11   top eta2 0.387   mean eta2 0.204
+  solubility_aqsoldb                 gain  +13.17   top eta2 0.267   mean eta2 0.123
+  vdss_lombardo                      gain  +10.16   top eta2 0.177   mean eta2 0.050
+
+== ALL 21 (as in v2.31): 21 datasets
+   largest-descriptor eta2 vs gain: rho = -0.14 (95% CI -0.56 to +0.33, P = 0.56)
+   mean eta2 (8 descriptors) vs gain: rho = -0.13 (95% CI -0.58 to +0.34)
+
+== PRIMARY 19 (collapsed removed): 19 datasets
+   largest-descriptor eta2 vs gain: rho = -0.17 (95% CI -0.57 to +0.27, P = 0.48)
+   mean eta2 (8 descriptors) vs gain: rho = -0.17 (95% CI -0.58 to +0.29)
+
+== SENSITIVITY 18 (collapsed + limited removed): 18 datasets
+   largest-descriptor eta2 vs gain: rho = -0.22 (95% CI -0.61 to +0.25, P = 0.38)
+   mean eta2 (8 descriptors) vs gain: rho = -0.22 (95% CI -0.64 to +0.22)
+
