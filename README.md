@@ -6,7 +6,7 @@ The manuscript is not yet peer reviewed. The numbers in the manuscript are autho
 traces to a script and a result file listed below.
 
 - Manuscript draft: `paper_v2/manuscript_v2.33_DRAFT.md`
-- Archive (Zenodo): DOI to be added after the release is tagged
+- Archive (Zenodo): https://doi.org/10.5281/zenodo.24021592
 - Licence: MIT per the manuscript; confirm a `LICENSE` file is present before release
 
 ## What was found
