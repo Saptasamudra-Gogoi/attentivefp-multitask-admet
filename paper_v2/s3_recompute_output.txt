@@ -1,0 +1,44 @@
+Dataset classification (active experts per seed):
+  ames                               min  9 max 12  
+  bbb_martins                        min 10 max 12  
+  bioavailability_ma                 min  4 max  4  
+  caco2_wang                         min  5 max  8  
+  clearance_hepatocyte_az            min  1 max  2  COLLAPSED
+  clearance_microsome_az             min  1 max  2  COLLAPSED
+  cyp2c9_substrate_carbonmangels     min  2 max 11  limited
+  cyp2c9_veith                       min  4 max  4  
+  cyp2d6_substrate_carbonmangels     min  4 max  5  
+  cyp2d6_veith                       min  4 max  4  
+  cyp3a4_substrate_carbonmangels     min  3 max  4  
+  cyp3a4_veith                       min  4 max  4  
+  dili                               min  6 max 10  
+  half_life_obach                    min  3 max  5  
+  herg                               min  3 max  7  
+  hia_hou                            min  7 max 10  
+  ld50_zhu                           min  5 max  6  
+  lipophilicity_astrazeneca          min  3 max  4  
+  pgp_broccatelli                    min  3 max  4  
+  solubility_aqsoldb                 min  5 max  6  
+  vdss_lombardo                      min  3 max  4  
+  (PPBR: single expert, absent from this file, collapsed)
+
+== ALL (as in v2.31 main analysis): 21 datasets, 168 pairs
+   ArRings largest eta2 on 17 of 21
+   mean eta2: ArRings 0.246  LogP 0.130  RingCount 0.163
+   pooled Spearman rho = 0.43 (95% CI 0.22 to 0.59, dataset bootstrap, 2000)
+
+== PRIMARY (collapsed removed): 19 datasets, 152 pairs
+   ArRings largest eta2 on 16 of 19
+   mean eta2: ArRings 0.268  LogP 0.143  RingCount 0.178
+   pooled Spearman rho = 0.38 (95% CI 0.14 to 0.56, dataset bootstrap, 2000)
+
+== SENSITIVITY (collapsed + limited removed): 18 datasets, 144 pairs
+   ArRings largest eta2 on 15 of 18
+   mean eta2: ArRings 0.272  LogP 0.149  RingCount 0.178
+   pooled Spearman rho = 0.38 (95% CI 0.15 to 0.57, dataset bootstrap, 2000)
+
+Regression sign test, 11 datasets (Lipophilicity once): 9 wins, losses = half-life, hepatocyte
+  excluding PPBR + microsome (both wins): 7 of 9, one-sided P = 0.090
+  excluding PPBR + microsome + hepatocyte (collapse rule above): 7 of 8, one-sided P = 0.035
+  Report BOTH rows. The second applies the single rule, but its P-value was seen
+  before the rule was written down, so do not describe it as pre-specified.
