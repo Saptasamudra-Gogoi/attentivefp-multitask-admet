@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Circle
 plt.rcParams.update({"font.family":"DejaVu Sans"})
 INK="#0b0b0b";SEC="#52514e";LINE="#c3c2b7";BL="#2a78d6";OR="#eb6834";GR="#1baf7a"
-fig,ax=plt.subplots(figsize=(10,5.2),dpi=300);ax.set_xlim(0,100);ax.set_ylim(0,50);ax.axis("off")
+fig,ax=plt.subplots(figsize=(10,5.6),dpi=300);ax.set_xlim(0,100);ax.set_ylim(0,50);ax.axis("off")
 def box(x,y,w,h,txt,fc="#f6f5f1",ec=LINE,fs=8.5,bold=False,tc=INK):
     ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle="round,pad=0.25,rounding_size=1.2",fc=fc,ec=ec,lw=1.1))
     ax.text(x+w/2,y+h/2,txt,ha="center",va="center",fontsize=fs,color=tc,fontweight="bold" if bold else "normal",linespacing=1.35)
@@ -39,5 +39,4 @@ ax.text(67,43.4,"Router input = pooled vector only: no descriptors, scaffold lab
 # balance loss and K=1 note
 ax.text(50,3.4,"Auxiliary load-balance loss:  L = L_task + 0.01 · E Σ (mean w_i)²",fontsize=8,color=SEC,ha="left")
 ax.text(50,0.4,"K = 1: selected weight ≡ 1, so the gate receives no gradient from either loss.",fontsize=8,color=OR,ha="left")
-ax.text(1,48.3,"Fig. 1 | Sparse-MoE plug-in between pooling and the prediction head",fontsize=10,color=INK,ha="left",va="center")
 fig.savefig("Fig1_architecture.png",bbox_inches="tight",facecolor="white");print("ok")
