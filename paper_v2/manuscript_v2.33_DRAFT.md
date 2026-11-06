@@ -6,7 +6,7 @@ Saptasamudra Gogoi¹·*
 
 ¹College of Life Sciences, Guizhou University, Guiyang 550025, China
 
-\* Correspondence: iec.GOGOI@gzu.edu.cn
+\* Corresponding author: Saptasamudra Gogoi (iec.GOGOI@gzu.edu.cn)
 
 ---
 
@@ -68,7 +68,7 @@ No significant difference between sparse routing and the dense alternatives was 
 
 We trained the same MoE-GCN with K = 1, 2 and 4 on Tox21 (classification, four experts) and AstraZeneca Lipophilicity (regression, four experts), three seeds each (five for K = 2 on Tox21), logging expert load, gate-weight norm and validation score every epoch and recomputing η² at the best validation epoch (Fig. 2, Table 5; `exp2_topk_dynamics.py`). With four experts, K = 4 activates every expert with softmax weights, so it is a dense-gating control and not sparse selection; only K = 1 and K = 2 are sparse. On Tox21, K = 1 produced weak, seed-dependent specialization (η² for aromatic rings 0.078 ± 0.044), whereas K = 2 and K = 4 produced much stronger and more consistent effects (0.372 ± 0.072 with five seeds and 0.312 ± 0.068 with three; LogP 0.140 ± 0.050 and 0.173 ± 0.095). Validation AUROC did not improve with K: it was highest at K = 1 (0.771 ± 0.004) and about 0.01 lower at K = 2 and 4 (0.762 ± 0.003 and 0.759 ± 0.001), a difference larger than the seed spread. These are validation scores, not test scores. The Tox21 load curves (Fig. 2, seed 0) differ clearly by K. At K = 1 the load swung between near-zero and about 0.95 on a single expert during roughly the first 20 epochs, then settled with one expert holding about 0.58 of molecules and the others 0.09–0.18; this is the pattern earlier drafts described as an exploration-to-specialization transition. At K = 2 and K = 4 no abrupt transition occurred: all four experts stayed between about 0.2 and 0.35 of the load throughout, with fluctuations damping after about 25 epochs. The earlier transition therefore describes the K = 1 router, whose gate-weight norm had already collapsed to near zero by epoch 3, and not router training in general. The Lipophilicity load curves (Fig. 2, seed 0) show the same K = 1 pattern. Loads swung between near 0 and near 1 on single experts for about the first 38 epochs, then settled abruptly, with one expert holding about 0.65 of molecules, two holding about 0.2 and 0.14 and the fourth near zero; the gate-weight norm had already fallen to zero within about three epochs in every seed, so this settling is not driven by gate learning (we did not test what does drive it). At K = 2 the load oscillated for about 30 epochs and then damped, but only two of four experts ever held a noticeable share of molecules (seed 0: about 0.55 and 0.45, the other two at zero from the start), and across seeds only 2.3 ± 0.6 of four experts were active at the best epoch. At K = 4 all four experts were active and the loads damped gradually (about 0.37, 0.31, 0.18 and 0.14 at the end for seed 0), with the fourth expert starting to take load only after about 20 epochs. Gate-weight norms rose from about 1.2 to 1.4–2.5 at K = 2 and K = 4. That only about two experts carried load at K = 2 is a further reason that η² is small on this dataset, since few groups limit the descriptor contrast.
 
-The gate behaved as the implementation predicts. At K = 1 the gate-weight norm fell from about 1.2 at initialization to 0.25–0.29 after the first epoch and to 0.000 by the end, in every seed of both datasets, whereas at K ≥ 2 it grew (Tox21: 2.14 ± 0.23 and 2.21 ± 0.19 at K = 2 and 4). A plausible mechanism is that Adam (the released code uses `torch.optim.Adam` with coupled L2 weight decay) rescales the small weight-decay gradient, which is the only gradient the K = 1 gate receives, so each weight moves about one learning-rate step per update; we did not test this directly.
+The gate behaved as the implementation predicts. At K = 1 the gate-weight norm fell from about 1.2 at initialization to 0.25–0.29 after the first epoch and to 0.000 by the end, in every seed of both datasets, whereas at K ≥ 2 it grew (Tox21: 2.14 ± 0.22 and 2.21 ± 0.19 at K = 2 and 4). A plausible mechanism is that Adam (the released code uses `torch.optim.Adam` with coupled L2 weight decay) rescales the small weight-decay gradient, which is the only gradient the K = 1 gate receives, so each weight moves about one learning-rate step per update; we did not test this directly.
 
 To ask whether the stronger specialization at K ≥ 2 requires a trained router, we repeated K = 2 on Tox21 with the gate frozen at its random initialization (`--frozen_gate`), for five paired seeds (same seed, split and initialization as the learned arm). Training the gate did not change validation AUROC (learned 0.762 ± 0.003, frozen 0.762 ± 0.004; paired difference −0.001, 95% CI −0.009 to +0.008, *P* = 0.81). Descriptor effects were higher with the learned gate on average but not significantly so: aromatic rings 0.372 ± 0.072 versus 0.286 ± 0.110 (paired difference +0.086, 95% CI −0.015 to +0.186, *P* = 0.078; higher in 4 of 5 seeds) and LogP 0.140 ± 0.050 versus 0.095 ± 0.042 (+0.045, −0.002 to +0.093, *P* = 0.058; higher in 5 of 5 seeds but by 0.004 in one). The six remaining descriptors differed by at most 0.04 with intervals spanning zero (uncorrected *P* ≥ 0.28). A frozen random gate therefore reproduced about three quarters of the aromatic-ring effect, so substantial descriptor association emerges without optimizing the gate (the trainable backbone may have adapted to the fixed gate), and training the gate adds at most a modest, inconsistent increment that five seeds cannot resolve. Cross-seed partition agreement was low for both arms (mean pairwise adjusted Rand index 0.26 learned, 0.20 frozen; no test was run on this difference). Freezing the gate does not freeze the backbone, which can adapt to the fixed assignment; the contrast therefore isolates the value of training the gate parameters, not of routing-dependent learning as a whole. On Lipophilicity, specialization remained small at every K (aromatic rings 0.051 ± 0.034, 0.033 ± 0.003 and 0.038 ± 0.014 for K = 1, 2, 4), so the weak effect on that dataset is not explained by the K = 1 router.
 
@@ -111,7 +111,7 @@ Sparse mixture-of-experts models are often motivated by the widely hypothesized 
 
 ### Descriptor separation does not require a trained router
 
-We used three controls to ask what the router contributes to the chemical organization of experts. First, a frozen random gate at K = 2 on Tox21 reproduced about 70–77% of the learned router's η² for LogP and aromatic rings with indistinguishable validation AUROC; the learned router was higher on average, but the paired differences were not significant with five seeds (Table 5). Second, on four regression datasets a frozen gate, the other K-matched contrast, showed no consistent test-error difference from the learned router (Table 8); fixed k-means routing on eight descriptors (hard top-1, so not K-matched) performed comparably, and is a secondary architectural control rather than a test of router learning. Third, forced-swap tests found only weak functional specialization in either arm (error ratios 1.0–1.4, Table 8). Fixed random assignment (also hard top-1) was worse than learned routing, but because it differs in K and utilization as well, we do not read that as isolating molecule dependence. The primary evidence on router training is the learned-versus-frozen contrast, which detected no consistent accuracy benefit from training the router under the tested conditions.
+We used three controls to ask what the router contributes to the chemical organization of experts. First, a frozen random gate at K = 2 on Tox21 reproduced about 68–77% of the learned router's η² for LogP and aromatic rings with indistinguishable validation AUROC; the learned router was higher on average, but the paired differences were not significant with five seeds (Table 5). Second, on four regression datasets a frozen gate, the other K-matched contrast, showed no consistent test-error difference from the learned router (Table 8); fixed k-means routing on eight descriptors (hard top-1, so not K-matched) performed comparably, and is a secondary architectural control rather than a test of router learning. Third, forced-swap tests found only weak functional specialization in either arm (error ratios 1.0–1.4, Table 8). Fixed random assignment (also hard top-1) was worse than learned routing, but because it differs in K and utilization as well, we do not read that as isolating molecule dependence. The primary evidence on router training is the learned-versus-frozen contrast, which detected no consistent accuracy benefit from training the router under the tested conditions.
 
 We also asked whether stronger specialization is associated with larger predictive benefit. For the 19 TDC ADMET datasets with a non-collapsed router we took the largest single-descriptor η² (mean over five seeds, Table S3) and correlated it with MoE-GCN's percentage gain over plain GCN (RMSE or MAE reduction, or Spearman/AUROC increase, as reported per dataset; the gains mix metrics and are therefore only a rough common scale). Spearman ρ was −0.17 (95% CI −0.57 to 0.27, bootstrap over datasets; *P* = 0.48), and using the mean η² over the eight descriptors gave −0.17 (−0.58 to 0.29; including the two collapsed clearance sets, −0.14, −0.56 to 0.33, 21 datasets; also excluding CYP2C9 substrate, −0.22, −0.61 to 0.25, 18 datasets). The interval is wide, so a moderate association in either direction cannot be excluded with 19 datasets, but there is no sign that datasets with stronger descriptor association gain more. An earlier version of this analysis used a composite score discounted by routing entropy; because load balancing pushes entropy up and uniform expert usage is not weak specialization, we replaced it with the descriptor effect alone.
 
@@ -313,7 +313,7 @@ Source: `paper_v2/results_randsplit/*.json`, summarized by `run_classif_randspli
 | Dataset | Arm | K | Validation score | η² LogP | η² ArRings | Gate norm (end) |
 |---|---|---|---|---|---|---|
 | Tox21 | Learned | 1 | 0.771 ± 0.004 | 0.073 ± 0.076 | 0.078 ± 0.044 | 0.000 |
-| Tox21 | Learned | 2 | 0.762 ± 0.003 | 0.140 ± 0.050 | 0.372 ± 0.072 | 2.14 ± 0.23 |
+| Tox21 | Learned | 2 | 0.762 ± 0.003 | 0.140 ± 0.050 | 0.372 ± 0.072 | 2.14 ± 0.22 |
 | Tox21 | Learned | 4 | 0.759 ± 0.001 | 0.173 ± 0.095 | 0.312 ± 0.068 | 2.21 ± 0.19 |
 | Tox21 | Frozen gate | 2 | 0.762 ± 0.004 | 0.095 ± 0.042 | 0.286 ± 0.110 | (constant) |
 | Lipophilicity | Learned | 1 | 0.538 ± 0.007 | 0.015 ± 0.007 | 0.051 ± 0.034 | 0.000 |
@@ -339,7 +339,7 @@ Source: `paper_v2/results_randsplit/*.json`, summarized by `run_classif_randspli
 
 | Expert | n | MW | LogP | TPSA | HBD | HBA | ArRings | Descriptive label |
 |---|---|---|---|---|---|---|---|---|
-| E5 | 3,111 | 322.8 | 4.47 | 48.5 | 0.73 | 3.07 | 1.67 | Lipophilic, aromatic |
+| E5 | 3,111 | 322.7 | 4.47 | 48.5 | 0.73 | 3.07 | 1.67 | Lipophilic, aromatic |
 | E7 | 2,447 | 199.4 | 0.39 | 71.9 | 1.64 | 3.67 | 0.59 | Small, polar-ish, few aromatic rings |
 | E1 | 1,912 | 326.7 | −0.32 | 95.5 | 1.41 | 4.99 | 1.19 | Hydrophilic, high polar surface area |
 | E3 | 1,257 | 250.5 | 2.02 | 59.6 | 0.86 | 3.23 | 1.19 | Intermediate |
@@ -350,10 +350,10 @@ Source: `paper_v2/results_randsplit/*.json`, summarized by `run_classif_randspli
 
 | Dataset (K, E, seeds) | Learned | Frozen gate | Fixed k-means | Fixed random | Δ vs frozen (*P*) | Δ vs k-means (*P*) | Δ vs random (*P*) | Swap: learned | Swap: frozen |
 |---|---|---|---|---|---|---|---|---|---|
-| Caco-2 (4, 16, 5) | 0.373 ± 0.038 | 0.375 ± 0.051 | 0.406 ± 0.029 | 0.459 ± 0.030 | -0.002 (0.886) | -0.034 (0.234) | -0.086 (0.008) | 1.17 ± 0.12 | 1.13 ± 0.23 |
-| Solubility (3, 8, 5) | 0.906 ± 0.046 | 0.902 ± 0.050 | 0.887 ± 0.012 | 0.935 ± 0.018 | +0.005 (0.838) | +0.019 (0.385) | -0.029 (0.133) | 1.38 ± 0.16 | 1.19 ± 0.08 |
-| LD50 (2, 16, 3) | 0.651 ± 0.014 | 0.651 ± 0.014 | 0.663 ± 0.028 | 0.725 ± 0.012 | -0.001 (0.027) | -0.013 (0.325) | -0.074 (0.030) | 1.25 ± 0.05 | 1.31 ± 0.06 |
-| Lipophilicity (1, 4, 5) | 0.544 ± 0.024 | 0.538 ± 0.008 | 0.575 ± 0.010 | 0.593 ± 0.025 | +0.007 (0.608) | -0.030 (0.059) | -0.049 (0.007) | 0.99 ± 0.01 | 1.09 ± 0.05 |
+| Caco-2 (4, 16, 5) | 0.373 ± 0.038 | 0.375 ± 0.051 | 0.406 ± 0.029 | 0.459 ± 0.030 | −0.002 (0.886) | −0.034 (0.234) | −0.086 (0.008) | 1.17 ± 0.12 | 1.13 ± 0.23 |
+| Solubility (3, 8, 5) | 0.906 ± 0.046 | 0.902 ± 0.050 | 0.887 ± 0.012 | 0.935 ± 0.018 | +0.005 (0.838) | +0.019 (0.385) | −0.029 (0.133) | 1.38 ± 0.16 | 1.19 ± 0.08 |
+| LD50 (2, 16, 3) | 0.651 ± 0.014 | 0.651 ± 0.014 | 0.663 ± 0.028 | 0.725 ± 0.012 | −0.001 (0.027) | −0.013 (0.325) | −0.074 (0.030) | 1.25 ± 0.05 | 1.31 ± 0.06 |
+| Lipophilicity (1, 4, 5) | 0.544 ± 0.024 | 0.538 ± 0.008 | 0.575 ± 0.010 | 0.593 ± 0.025 | +0.007 (0.608) | −0.030 (0.059) | −0.049 (0.007) | 0.99 ± 0.01 | 1.09 ± 0.05 |
 
 
 ---
@@ -412,18 +412,18 @@ Source: `paper_v2/results_randsplit/*.json`, summarized by `run_classif_randspli
 
 ## Supplementary material
 
-**Table S1 | Mutual information between dominant expert assignment and each physicochemical descriptor, all four datasets.** MI (bits, discretized descriptor bins) — companion to Table 6's η² values, from the same analysis (Methods). Values sourced directly from `expert_specialization_SUMMARY.json`, not recomputed for this table.
+**Table S1 | Mutual information between dominant expert assignment and each physicochemical descriptor, all four datasets.** MI (bits, discretized descriptor bins) — companion to Table 6's η² values, from the same analysis (Methods). Values are from `tableS1_S3.json` (`exp0c_tableS1_S3_all_datasets.py`), computed from the same five-seed routing analysis as Table 6.
 
 | Descriptor | Solubility MI | Caco-2 MI | LD50 MI | Lipophilicity MI |
 |---|---|---|---|---|
-| Molecular weight | 0.144 | 0.109 | 0.123 | 0.015 |
-| LogP (lipophilicity) | 0.390 | 0.115 | 0.099 | 0.030 |
-| H-bond acceptors | 0.071 | 0.124 | 0.135 | 0.013 |
-| H-bond donors | 0.042 | 0.111 | 0.025 | 0.005 |
-| Polar surface area | 0.089 | 0.200 | 0.106 | 0.020 |
-| Rotatable bonds | 0.050 | 0.151 | 0.109 | 0.017 |
-| Ring count | 0.129 | 0.113 | 0.234 | 0.016 |
-| Aromatic rings | 0.110 | 0.240 | 0.315 | 0.060 |
+| Molecular weight | 0.159 | 0.153 | 0.122 | 0.045 |
+| LogP (lipophilicity) | 0.318 | 0.141 | 0.099 | 0.016 |
+| H-bond acceptors | 0.102 | 0.177 | 0.093 | 0.043 |
+| H-bond donors | 0.043 | 0.111 | 0.032 | 0.009 |
+| Polar surface area | 0.100 | 0.188 | 0.085 | 0.026 |
+| Rotatable bonds | 0.069 | 0.167 | 0.048 | 0.040 |
+| Ring count | 0.162 | 0.158 | 0.220 | 0.025 |
+| Aromatic rings | 0.202 | 0.239 | 0.261 | 0.030 |
 
 ---
 
