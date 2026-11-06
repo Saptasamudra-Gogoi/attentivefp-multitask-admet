@@ -6,7 +6,7 @@ Saptasamudra Gogoi¹·*
 
 ¹College of Life Sciences, Guizhou University, Guiyang 550025, China
 
-\* Correspondence: your.email@example.com
+\* Correspondence: iec.GOGOI@gzu.edu.cn
 
 ---
 
@@ -207,7 +207,7 @@ ADMET, absorption, distribution, metabolism, excretion and toxicity; ANOVA, anal
 
 **Availability of data and materials.** All datasets are open-access and publicly available: MoleculeNet (https://moleculenet.org) [3] and the Therapeutics Data Commons ADMET benchmark group (https://tdcommons.ai) [2]. Code, hyperparameter Optuna search logs, dataset split files, routing-analysis scripts, and plotting scripts for every table and figure in this manuscript are available at https://github.com/Saptasamudra-Gogoi/attentivefp-multitask-admet (archived at Zenodo, DOI: 10.5281/zenodo.24021592) under an MIT licence; the repository contains the scripts and saved result files underlying the reported analyses.
 
-**Competing interests.** The authors declare no competing interests.
+**Competing interests.** The author declares no competing interests.
 
 **Funding.** This research received no specific funding.
 
@@ -327,7 +327,7 @@ Source: `paper_v2/results_randsplit/*.json`, summarized by `run_classif_randspli
 | Ring count | 0.113 ± 0.059 | 0.152 ± 0.091 | 0.278 ± 0.045 | 0.034 ± 0.028 | 0.144 |
 
 
-**Table 7 | Experts acquire distinct physicochemical profiles without supervision.** Mean descriptor values over molecules assigned to each dominant (top-1 routed) expert, aqueous solubility dataset (AqSolDB, *n* = 9,980), MoE-GCN seed 0, experts with ≥ 30 molecules (all five active experts; `exp0b_expert_profiles.py`). MW, molecular weight; TPSA, topological polar surface area; HBD/HBA, hydrogen-bond donors/acceptors; ArRings, aromatic rings. The right-hand column is a descriptive label chosen by the authors from the means; it is not a model output. Expert identities differ between seeds (Fig. 3B, Table S1).
+**Table 7 | Experts acquire distinct physicochemical profiles without supervision.** Mean descriptor values over molecules assigned to each dominant (top-1 routed) expert, aqueous solubility dataset (AqSolDB, *n* = 9,980), MoE-GCN seed 0, experts with ≥ 30 molecules (all five active experts; `exp0b_expert_profiles.py`). MW, molecular weight; TPSA, topological polar surface area; HBD/HBA, hydrogen-bond donors/acceptors; ArRings, aromatic rings. The right-hand column is a descriptive label chosen by the author from the means; it is not a model output. Expert identities differ between seeds (Fig. 3B, Table S1).
 
 | Expert | n | MW | LogP | TPSA | HBD | HBA | ArRings | Descriptive label |
 |---|---|---|---|---|---|---|---|---|
