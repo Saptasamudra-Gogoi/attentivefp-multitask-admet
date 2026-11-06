@@ -1,0 +1,23 @@
+APPLIED:
+  ok   banner: removed 15 leading blockquote lines
+  ok   table 1: dropped 7 classification rows (expected 7)
+  ok   cross-reference to Table 1b: 1 (expected 1)
+
+No failures.
+
+LEFTOVER MARKERS:
+  50: [Table 1\b(?!b)] If sparse routing captures meaningful heterogeneity within chemical space, its benefits should appear pre
+  52: [ToxCast, \bHIV\b] The regression trend was not mirrored in classification, where MoE-GCN showed no consistent benefit. On f
+  54: [Table 1\b(?!b)] Two further comparisons bound the practical value of the gain. Against a stronger attention-based backbon
+  76: [17 of 21] On Caco-2 permeability (*n* = 910) aromatic-ring count was the largest effect (?? = 0.32 ? 0.09), with po
+  85: [pending] Expert labels are arbitrary across training runs, so we compared partitions of the same molecules across 
+  107: [Table 1\b(?!b)] Sparse mixture-of-experts models are often motivated by the widely hypothesized advantage that heterogene
+  117: [17 of 21] Aromatic-ring count and ring count are also the descriptors most directly available to the model from its
+  163: [withdrawn, stratified, ToxCast, \bHIV\b, Table 1\b(?!b)] Except for the dense-baseline ablation described below, splits followed three procedures, all based on Be
+  191: [Table 1\b(?!b)] All significance testing in this study follows a single consolidated protocol, reported here rather than 
+  225: [Table 1\b(?!b)] **Table 1 | The expert plug-in improves regression over a plain graph convolutional backbone but trails a
+  236: [ToxCast, \bHIV\b] AUROC (mean ? s.d. over ten randomized scaffold splits, split seeds 0?9; both models tuned once on split 
+  276: [Table 1\b(?!b)] **Table 3 | Dense-baseline ablation: MoE-GCN versus non-routed dense baselines (Dense-uniform parameter-m
+  446: [Table 1\b(?!b)] - **Fig. 4 | Performance summary.** Three panels sharing one figure: (A) MoleculeNet regression, GCN vers
+
+Wrote manuscript_v2.33_DRAFT.md
