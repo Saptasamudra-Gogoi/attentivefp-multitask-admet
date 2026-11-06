@@ -87,7 +87,7 @@ benchmark group (https://tdcommons.ai). No proprietary data are used.
 ## Environment
 
 `environment.yml` records the conda environment used (Python, PyTorch, PyTorch Geometric, RDKit, Optuna).
-Experiments were run on a single NVIDIA GTX 1660 Ti (6 GB).
+Experiments were run on a single NVIDIA GTX 1660 Ti (6 GB). The environment file was exported on Windows (win-64) and may need its pins loosened on other platforms.
 
 ```
 conda env create -f environment.yml
