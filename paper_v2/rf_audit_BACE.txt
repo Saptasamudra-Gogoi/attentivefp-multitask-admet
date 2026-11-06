@@ -1,0 +1,26 @@
+BACE: 1513 molecules
+  seed  0: 1210/151/152  scaffolds=671  invalid=0  train=0.456  val=0.457  test=0.461  -> rf_tmp\BACE_seed0.json
+           RF test AUC: 0.8462
+  seed  1: 1210/151/152  scaffolds=671  invalid=0  train=0.470  val=0.391  test=0.414  -> rf_tmp\BACE_seed1.json
+           RF test AUC: 0.8872
+  seed  2: 1210/151/152  scaffolds=671  invalid=0  train=0.479  val=0.338  test=0.395  -> rf_tmp\BACE_seed2.json
+           RF test AUC: 0.9432
+  seed  3: 1210/151/152  scaffolds=671  invalid=0  train=0.435  val=0.609  test=0.480  -> rf_tmp\BACE_seed3.json
+           RF test AUC: 0.9200
+  seed  4: 1210/151/152  scaffolds=671  invalid=0  train=0.461  val=0.530  test=0.349  -> rf_tmp\BACE_seed4.json
+           RF test AUC: 0.9290
+  seed  5: 1210/151/152  scaffolds=671  invalid=0  train=0.450  val=0.523  test=0.447  -> rf_tmp\BACE_seed5.json
+           RF test AUC: 0.8877
+  seed  6: 1210/151/152  scaffolds=671  invalid=0  train=0.451  val=0.450  test=0.507  -> rf_tmp\BACE_seed6.json
+           RF test AUC: 0.8274
+  seed  7: 1210/151/152  scaffolds=671  invalid=0  train=0.441  val=0.530  test=0.507  -> rf_tmp\BACE_seed7.json
+           RF test AUC: 0.8852
+  seed  8: 1210/151/152  scaffolds=671  invalid=0  train=0.478  val=0.430  test=0.316  -> rf_tmp\BACE_seed8.json
+           RF test AUC: 0.7936
+  seed  9: 1210/151/152  scaffolds=671  invalid=0  train=0.445  val=0.543  test=0.467  -> rf_tmp\BACE_seed9.json
+           RF test AUC: 0.8884
+
+  RF across 10 splits: 0.8808 +/- 0.0443
+  (A trivial fingerprint model scoring very high means the split is easy,
+   not that a GNN trained on it is good. Compare against the withdrawn
+   stratified split's 0.984 on BACE.)
