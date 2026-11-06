@@ -1,94 +1,94 @@
-# Sparse Mixture-of-Experts Routing for Molecular Property Prediction
+# MoE-ADMET: a sparse mixture-of-experts plug-in for molecular property prediction
 
-Code and results for **"What does sparse expert routing contribute in molecular property prediction? Learned, frozen and fixed routers compared."**
+Code, saved results and analysis scripts for a manuscript on a sparse top-K mixture-of-experts (MoE)
+plug-in for graph convolutional networks (GCN), and on what its router does and does not contribute.
+The manuscript is not yet peer reviewed. The numbers in the manuscript are authoritative; every number
+traces to a script and a result file listed below.
 
-## Summary
+- Manuscript draft: `paper_v2/manuscript_v2.33_DRAFT.md`
+- Archive (Zenodo): DOI to be added after the release is tagged
+- Licence: MIT per the manuscript; confirm a `LICENSE` file is present before release
 
-We add a sparse top-K mixture-of-experts (MoE) layer after GCN pooling and ask what the router actually contributes, using MoleculeNet and the 22-dataset TDC ADMET benchmark under matched scaffold splits. Controls: learned vs frozen random gate (the only K-matched contrast), fixed k-means and fixed random assignment (hard top-1, not K-matched), forced-swap expert tests, and a parameter-matched dense ablation (Dense-uniform, Dense-wide, Plain-GCN).
+## What was found
 
-1. **Directional but fragile regression gain, none on classification.** MoE-GCN beats matched plain GCN on 10/12 regression datasets (exact sign test P = 0.019); 9/11 after removing duplicated Lipophilicity measurements (P = 0.033); 7/9 excluding collapsed-routing runs (P = 0.090). Matched GCN classification shows no consistent benefit (five matched datasets, sign test P = 0.81).
-2. **The gain is not attributable to routing.** In the dense ablation (n = 5 datasets), relative-RMSE differences vs Dense-uniform (-0.3%, 95% CI [-2.0, +1.5]) and Dense-wide (-0.3%, [-3.3, +2.7]) are indistinguishable from zero; Plain-GCN is competitive.
-3. **Learning the gate gives no demonstrable extra benefit.** At K = 1 the gate receives zero task gradient. At K = 2 on Tox21, aromatic-ring eta-squared is 0.372 (learned) vs 0.286 (frozen random): difference +0.086, 95% CI [-0.015, +0.186] (five seeds), i.e. inconclusive. Specialization strength does not predict gain (Spearman rho = -0.17, 95% CI [-0.60, +0.31]); endpoint-relevant specialization shows rho = 0.43 [0.21, 0.59]. Fixed routing has precedent in language models (Hash Layers; Fan et al.); the contribution here is the molecular setting and descriptor-level analysis.
+- **Regression (MoleculeNet + TDC).** MoE-GCN had lower mean error than plain GCN on ten of twelve
+  regression comparisons, but dense baselines of comparable size were not significantly different, so
+  the gain is not shown to come from routing.
+- **Classification (BBBP, BACE, ClinTox, SIDER, Tox21), ten randomized scaffold splits.** No consistent
+  benefit: MoE-GCN was higher on three of five datasets (pooled sign test P = 0.50). The ClinTox gain
+  reflects instability of the plain GCN on two splits, not MoE strength.
 
-## Manuscript
+  | Dataset | GCN | MoE-GCN | Δ (MoE − GCN) | 95% CI |
+  |---|---|---|---|---|
+  | BACE | 0.860 | 0.802 | −0.058 | −0.106 to −0.009 |
+  | BBBP | 0.878 | 0.858 | −0.020 | −0.051 to +0.010 |
+  | ClinTox | 0.743 | 0.837 | +0.093 | +0.008 to +0.179 |
+  | SIDER | 0.585 | 0.585 | +0.001 | −0.024 to +0.025 |
+  | Tox21 | 0.791 | 0.797 | +0.006 | −0.001 to +0.013 |
 
-Current draft: [`paper_v2/manuscript_v2.30_DRAFT.md`](paper_v2/manuscript_v2.30_DRAFT.md). The earlier `Sapta_MoE-ADMET_manuscript_REVISED.md` is superseded and kept for history only; its headline claims (including "recovers, rather than creates" and rho = 0.019) are **no longer supported**.
+- **Specialization.** Expert assignments are associated with physicochemical descriptors (aromatic-ring
+  count most consistently: largest η² on 16 of 19 TDC datasets with a non-collapsed router), but a
+  frozen random gate reproduces most of that organization, and no consistent accuracy benefit from
+  training the router was detected.
+- **Specialization versus gain.** Across 19 datasets, Spearman ρ between the largest descriptor η² and
+  MoE gain was −0.17 (95% CI −0.57 to 0.27).
 
-## Repository structure
+## Router-collapse rule (used throughout)
 
-**`paper_v2/`** holds the scripts, saved results and figures for the current manuscript (v2.30); the table below describes the earlier pipeline it builds on.
+A router is *collapsed* on a dataset if no seed has more than two active experts (dominant expert for at
+least 10 molecules): PPBR-AZ, hepatocyte clearance, microsome clearance. *Limited routing* means at
+least one seed with fewer than three active experts without being collapsed (CYP2C9 substrate).
+Primary analyses use the 19 non-collapsed datasets; 21- and 18-dataset versions are reported as
+sensitivity analyses. The rule was written down after some outcome tests had been seen.
 
-| Path (`paper_v2/`) | Contents |
-|---|---|
-| `exp1_routing_controls.py`, `analyze_exp1.py` | Learned/frozen/fixed router controls, forced-swap |
-| `exp2_topk_dynamics.py`, `exp2b_frozen_gate.py` | K-sweep gate dynamics, frozen-gate arm |
-| `exp0*_*.py` | Eta-squared across seeds, expert profiles, Tables S1-S3 |
-| `run_gcn_matched_classif.py` | Matched Optuna (30 trials) + 5 seeds GCN classification |
-| `stats_v23.py` | Sign tests, bootstrap CIs, dense-ablation statistics |
-| `make_fig*.py` | Figure scripts |
-| `results/*.json`, `figures/` | Saved outputs behind the tables and figures |
+## Reproducing each table
 
-**Earlier pipeline (repo root):**
+Run scripts from the directory they live in. Large intermediate files are not all included.
 
-| Path | Contents |
-|---|---|
-| `retrain_and_extract.py` | Trains MoE-GCN across all 22 TDC datasets (Optuna HPO, 5 seeds), extracts routing assignments |
-| `run_gcn_matched.py` | Matched-protocol GCN baseline (same HPO budget, same seeds as MoE-GCN) — corrects the original single-run comparison |
-| `ablation_routing.py` / `ablation_routing_add_plain.py` | Parameter-matched ablation: MoE-GCN vs Dense-uniform vs Dense-wide vs Plain-GCN, fixed hyperparameters, 5 seeds |
-| `kmeans_control.py` / `plain_gcn_kmeans_control.py` | Circularity controls: k-means on the trained MoE representation, and on an independently-trained Plain-GCN representation |
-| `random_partition_null.py` | Random-partition null test for expert specialization η², all 22 datasets × 5 seeds |
-| `lambda_sweep.py` | Load-balancing coefficient sweep (λ ∈ {0, 0.001, 0.01, 0.1, 1.0}) testing whether specialization survives varying regularization strength |
-| `endpoint_correlation_vs_eta2.py` | Tests whether endpoint–descriptor correlation predicts suppressed specialization |
-| `p1_1_p1_2_combined.py` | Benjamini–Hochberg correction, bootstrap 95% CIs, and ω² for all Table 5 statistics |
-| `make_control_figures.py` | Generates the router-vs-k-means and specialization-vs-gain control figures |
-| `*.json` (routing/, entropy_results/, checkpoints not included — regenerate via scripts) | Raw analysis outputs backing every table and figure in the manuscript |
+| Item | Scripts | Results |
+|---|---|---|
+| Table 1 (MoleculeNet regression) | `moegcn_regr.py`, `run_gcn_matched.py`, `extend_seeds.py` | `results_moegcn_regr.json`, `results_gcn_matched.json` |
+| Table 1b (classification) | `paper_v2/randomized_scaffold.py`, `paper_v2/run_classif_randsplit.py` | `paper_v2/results_randsplit/*.json`, splits in `paper_v2/splits/`, RF split audits `paper_v2/rf_audit_*.txt` |
+| Table 2 (22 TDC datasets) | `run_gcn_tdc_baseline.py`, `run_moegcn_tdc_benchmark.py` | `results_moegcn_tdc_v2.json` |
+| Table 3 (dense baselines) | `ablation_routing.py`, `ablation_routing_add_plain.py` | `ablation_routing_results.json` |
+| Table 5 (top-K dynamics, frozen gate) | `paper_v2/exp2_topk_dynamics.py`, `paper_v2/exp2b_frozen_gate.py` | `paper_v2/results/exp2_topk_dynamics.json` |
+| Table 6 (η² across seeds) | `paper_v2/exp0_eta2_across_seeds.py` | `paper_v2/results/eta2_across_seeds.json` |
+| Table 7 (expert profiles) | `paper_v2/exp0b_expert_profiles.py` | `paper_v2/results/profiles_solubility_aqsoldb_seed0.json` |
+| Table 8 (routing controls) | `paper_v2/exp1_routing_controls.py`, `paper_v2/stats_v23.py` | `paper_v2/results/exp1_routing_controls.json`, `paper_v2/results/stats_v23.json` |
+| Tables S1, S3 | `paper_v2/exp0c_tableS1_S3_all_datasets.py`, `paper_v2/s3_recompute.py` | `paper_v2/results/tableS1_S3.json`, `paper_v2/results/tableS3.csv`, `paper_v2/s3_recompute_output.txt` |
+| Specialization vs gain | `paper_v2/gain_corr_recompute.py` | `paper_v2/gain_corr_output.txt` |
 
-## Reproducing the results
+`paper_v2/check_cited_files.py` checks that every file the manuscript cites is tracked in git.
 
-```bash
-conda env create -f environment.yml  # or see requirements below
-conda activate moe_admet
+## Protocol notes and known limits
 
-# Train MoE-GCN across all TDC datasets, extract routing
-python retrain_and_extract.py
-
-# Matched-protocol GCN baseline
-python run_gcn_matched.py
-
-# Parameter-matched ablation (MoE-GCN / Dense-uniform / Dense-wide / Plain-GCN)
-python ablation_routing.py
-python ablation_routing_add_plain.py
-
-# Circularity controls
-python plain_gcn_kmeans_control.py
-python random_partition_null.py
-
-# Load-balancing sweep
-python lambda_sweep.py
-
-# Statistical corrections and figures
-python p1_1_p1_2_combined.py
-python make_control_figures.py
-```
-
-Core dependencies: `torch`, `torch_geometric`, `rdkit`, `optuna`, `PyTDC`, `scikit-learn`, `scipy`, `statsmodels`, `matplotlib`.
+- **Regression splits.** ESOL, FreeSolv and Lipophilicity use one deterministic Bemis–Murcko scaffold
+  split (largest scaffold groups to training); seeds vary initialization and batch order only, so
+  reported standard deviations exclude split variance. The five seeds were produced by running the
+  original three-seed scripts and then `extend_seeds.py`, which adds seeds 3 and 4.
+- **Classification splits.** Ten randomized scaffold splits (seeds 0–9), saved as JSON indices. Each
+  model is tuned once on split 0, so splits 1–9 are not fully independent of tuning. Molecules that
+  PyTorch Geometric cannot featurize are excluded before splitting (11 in BBBP, 4 in ClinTox, 8 in
+  Tox21). ToxCast and HIV were not rerun.
+- **Withdrawn split.** An earlier stratified scaffold split for BBBP and BACE selected scaffolds using
+  class labels (Morgan-fingerprint random forest: 0.984 test AUROC on that BACE split versus
+  0.881 ± 0.044 over the ten randomized splits). It is withdrawn; `run_gcn_matched_classif.py` and the
+  older classification scripts that use it are superseded by `paper_v2/run_classif_randsplit.py`.
+- **`fixed_hash` arm.** In the routing-controls code and result files this arm is the seeded random
+  assignment described in the manuscript, not a hash of the molecule.
+- Many `apply_*.py`, `fix_*.py`, `check_*.py` and similar scripts in the repository root are historical
+  editing or debugging scripts and are not needed to reproduce results.
 
 ## Data
 
-- [MoleculeNet](https://moleculenet.org) — ESOL, FreeSolv, Lipophilicity, BBBP, BACE, Tox21, ToxCast, SIDER, ClinTox, HIV
-- [Therapeutics Data Commons (TDC) ADMET Benchmark Group](https://tdcommons.ai) — 22 datasets spanning absorption, distribution, metabolism, excretion, and toxicity
+All datasets are public: MoleculeNet (https://moleculenet.org) and the Therapeutics Data Commons ADMET
+benchmark group (https://tdcommons.ai). No proprietary data are used.
 
-Both are fetched automatically by the scripts above; no manual download required.
+## Environment
 
-## Citation
+`environment.yml` records the conda environment used (Python, PyTorch, PyTorch Geometric, RDKit, Optuna).
+Experiments were run on a single NVIDIA GTX 1660 Ti (6 GB).
 
-If you use this code or build on these findings, please cite the manuscript (citation details to be added on publication) and this repository (archived at Zenodo, DOI: `10.5281/zenodo.22746900` — see Releases for versioned snapshots).
-
-## License
-
-MIT. See [LICENSE](LICENSE).
-
-## Contact
-
-Saptasamudra Gogoi, College of Life Sciences, Guizhou University.
-Correspondence: Yuquan Li (yvquan.li@gzu.edu.cn), State Key Laboratory of Green Pesticide / College of Computer Science and Technology, Guizhou University.
+```
+conda env create -f environment.yml
+```
